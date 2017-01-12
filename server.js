@@ -1,12 +1,16 @@
+'use strict';
 // Dependencies
 var express = require('express');
+var router = express.Router();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 var morgan = require('morgan');
 
 // Configs
 var db = require('./config/db');
 
+mongoose.Promise = global.Promise;
 // Connect to the DB
 mongoose.connect(db.url);
 
@@ -24,7 +28,7 @@ app.use(morgan('dev'));
 // For parsing HTTP responses
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended: true
+    extended: true
 }));
 
 // Express Routes

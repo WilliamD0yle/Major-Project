@@ -16,16 +16,30 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputUsername" ng-model="newUser.username" required placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputEmail" class="col-lg-2 control-label">Email</label>
                         <div class="col-lg-9">
                             <input type="email" class="form-control" id="inputEmail" ng-model="newUser.email" required placeholder="Email">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputUsername" class="col-lg-2 control-label">Username</label>
+                        <label for="inputAge" class="col-lg-2 control-label">Age</label>
                         <div class="col-lg-9">
-                            <input type="text" class="form-control" id="inputUsername" ng-model="newUser.username" required placeholder="Username">
+                            <input type="number" class="form-control" id="inputAge" ng-model="newUser.email" required placeholder="Age">
                         </div>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="male">Male
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="female">Female
+                        </label>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword" class="col-lg-2 control-label">Password</label>

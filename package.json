@@ -9,7 +9,8 @@
 		"body-parser": "latest",
 		"morgan"		 : "latest",
 		"mongoose"	 : "latest",
-		"request"	 : "latest"
+		"request"	 : "latest",
+        "express-validator": "^2.18.0"
 	},
 	"repository"   :
 		{
