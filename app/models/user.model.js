@@ -20,7 +20,3 @@ var accountSchema = new Schema({
 });
 
 module.exports = mongoose.model('User', accountSchema);
-
-/********************************
- Create Food Diary Schema
- ********************************/
