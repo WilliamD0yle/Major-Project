@@ -3,12 +3,14 @@
 /********************************
  Dependencies
  ********************************/
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 /********************************
  Create User Account Schema
  ********************************/
+
 var accountSchema = new Schema({
     name: {type: String},
     username: {type: String, required: true, unique: true},
@@ -19,4 +21,4 @@ var accountSchema = new Schema({
     password: {type: String, required: true}
 });
 
-module.exports = mongoose.model('User', accountSchema);
+module.exports = mongoose.model('users', accountSchema);

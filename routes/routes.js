@@ -1,5 +1,5 @@
-var User = require('../app/models/user.model');
-var user_food = require('../app/models/diary.model');
+var users = require('../app/models/user.model');
+var user_foods = require('../app/models/diary.model');
 module.exports = function (app) {
 
     /********************************
@@ -8,7 +8,7 @@ module.exports = function (app) {
     app.post('/account/create', function (req, res) {
 
         //Create new object that store's new user data
-        var newUser = new User({
+        var newUser = new users({
             name: req.body.name,
             username: req.body.username,
             email: req.body.email,
@@ -19,19 +19,20 @@ module.exports = function (app) {
         });
 
         //Check if the username exists
-        User.findOne({username: req.body.username}, function (err, existingUser) {
+        users.findOne({username: req.body.username}, function (err, existingUser) {
             //if the user exists
             if (existingUser) {
                 return res.status(400).send('That username already exists. Please try a different username.');
             }
             //save the new user
-            newUser.save(function (err) {
+            newUser.save(function (err, user) {
                 //if there is an error send error message
                 if (err) {
                     console.log(err);
                     res.status(500).send('Error saving new account (database error). Please try again.');
                     return;
                 }
+                console.log(user);
                 //send user the confirmation that the account has been created
                 res.status(200).send('Account created! Please login with your new account.');
             });
@@ -48,10 +49,7 @@ module.exports = function (app) {
         var password = req.body.password;
 
         //Check for the username in the mongo database
-        User.findOne({
-            username: username,
-            password: password
-        }, function (err, user) {
+        users.findOne({username: username,password: password}, function (err, user) {
             //if there is an error
             if (err) {
                 console.log(err);
@@ -97,8 +95,8 @@ module.exports = function (app) {
         if (!req.session.user) {
             return res.status(401).send("Please log in.");
         }
-        //Check if the username exists
-        user_food.findOne({ }, function (err, diary) {
+        //Find the diary information
+        user_foods.findOne({user_id : req.session.user_id}, function (err, diary) {
             if(err){
                 console.log(err);
                 return res.status(500).send(err);  
@@ -109,4 +107,25 @@ module.exports = function (app) {
             }
         });
     });
-}
+    
+    app.post('/account/diary', function (req, res) {
+        //Create new object that store's new user data
+        var newEntry = new user_food({
+            user_id: req.session.user_id,
+            date: new Date,
+            breakfast: [],
+            lunch: [],
+            dinner: [],
+            snacks: []
+        });
+        //save the new user
+        newEntry.save(function (err, user) {
+            if(err){
+                console.log(err);   
+            }
+            else{
+                console.log(user);
+            }
+        });
+    });
+};

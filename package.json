@@ -5,18 +5,19 @@
   "main": "server.js",
   "author": "William Doyle",
   "dependencies": {
+    "bcrypt-nodejs": "*",
     "body-parser": "latest",
+    "connect-flash": "*",
+    "cookie-parser": "~1.0.0",
     "express": "latest",
     "express-session": "^1.14.2",
     "express-validator": "^2.18.0",
     "mongoose": "latest",
+    "mongoose-dateonly": "^1.0.3",
     "morgan": "latest",
     "passport": "~0.2.0",
     "passport-local": "~1.0.0",
-    "request": "latest",
-    "bcrypt-nodejs" : "*",
-    "connect-flash" : "*",
-    "cookie-parser": "~1.0.0"
+    "request": "latest"
   },
   "scripts": {}
 }

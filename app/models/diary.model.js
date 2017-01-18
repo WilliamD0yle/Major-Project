@@ -3,20 +3,23 @@
 /********************************
  Dependencies
  ********************************/
+
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema,
-ObjectId = Schema.ObjectId;
+var Schema = mongoose.Schema;
+//takes the time element off the date element to make seraching via date easier
+var DateOnly = require('mongoose-dateonly')(mongoose);
+
 /********************************
  User food Schema
  ********************************/
 
 var userFoodSchema = new Schema({
-    user_id: {type : ObjectId},
-    date: {type: Date},
-    breakfast: [{name: String, calories: Number}],
-    lunch: [{name: String, calories: Number}],
-    dinner:[{name: String, calories: Number}],
-    snacks:[{name: String, calories: Number}]
+    user_id: {type : Schema.Types.ObjectId},
+    date: { type: Date, DateOnly},
+    breakfast: [],
+    lunch: [],
+    dinner:[],
+    snacks:[]
 });
 
-module.exports = mongoose.model('user_food', userFoodSchema);
+module.exports = mongoose.model('user_foods', userFoodSchema);
