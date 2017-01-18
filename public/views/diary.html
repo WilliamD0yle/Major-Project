@@ -5,4 +5,29 @@
     </div>
 </div>
 
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" ng-controller="DiaryController">
+            <div ng-repeat="breakfast in diary.breakfast">
+                <h3>Breakfast</h3>
+                <p class="col-sm-6 lead">{{breakfast.name}}</p>
+                <p class="col-sm-6 text-center lead">{{breakfast.calories}}</p>
+            </div>
+            <div ng-repeat="lunch in diary.lunch">
+                <h3>Lunch</h3>
+                <p class="col-sm-6 lead">{{lunch.name}}</p>
+                <p class="col-sm-6 text-center lead">{{lunch.calories}}</p>
+            </div>
+            <div class="" ng-repeat="dinner in diary.dinner">
+                <h3>Dinner</h3>
+                <p class="col-sm-6 lead">{{dinner.name}}</p>
+                <p class="col-sm-6 text-center lead">{{dinner.calories}}</p>
+            </div>
+            <div ng-repeat="snacks in diary.snacks">
+                <h3>Snacks</h3>
+                <p class="col-sm-6 lead">{{snacks.name}}</p>
+                <p class="col-sm-6 text-center lead">{{snacks.calories}}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -160,16 +160,17 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 //Diary
 app.controller('DiaryController', function ($scope, $location, $http) {
-
+    
     $http({
         method: 'GET',
         url: '/account/diary'
     }).
     success(function (response) {
-        alert(response);
+        $scope.diary = response;
     }).
     error(function (response) {
         alert(response);
         $location.path('/account/login');
     });
+
 });
