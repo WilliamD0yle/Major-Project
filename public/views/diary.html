@@ -8,6 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2" ng-controller="DiaryController">
+            <h3 class="lead text-center">{{diary.date}}</h3>
             <div ng-repeat="breakfast in diary.breakfast">
                 <h3>Breakfast</h3>
                 <p class="col-sm-6 lead">{{breakfast.name}}</p>
@@ -18,7 +19,7 @@
                 <p class="col-sm-6 lead">{{lunch.name}}</p>
                 <p class="col-sm-6 text-center lead">{{lunch.calories}}</p>
             </div>
-            <div class="" ng-repeat="dinner in diary.dinner">
+            <div ng-repeat="dinner in diary.dinner">
                 <h3>Dinner</h3>
                 <p class="col-sm-6 lead">{{dinner.name}}</p>
                 <p class="col-sm-6 text-center lead">{{dinner.calories}}</p>
