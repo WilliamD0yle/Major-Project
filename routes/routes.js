@@ -1,5 +1,8 @@
 var users = require('../app/models/user.model');
-var user_foods = require('../app/models/diary.model');
+var user_food = require('../app/models/diary.model');
+var mongoose = require('mongoose');
+//takes the time element off the date element to make seraching via date easier
+var DateOnly = require('mongoose-dateonly')(mongoose);
 module.exports = function (app) {
 
     /********************************
@@ -83,7 +86,7 @@ module.exports = function (app) {
 //            return res.status(200).send(req.session);
 //        }
 //        return res.status(401).send("Please log in.");
-        return res.status(200).send('rsponse');
+        return res.status(200).send('response');
     });
 
     /********************************
@@ -95,8 +98,9 @@ module.exports = function (app) {
         if (!req.session.user) {
             return res.status(401).send("Please log in.");
         }
+        var today = parseInt(JSON.stringify(new DateOnly));
         //Find the diary information
-        user_foods.findOne({user_id : req.session.user_id}, function (err, diary) {
+        user_food.findOne({user_id : req.session.user_id, date: today}, function (err, diary) {
             if(err){
                 console.log(err);
                 return res.status(500).send(err);  
@@ -109,22 +113,26 @@ module.exports = function (app) {
     });
     
     app.post('/account/diary', function (req, res) {
+        console.log(req.body);
         //Create new object that store's new user data
         var newEntry = new user_food({
             user_id: req.session.user_id,
-            date: new Date,
-            breakfast: [],
-            lunch: [],
-            dinner: [],
-            snacks: []
+            date: new DateOnly(),
+            breakfast: [req.body.breakfast],
+            lunch: [req.body.lunch],
+            dinner: [req.body.dinner],
+            snacks: [req.body.snacks]
         });
+        console.log(newEntry);
         //save the new user
-        newEntry.save(function (err, user) {
+        newEntry.save(function (err, diary) {
             if(err){
-                console.log(err);   
+                console.log(err);
+                return res.status(500).send(err);    
             }
             else{
-                console.log(user);
+                console.log(diary);
+                return res.status(200).send(diary); 
             }
         });
     });

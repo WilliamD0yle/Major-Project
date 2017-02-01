@@ -38,6 +38,11 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/account.html',
         controller: 'AccountController'
     }).
+    //Account page
+    when('/account/dummy', {
+        templateUrl: 'views/dummy.html',
+        controller: 'DummyController'
+    }).
     otherwise({
         redirectTo: '/account/login'
     });
@@ -74,11 +79,12 @@ app.controller('LoginController', function ($scope, $location, $http) {
 app.controller('CreateAccountController', function ($scope, $http, $location) {
 
     $scope.gender = {};
+    console.log($scope.gender);
     var gender;
-    if ($scope.gender == "male") {
-        gender = "male";
-    } else {
+    if ($scope.gender == "female") {
         gender = "female";
+    } else {
+        gender = "male";
     }
     // Create account
     $scope.submitForm = function () {
@@ -159,8 +165,7 @@ app.controller('AccountController', function ($scope, $location, $http) {
 });
 
 //Diary
-app.controller('DiaryController', function ($scope, $location, $http) {
-    
+app.controller('DiaryController', function ($scope, $location, $http) { 
     $http({
         method: 'GET',
         url: '/account/diary'
@@ -172,5 +177,25 @@ app.controller('DiaryController', function ($scope, $location, $http) {
         alert(response);
         $location.path('/account/login');
     });
-
 });
+
+//Dummy controller
+app.controller('DummyController', function ($scope, $location, $http) {
+    
+    $scope.diaryEntry = {};
+    // Create diary entry
+    $scope.submitForm = function () {
+        $http({
+            method: 'POST',
+            url: '/account/diary',
+            data: $scope.diaryEntry,
+        }).
+        success(function (response) {
+            console(response);
+        }).
+        error(function (response) {
+            console(response);
+        });
+    };
+});
+

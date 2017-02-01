@@ -1,0 +1,62 @@
+<!--create_account.html-->
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1>Add Food</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-horizontal" novalidate ng-submit="submitForm()" name="addFoodForm">
+                <fieldset>
+                    <legend>Add Food</legend>
+                    <div class="form-group">
+                        <label for="brakfastname" class="col-lg-2 control-label">Breakfast</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="brakfastname" ng-model="diaryEntry.breakfast.name" required placeholder="Name">
+                        </div>
+                        <label for="Calories" class="col-lg-2 control-label">Calories</label>
+                        <div class="col-lg-9">
+                            <input type="number" class="form-control" id="breakfastcalories" ng-model="diaryEntry.breakfast.calories" required placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lunchname" class="col-lg-2 control-label">Lunch</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="lunchname" ng-model="diaryEntry.lunch.name" required placeholder="Name">
+                        </div>
+                        <label for="lunchcalories" class="col-lg-2 control-label">Calories</label>
+                        <div class="col-lg-9">
+                            <input type="number" class="form-control" id="lunchcalories" ng-model="diaryEntry.lunch.calories" required placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dinnername" class="col-lg-2 control-label">Dinner</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="dinnername" ng-model="diaryEntry.dinner.name" required placeholder="Name">
+                        </div>
+                        <label for="dinnercalories" class="col-lg-2 control-label">Calories</label>
+                        <div class="col-lg-9">
+                            <input type="number" class="form-control" id="dinnercalories" ng-model="diaryEntry.dinner.calories" required placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="snackname" class="col-lg-2 control-label">Snacks</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="snackname" ng-model="diaryEntry.snacks.name" required placeholder="Name">
+                        </div>
+                        <label for="snackcalories" class="col-lg-2 control-label">Calories</label>
+                        <div class="col-lg-9">
+                            <input type="number" class="form-control" id="snackcalories" ng-model="diaryEntry.snacks.calories" required placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-9 col-lg-offset-3">
+                            <input class="btn btn-primary" type="submit" value="Create Diary Entry">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<!--/create_account.html-->
