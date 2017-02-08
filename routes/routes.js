@@ -9,7 +9,6 @@ module.exports = function (app) {
     Create Account
     ********************************/
     app.post('/account/create', function (req, res) {
-
         //Create new object that store's new user data
         var newUser = new users({
             name: req.body.name,
@@ -20,7 +19,6 @@ module.exports = function (app) {
             calories: req.body.calories,
             password: req.body.password
         });
-
         //Check if the username exists
         users.findOne({username: req.body.username}, function (err, existingUser) {
             //if the user exists
@@ -32,12 +30,11 @@ module.exports = function (app) {
                 //if there is an error send error message
                 if (err) {
                     console.log(err);
-                    res.status(500).send('Error saving new account (database error). Please try again.');
-                    return;
+                    return res.status(500).send('Error saving new account (database error). Please try again.');
                 }
                 console.log(user);
                 //send user the confirmation that the account has been created
-                res.status(200).send('Account created! Please login with your new account.');
+                return res.status(200).send('Account created! Please login with your new account.');
             });
         });
     });
@@ -102,18 +99,16 @@ module.exports = function (app) {
         //Find the diary information
         user_food.findOne({user_id : req.session.user_id, date: today}, function (err, diary) {
             if(err){
-                console.log(err);
                 return res.status(500).send(err);  
             }
             else{
-                console.log(diary);
                 return res.status(200).send(diary); 
             }
         });
     });
     
     app.post('/account/diary', function (req, res) {
-        console.log(req.body);
+
         //Create new object that store's new user data
         var newEntry = new user_food({
             user_id: req.session.user_id,
@@ -123,15 +118,12 @@ module.exports = function (app) {
             dinner: [req.body.dinner],
             snacks: [req.body.snacks]
         });
-        console.log(newEntry);
-        //save the new user
+        //save the new diary entry
         newEntry.save(function (err, diary) {
             if(err){
-                console.log(err);
                 return res.status(500).send(err);    
             }
             else{
-                console.log(diary);
                 return res.status(200).send(diary); 
             }
         });

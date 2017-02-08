@@ -21,8 +21,8 @@ var app = express();
 
 // Configure session
 app.use(session({
-  cookieName: 'session',
-  secret: 'random_string_goes_here'
+    cookieName: 'session',
+    secret: 'random_string_goes_here'
 }));
 // To expose public assets to the world
 app.use(express.static(__dirname + '/public'));

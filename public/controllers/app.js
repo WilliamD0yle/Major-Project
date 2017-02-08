@@ -33,12 +33,17 @@ app.config(function ($routeProvider) {
             templateUrl: 'views/diary.html',
             controller: 'DiaryController'
         }).
+        //Camera searxch page
+    when('/account/search', {
+            templateUrl: 'views/cameraSearch.html',
+            controller: 'SearchController'
+        }).
         //Account page
     when('/account/', {
-        templateUrl: 'views/account.html',
-        controller: 'AccountController'
-    }).
-    //Account page
+            templateUrl: 'views/account.html',
+            controller: 'AccountController'
+        }).
+        //Account page
     when('/account/dummy', {
         templateUrl: 'views/dummy.html',
         controller: 'DummyController'
@@ -165,7 +170,7 @@ app.controller('AccountController', function ($scope, $location, $http) {
 });
 
 //Diary
-app.controller('DiaryController', function ($scope, $location, $http) { 
+app.controller('DiaryController', function ($scope, $location, $http) {
     $http({
         method: 'GET',
         url: '/account/diary'
@@ -180,8 +185,169 @@ app.controller('DiaryController', function ($scope, $location, $http) {
 });
 
 //Dummy controller
+app.controller('SearchController', function ($scope, $location, $http) {
+    $scope.startQR = function () {
+        var resultCollector = Quagga.ResultCollector.create({
+            capture: true,
+            capacity: 20,
+            filter: function (codeResult) {
+                // only store results which match this constraint
+                // e.g.: codeResult
+                return true;
+            }
+        });
+        var App = {
+            init: function () {
+                var self = this;
+
+                Quagga.init(this.state, function (err) {
+                    if (err) {
+                        return self.handleError(err);
+                    }
+                    Quagga.registerResultCollector(resultCollector);
+                    //Start the camera
+                    Quagga.start();
+                });
+            },
+            handleError: function (err) {
+                //log the error
+                console.log(err);
+            },
+            setState: function (path, value) {
+                var self = this;
+
+                if (typeof self._accessByPath(self.inputMapper, path) === "function") {
+                    value = self._accessByPath(self.inputMapper, path)(value);
+                }
+
+                self._accessByPath(self.state, path, value);
+                //console log the settigs
+                console.log(JSON.stringify(self.state));
+                App.detachListeners();
+                //Stop the camera
+                Quagga.stop();
+                //Start the camera
+                App.init();
+            },
+            state: {
+                inputStream: {
+                    type: "LiveStream",
+                    constraints: {
+                        //rare facing camera if availible 
+                        facingMode: "environment"
+                    },
+                    area: { // defines rectangle of the detection/localization area
+                        top: "0%", // top offset
+                        right: "0%", // right offset
+                        left: "0%", // left offset
+                        bottom: "0%" // bottom offset
+                    },
+                    singleChannel: false // true: only the red color-channel is read
+                },
+                locator: {
+                    patchSize: "medium",
+                    halfSample: true
+                },
+                numOfWorkers: 1,
+                decoder: {
+                    readers: [{ //type of barcode then will be read - ean is used for food and beverage products
+                        format: "ean_reader",
+                        config: {
+                            //supplements: ['ean_8_reader']
+                        }
+                }]
+                },
+                locate: true
+            },
+            lastResult: null
+        };
+        App.init();
+        //adds helper details to video on canvas to where its looking for the barcode
+        Quagga.onProcessed(function (result) {
+            var drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+            //if there is a result
+            if (result) {
+                if (result.boxes) {
+                    //Places Green square around the area where it is looking for the barcode
+                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    result.boxes.filter(function (box) {
+                        return box !== result.box;
+                    }).forEach(function (box) {
+                        Quagga.ImageDebug.drawPath(box, {
+                            x: 0,
+                            y: 1
+                        }, drawingCtx, {
+                            color: "blue",
+                            lineWidth: 2
+                        });
+                    });
+                }
+
+                if (result.codeResult && result.codeResult.code) {
+                    Quagga.ImageDebug.drawPath(result.line, {
+                        x: 'x',
+                        y: 'y'
+                    }, drawingCtx, {
+                        color: 'red',
+                        lineWidth: 3
+                    });
+                }
+            }
+        });
+
+        Quagga.onDetected(function (result) {
+            var code = result.codeResult.code;
+            console.log(code);
+            Quagga.stop();
+            jQuery(".video").hide();
+            jQuery(".enteredBarcode").html(code);
+            foodBarcodeSearch(code);
+        });
+
+
+        function foodBarcodeSearch(search) {
+
+            var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + search + ".json";
+            console.log(searchURL);
+            jQuery.ajax({
+                //using the type of get to "Get" the json file
+                type: "GET", //location of the file to get
+                url: searchURL, // the url to get the data
+                dataType: "json", // the type of data being pulled
+                success: function (data) { //if its successful
+                    console.log(data);
+                }, // if the ajax call is unsuccessful run the function
+                error: function (xhr, status, error) {
+                    if (xhr.status == "404") {
+                        console.log(xhr, status, error);
+                    } else if (xhr.status == "500") {
+                        console.log(xhr, status, error);
+                    }
+                }
+            });
+        }
+    };
+    //load the load function
+    $scope.startQR();
+    $scope.barcodeSearch = function (barcode) {
+        var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+        $http({
+            method: 'GET',
+            url: searchURL,
+        }).
+        success(function (response) {
+            console(response);
+        }).
+        error(function (response) {
+            console(response);
+        });
+    };
+});
+
+//Dummy controller
 app.controller('DummyController', function ($scope, $location, $http) {
-    
+
     $scope.diaryEntry = {};
     // Create diary entry
     $scope.submitForm = function () {
@@ -198,4 +364,3 @@ app.controller('DummyController', function ($scope, $location, $http) {
         });
     };
 });
-
