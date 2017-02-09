@@ -20,13 +20,27 @@
 
 <div class="container-fluid video">
     <div class="row">
-        <div id="interactive" class="viewport">
+        <div id="interactive" class="viewport col-sm-6">
             <video autoplay="true" preload="auto" src=""></video>
-            <canvas class="drawingBuffer"></canvas>
+            <canvas class="drawingBuffer col-sm-6"></canvas>
             <br clear="all">
         </div>
     </div>
 </div>
-<div class="col-sm-12 border-bottom results">
-
+<div class="col-sm-12 border-bottom results" ng-controller="SearchController">
+    <div class=col-sm-4>
+        <form>
+            <h3>{{item}}</h3>
+            <p class="lead">Calories - {{cals}}</p>
+            <p class="lead">Carbs - {{carbs}}</p>
+            <p class="lead">Fats - {{fats}}</p>
+            <p class="lead">Protein - {{protein}}</p>
+            <p class="lead">Serving size - {{serving}}</p>
+            <label for="serving" class="control-label">Number of servings</label>
+            <input type="number" class="form-control" ng-model="servingVal" ng-change="totalCals" id="serving">
+            <p class="lead">Total Calories - {{totalCals()}}</p>
+            <select ng-model="meal" ng-options="meal as val for (key, val) in meals" ng-change="mealChoice(meal)"></select>
+            <button class="btn btn-primary">Add to {{meal}}</button>
+        </form>
+    </div>
 </div>

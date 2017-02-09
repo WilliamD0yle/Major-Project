@@ -9,25 +9,37 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2" ng-controller="DiaryController">
             <h3 class="lead text-center">{{diary.date}}</h3>
-            <h3>Breakfast</h3>
-            <div ng-repeat="breakfast in diary.breakfast">
-                <p class="col-md-6 lead">{{breakfast.name}}</p>
-                <p class="col-md-6 text-center lead">{{breakfast.calories}}</p>
+            <div>
+                <h3>Breakfast</h3>
+                <div ng-repeat="breakfast in diary.breakfast">
+                    <p class="col-md-6 lead">{{breakfast.name}}</p>
+                    <p class="col-md-6 text-center lead">{{breakfast.calories}}</p>
+                </div>
+                <a href="/search">Add Food</a>
             </div>
-            <h3>Lunch</h3>
-            <div ng-repeat="lunch in diary.lunch">
-                <p class="col-md-6 lead">{{lunch.name}}</p>
-                <p class="col-md-6 text-center lead">{{lunch.calories}}</p>
+            <div>
+                <h3>Lunch</h3>
+                <div ng-repeat="lunch in diary.lunch">
+                    <p class="col-md-6 lead">{{lunch.name}}</p>
+                    <p class="col-md-6 text-center lead">{{lunch.calories}}</p>
+                </div>
+                <a href="/search">Add Food</a>
             </div>
-            <h3>Dinner</h3>
-            <div ng-repeat="dinner in diary.dinner">
-                <p class="col-md-6 lead">{{dinner.name}}</p>
-                <p class="col-md-6 text-center lead">{{dinner.calories}}</p>
+            <div>
+                <h3>Dinner</h3>
+                <div ng-repeat="dinner in diary.dinner">
+                    <p class="col-md-6 lead">{{dinner.name}}</p>
+                    <p class="col-md-6 text-center lead">{{dinner.calories}}</p>
+                </div>
+                <a href="/search">Add Food</a>
             </div>
-            <h3>Snacks</h3>
-            <div ng-repeat="snacks in diary.snacks">
-                <p class="col-md-6 lead">{{snacks.name}}</p>
-                <p class="col-md-6 text-center lead">{{snacks.calories}}</p>
+            <div>
+                <h3>Snacks</h3>
+                <div ng-repeat="snacks in diary.snacks">
+                    <p class="col-md-6 lead">{{snacks.name}}</p>
+                    <p class="col-md-6 text-center lead">{{snacks.calories}}</p>
+                </div>
+                <a href="/search">Add Food</a>
             </div>
         </div>
     </div>

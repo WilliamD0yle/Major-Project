@@ -248,7 +248,7 @@ app.controller('SearchController', function ($scope, $location, $http) {
                     patchSize: "medium",
                     halfSample: true
                 },
-                numOfWorkers: 1,
+                numOfWorkers: 4,
                 decoder: {
                     readers: [{ //type of barcode then will be read - ean is used for food and beverage products
                         format: "ean_reader",
@@ -266,10 +266,9 @@ app.controller('SearchController', function ($scope, $location, $http) {
         Quagga.onProcessed(function (result) {
             var drawingCtx = Quagga.canvas.ctx.overlay,
                 drawingCanvas = Quagga.canvas.dom.overlay;
-            //if there is a result
+
             if (result) {
                 if (result.boxes) {
-                    //Places Green square around the area where it is looking for the barcode
                     drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
                     result.boxes.filter(function (box) {
                         return box !== result.box;
@@ -278,9 +277,19 @@ app.controller('SearchController', function ($scope, $location, $http) {
                             x: 0,
                             y: 1
                         }, drawingCtx, {
-                            color: "blue",
+                            color: "green",
                             lineWidth: 2
                         });
+                    });
+                }
+
+                if (result.box) {
+                    Quagga.ImageDebug.drawPath(result.box, {
+                        x: 0,
+                        y: 1
+                    }, drawingCtx, {
+                        color: "#00F",
+                        lineWidth: 2
                     });
                 }
 
@@ -298,49 +307,72 @@ app.controller('SearchController', function ($scope, $location, $http) {
 
         Quagga.onDetected(function (result) {
             var code = result.codeResult.code;
-            console.log(code);
             Quagga.stop();
             jQuery(".video").hide();
             jQuery(".enteredBarcode").html(code);
-            foodBarcodeSearch(code);
+            $scope.barcodeSearch(code);
         });
-
-
-        function foodBarcodeSearch(search) {
-
-            var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + search + ".json";
-            console.log(searchURL);
-            jQuery.ajax({
-                //using the type of get to "Get" the json file
-                type: "GET", //location of the file to get
-                url: searchURL, // the url to get the data
-                dataType: "json", // the type of data being pulled
-                success: function (data) { //if its successful
-                    console.log(data);
-                }, // if the ajax call is unsuccessful run the function
-                error: function (xhr, status, error) {
-                    if (xhr.status == "404") {
-                        console.log(xhr, status, error);
-                    } else if (xhr.status == "500") {
-                        console.log(xhr, status, error);
-                    }
-                }
-            });
-        }
+        //        function foodBarcodeSearch(search) {
+        //
+        //            var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + search + ".json";
+        //            console.log(searchURL);
+        //            jQuery.ajax({
+        //                //using the type of get to "Get" the json file
+        //                type: "GET", //location of the file to get
+        //                url: searchURL, // the url to get the data
+        //                dataType: "json", // the type of data being pulled
+        //                success: function (data) { //if its successful
+        //                    console.log(data);
+        //                }, // if the ajax call is unsuccessful run the function
+        //                error: function (xhr, status, error) {
+        //                    if (xhr.status == "404") {
+        //                        console.log(xhr, status, error);
+        //                    } else if (xhr.status == "500") {
+        //                        console.log(xhr, status, error);
+        //                    }
+        //                }
+        //            });
+        //        }
     };
     //load the load function
     $scope.startQR();
+
     $scope.barcodeSearch = function (barcode) {
+        console.log("working");
         var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
         $http({
             method: 'GET',
             url: searchURL,
         }).
         success(function (response) {
-            console(response);
+            $scope.item = response.product.product_name;
+            $scope.carbs = response.product.nutriments.carbohydrates;
+            $scope.fats = response.product.nutriments.fat;
+            $scope.protein = response.product.nutriments.proteins;
+            $scope.cals = response.product.nutriments.energy / 4;
+            $scope.serving = response.product.serving_size;
+            $scope.servingVal = 1;
+            $scope.totalCals = function(){
+                return $scope.cals * $scope.servingVal;
+            };
+            $scope.meals;
         }).
         error(function (response) {
-            console(response);
+            console.log(response);
+        });
+    };
+    
+    $scope.submitForm = function () {
+        $http({
+            method: 'POST',
+            url: '/account/diary',
+            data: {}
+        }).
+        success(function (response) {
+            $location.path('/account/diary');
+        }).
+        error(function (err) {
+            console.log(err);
         });
     };
 });
