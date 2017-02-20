@@ -40,7 +40,7 @@
             <input type="number" class="form-control" ng-model="servingVal" ng-change="totalCals" id="serving">
             <p class="lead">Total Calories - {{totalCals()}}</p>
             <select ng-model="meal" ng-options="meal as val for (key, val) in meals" ng-change="mealChoice(meal)"></select>
-            <button class="btn btn-primary">Add to {{meal}}</button>
+            <input class="btn btn-primary" type="submit" value="Add Food">
         </form>
     </div>
 </div>

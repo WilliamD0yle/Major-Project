@@ -108,7 +108,6 @@ module.exports = function (app) {
     });
     
     app.post('/account/diary', function (req, res) {
-
         //Create new object that store's new user data
         var newEntry = new user_food({
             user_id: req.session.user_id,
@@ -118,8 +117,8 @@ module.exports = function (app) {
             dinner: [req.body.dinner],
             snacks: [req.body.snacks]
         });
-        //save the new diary entry
-        newEntry.save(function (err, diary) {
+        //save the diary entry, if none exists then create a new entry
+        user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, newEntry, {new: true}, function (err, diary) {
             if(err){
                 return res.status(500).send(err);    
             }
@@ -129,3 +128,4 @@ module.exports = function (app) {
         });
     });
 };
+
