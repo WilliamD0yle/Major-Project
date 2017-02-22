@@ -89,13 +89,12 @@ module.exports = function (app) {
     /********************************
     User Diary Page
     ********************************/
-
+var today = parseInt(JSON.stringify(new DateOnly));
     app.get('/account/diary', function (req, res) {
         //check if the user is logged in
         if (!req.session.user) {
             return res.status(401).send("Please log in.");
         }
-        var today = parseInt(JSON.stringify(new DateOnly));
         //Find the diary information
         user_food.findOne({user_id : req.session.user_id, date: today}, function (err, diary) {
             if(err){
@@ -109,21 +108,37 @@ module.exports = function (app) {
     
     app.post('/account/diary', function (req, res) {
         //Create new object that store's new user data
-        var newEntry = new user_food({
+        //create a blank entry for todays date. The users food choices will be added one at a time
+        var blankEntry = new user_food({
             user_id: req.session.user_id,
             date: new DateOnly(),
-            breakfast: [req.body.breakfast],
-            lunch: [req.body.lunch],
-            dinner: [req.body.dinner],
-            snacks: [req.body.snacks]
+            breakfast: [],
+            lunch: [],
+            dinner: [],
+            snacks: []
         });
-        //save the diary entry, if none exists then create a new entry
-        user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, newEntry, {new: true}, function (err, diary) {
+        //search for an entry with todays date
+        user_food.findOne({user_id : req.session.user_id, date: today}, function (err, existingDiary) {
             if(err){
+                console.log(" err " + err);
                 return res.status(500).send(err);    
             }
+            //if there is no entry add the blank entry
+            else if(existingDiary == null){
+                console.log(" diary " + diary);
+                //save the blank entry
+                blankEntry.save(function (err, diary) {
+                    //if there is an error send error message
+                    if (err) {
+                        console.log(" err " + err);
+                    }
+                    else{
+                        console.log(" diary " + existingDiary);
+                    }
+                });
+            }
             else{
-                return res.status(200).send(diary); 
+                console("something else happened");
             }
         });
     });

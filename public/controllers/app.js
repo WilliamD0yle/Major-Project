@@ -312,33 +312,11 @@ app.controller('SearchController', function ($scope, $location, $http) {
             jQuery(".enteredBarcode").html(code);
             $scope.barcodeSearch(code);
         });
-        //        function foodBarcodeSearch(search) {
-        //
-        //            var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + search + ".json";
-        //            console.log(searchURL);
-        //            jQuery.ajax({
-        //                //using the type of get to "Get" the json file
-        //                type: "GET", //location of the file to get
-        //                url: searchURL, // the url to get the data
-        //                dataType: "json", // the type of data being pulled
-        //                success: function (data) { //if its successful
-        //                    console.log(data);
-        //                }, // if the ajax call is unsuccessful run the function
-        //                error: function (xhr, status, error) {
-        //                    if (xhr.status == "404") {
-        //                        console.log(xhr, status, error);
-        //                    } else if (xhr.status == "500") {
-        //                        console.log(xhr, status, error);
-        //                    }
-        //                }
-        //            });
-        //        }
     };
     //load the load function
     $scope.startQR();
 
     $scope.barcodeSearch = function (barcode) {
-        console.log("working");
         var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
         $http({
             method: 'GET',
@@ -353,46 +331,44 @@ app.controller('SearchController', function ($scope, $location, $http) {
             $scope.serving = response.product.serving_size;
             $scope.servingVal = 1;
             $scope.totalCals = function(){
+                $scope.result = $scope.cals * $scope.servingVal;
                 return $scope.cals * $scope.servingVal;
             };
-            $scope.meals;
+            $scope.meal = ["Breakfast","Lunch","Dinner","Snacks"];
         }).
         error(function (response) {
             console.log(response);
         });
     };
     
-    $scope.submitForm = function () {
+    $scope.submitDiary = function () {
+        var item = $scope.item;
+        var calories = $scope.result;
+
+        if($scope.selectedMeal == "Breakfast"){
+            var diaryEntry = {breakfast:[{"name":item,"calories":calories}]};
+        }
+        else if($scope.selectedMeal == "Lunch"){
+            var diaryEntry = {lunch:[{"name":item,"calories":calories}]};
+        }
+        else if($scope.selectedMeal == "Dinner"){
+            var diaryEntry = {dinner:[{"name":item,"calories":calories}]};
+        }
+        else{
+            var diaryEntry = {snacks:[{"name":item,"calories":calories}]};
+        }
+        
         $http({
             method: 'POST',
             url: '/account/diary',
-            data: {}
+            data: diaryEntry,
         }).
         success(function (response) {
+            console.log(response);
             $location.path('/account/diary');
         }).
         error(function (err) {
             console.log(err);
-        });
-    };
-});
-
-//Dummy controller
-app.controller('DummyController', function ($scope, $location, $http) {
-
-    $scope.diaryEntry = {};
-    // Create diary entry
-    $scope.submitForm = function () {
-        $http({
-            method: 'POST',
-            url: '/account/diary',
-            data: $scope.diaryEntry,
-        }).
-        success(function (response) {
-            console(response);
-        }).
-        error(function (response) {
-            console(response);
         });
     };
 });

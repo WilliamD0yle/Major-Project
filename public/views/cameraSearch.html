@@ -29,18 +29,37 @@
 </div>
 <div class="col-sm-12 border-bottom results" ng-controller="SearchController">
     <div class=col-sm-4>
-        <form>
-            <h3>{{item}}</h3>
-            <p class="lead">Calories - {{cals}}</p>
-            <p class="lead">Carbs - {{carbs}}</p>
-            <p class="lead">Fats - {{fats}}</p>
-            <p class="lead">Protein - {{protein}}</p>
-            <p class="lead">Serving size - {{serving}}</p>
-            <label for="serving" class="control-label">Number of servings</label>
-            <input type="number" class="form-control" ng-model="servingVal" ng-change="totalCals" id="serving">
-            <p class="lead">Total Calories - {{totalCals()}}</p>
-            <select ng-model="meal" ng-options="meal as val for (key, val) in meals" ng-change="mealChoice(meal)"></select>
-            <input class="btn btn-primary" type="submit" value="Add Food">
+        <form class="form-horizontal" ng-submit="submitDiary()" name="diaryForm">
+            <fieldset>
+                <h3>{{item}}</h3>              
+                <p class="lead">Calories - {{cals}}</p>
+                
+                <p class="lead">Carbs - {{carbs}}</p>
+<!--                <input type="hidden" name="carbs" ng-model="carbs" ng-value="{{carbs}}"/>-->
+                
+                <p class="lead">Fats - {{fats}}</p>
+<!--                <input type="hidden" name="fat" ng-model="fat" ng-value="{{fats}}"/>-->
+                
+                <p class="lead">Protein - {{protein}}</p>
+<!--                <input type="hidden" name="protein" ng-model="protein" ng-value="{{protein}}"/>-->
+                
+                <p class="lead">Serving size - {{serving}}</p>
+                <label for="serving" class="control-label">Number of servings</label>
+                <input type="number" class="form-control" ng-model="servingVal" ng-change="totalCals" id="serving">
+                
+                <p class="lead">Total Calories - {{totalCals()}}</p>
+                <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}"/>
+                <input type="hidden" name="cals" ng-model="cal" ng-value="{{totalCals()}}"/>
+                <p class="lead">What meal is this for?</p>
+                <select ng-model="selectedMeal" required>
+                    <option ng-repeat="x in meal" value="{{x}}">{{x}}</option>
+                </select>
+                
+                <br>
+                </br>
+                
+                <input class="btn btn-primary" type="submit" value="Add Food"/>
+            </fieldset>
         </form>
     </div>
 </div>
