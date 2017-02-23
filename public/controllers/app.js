@@ -171,6 +171,7 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 //Diary
 app.controller('DiaryController', function ($scope, $location, $http) {
+    
     $http({
         method: 'GET',
         url: '/account/diary'
@@ -182,6 +183,12 @@ app.controller('DiaryController', function ($scope, $location, $http) {
         alert(response);
         $location.path('/account/login');
     });
+    
+    //calculate all the calories on the diary page
+    $scope.alculateCals = function(){
+        
+    };
+    
 });
 
 //Dummy controller
@@ -306,17 +313,19 @@ app.controller('SearchController', function ($scope, $location, $http) {
         });
 
         Quagga.onDetected(function (result) {
-            var code = result.codeResult.code;
             Quagga.stop();
+            var code = result.codeResult.code;
             jQuery(".video").hide();
             jQuery(".enteredBarcode").html(code);
             $scope.barcodeSearch(code);
         });
     };
+    
     //load the load function
     $scope.startQR();
 
     $scope.barcodeSearch = function (barcode) {
+    
         var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
         $http({
             method: 'GET',
