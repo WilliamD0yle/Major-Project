@@ -135,32 +135,73 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = Object.keys(req.body).shift();
         
         // getting the foods to then add to the array
-        var foods = req.body[Object.keys(req.body)].shift();
+        var food = req.body[Object.keys(req.body)].shift();
         
         if(meal == "breakfast"){
             // search for an entry with todays date and update with the posted data
-            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {breakfast: foods}}, function(err, other){
-                return res.status(200);
+            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {breakfast: food}}, function(err, other){
+                return res.status(200).send();
             });
         }
         else if(meal == "lunch"){
             // search for an entry with todays date and update with the posted data
-            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {lunch: foods}}, function(err, other){
-                return res.status(200);
+            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {lunch: food}}, function(err, other){
+                return res.status(200).send();
             });
         }
         else if(meal == "dinner"){
             // search for an entry with todays date and update with the posted data
-            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {dinner: foods}}, function(){
-                return res.status(200);
+            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {dinner: food}}, function(){
+                return res.status(200).send();
             });
         }
         else{
             // search for an entry with todays date and update with the posted data
-            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {snacks: foods}}, function(err, other){
-                return res.status(200);
+            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {snacks: food}}, function(err, other){
+                return res.status(200).send();
             });
         }
         
+    });
+    
+    app.post('/account/food/info', function (req, res) {
+        
+        var meal = req.body;
+        
+        console.log(meal);
+        
+    });
+    
+    app.post('/account/food/delete', function (req, res) {
+        
+        var meal = req.body.meal;
+        var food = req.body.food;
+        
+        console.log("meal " + meal + " food " + food);
+        
+        if(meal == "breakfast"){
+            // search for an entry with todays date and update with the posted data
+            user_food.update({user_id : req.session.user_id, date: today}, {$pull: {breakfast:{name:food}}}, function(err, other){
+                return res.status(200).send();
+            });
+        }
+        else if(meal == "lunch"){
+            // search for an entry with todays date and update with the posted data
+            user_food.update({user_id : req.session.user_id, date: today}, {$pull: {lunch:{name:food}}}, function(err, other){
+                return res.status(200).send();
+            });
+        }
+        else if(meal == "dinner"){
+            // search for an entry with todays date and update with the posted data
+            user_food.update({user_id : req.session.user_id, date: today}, {$pull: {dinner:{name:food}}}, function(err, other){
+                return res.status(200).send();
+            });
+        }
+        else{
+            // search for an entry with todays date and update with the posted data
+            user_food.update({user_id : req.session.user_id, date: today}, {$pull: {snacks:{name:food}}}, function(err, other){
+                return res.status(200).send();
+            });
+        }
     });
 };

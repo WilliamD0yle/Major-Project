@@ -170,7 +170,8 @@ app.controller('AccountController', function ($scope, $location, $http) {
 });
 
 //Diary
-app.controller('DiaryController', function ($scope, $location, $http) {
+app.controller('DiaryController', function ($scope, $location, $http, $route) {
+ 
     
     $http({
         method: 'GET',
@@ -184,15 +185,39 @@ app.controller('DiaryController', function ($scope, $location, $http) {
         $location.path('/account/login');
     });
     
+    $scope.foodInfo = function(meal,food){
+
+    };
+    
+    //remove food from the diary page
+    $scope.removeFood = function(meal,food){
+        
+        var meal = {meal:meal,food:food};
+        
+        $http({
+            method: 'POST',
+            url: '/account/food/delete',
+            data: meal
+        }).
+        success(function (response) {
+            console.log(response);
+            $route.reload();
+        }).
+        error(function (response) {
+            console.log(response);
+        });
+    };
+    
+    
     //calculate all the calories on the diary page
-    $scope.alculateCals = function(){
+    $scope.calculateCals = function(){
         
     };
     
 });
 
 //Dummy controller
-app.controller('SearchController', function ($scope, $location, $http) {
+app.controller('SearchController', function ($scope, $location, $http, $route) {
     $scope.startQR = function () {
         var resultCollector = Quagga.ResultCollector.create({
             capture: true,
@@ -353,18 +378,22 @@ app.controller('SearchController', function ($scope, $location, $http) {
     $scope.submitDiary = function () {
         var item = $scope.item;
         var calories = $scope.result;
-
+        var serving = $scope.servingVal;
+        var carbs = $scope.carbs;
+        var fat = $scope.fats;
+        var protein = $scope.protein;
+        
         if($scope.selectedMeal == "Breakfast"){
-            var diaryEntry = {breakfast:[{"name":item,"calories":calories}]};
+            var diaryEntry = {breakfast:[{"name":item,"calories":calories, "servings":serving, "nutrients":[{"fat":fat, "carbs":carbs,"protein":protein}]}]};
         }
         else if($scope.selectedMeal == "Lunch"){
-            var diaryEntry = {lunch:[{"name":item,"calories":calories}]};
+            var diaryEntry = {lunch:[{"name":item,"calories":calories, "servings":serving, "nutrients":[{"fat":fat, "carbs":carbs,"protein":protein}]}]};
         }
         else if($scope.selectedMeal == "Dinner"){
-            var diaryEntry = {dinner:[{"name":item,"calories":calories}]};
+            var diaryEntry = {dinner:[{"name":item,"calories":calories, "servings":serving, "nutrients":[{"fat":fat, "carbs":carbs,"protein":protein}]}]};
         }
         else{
-            var diaryEntry = {snacks:[{"name":item,"calories":calories}]};
+            var diaryEntry = {snacks:[{"name":item,"calories":calories, "servings":serving, "nutrients":[{"fat":fat, "carbs":carbs,"protein":protein}]}]};
         }
         
         $http({
