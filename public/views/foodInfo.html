@@ -1,6 +1,6 @@
 <div class="col-sm-12 border-bottom results" ng-controller="">
     <div class=col-sm-4>
-        <form class="form-horizontal" ng-submit="submitDiary()" name="diaryForm">
+        <form class="form-horizontal" ng-submit="" name="diaryForm">
             <fieldset>
                 <h3>{{item}}</h3>              
                 <p class="lead">Calories - {{cals}}</p>
@@ -18,7 +18,9 @@
                 <p class="lead">Total Calories - {{totalCals()}}</p>
                 <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}"/>
                 <input type="hidden" name="cals" ng-model="cal" ng-value="{{totalCals()}}"/>
+                
                 <p class="lead">What meal is this for?</p>
+                
                 <select ng-model="selectedMeal" required>
                     <option ng-repeat="x in meal" value="{{x}}">{{x}}</option>
                 </select>
@@ -27,6 +29,7 @@
                 </br>
                 
                 <input class="btn btn-primary" type="submit" value="Add Food"/>
+                <input class="btn btn-danger" type="submit" value="Remove Food"/>
             </fieldset>
         </form>
     </div>

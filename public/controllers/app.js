@@ -186,7 +186,26 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     });
     
     $scope.foodInfo = function(meal,food){
-
+        
+        var meal = {meal:meal,food:food};
+        
+        $http({
+            method: 'POST',
+            url: '/account/food/info',
+            data: meal
+        }).
+        success(function (response) {
+            console.log(response);
+            $scope.item = response;
+            $scope.carbs = response;
+            $scope.fats = response;
+            $scope.protein = response;
+            $scope.cals = response;
+            $scope.serving = response;
+        }).
+        error(function (response) {
+            console.log(response);
+        });
     };
     
     //remove food from the diary page

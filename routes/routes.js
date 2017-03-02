@@ -129,7 +129,6 @@ var today = parseInt(JSON.stringify(new DateOnly));
     });
     
     app.post('/account/diary', function (req, res) {
-        // req.body = { lunch: [ { name: 'Coca-Cola zero', calories: 0.35 } ] }
         
         // getting the meal name so that i can use it to post the food data to the collect object array
         var meal = Object.keys(req.body).shift();
@@ -151,7 +150,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         }
         else if(meal == "dinner"){
             // search for an entry with todays date and update with the posted data
-            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {dinner: food}}, function(){
+            user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {dinner: food}}, function(err, other){
                 return res.status(200).send();
             });
         }
@@ -166,10 +165,39 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     app.post('/account/food/info', function (req, res) {
         
-        var meal = req.body;
+        var meal = req.body.meal;
+        var food = req.body.food;
         
-        console.log(meal);
+        console.log("meal " + meal + " food " + food);
         
+        if(meal == "breakfast"){
+            // search for an entry with todays date 
+            user_food.findOne({user_id : req.session.user_id, date: today}, {breakfast:{name:food}}, function(err, other){
+                console.log(err, other);
+                return res.status(200).send();
+            });
+        }
+        else if(meal == "lunch"){
+            // search for an entry with todays date 
+            user_food.findOne({user_id : req.session.user_id, date: today}, {lunch:{name:food}}, function(err, other){
+                console.log(err, other);
+                return res.status(200).send();
+            });
+        }
+        else if(meal == "dinner"){
+            // search for an entry with todays date 
+            user_food.findOne({user_id : req.session.user_id, date: today}, {dinner:{name:food}}, function(err, other){
+                console.log(err, other);
+                return res.status(200).send();
+            });
+        }
+        else{
+            // search for an entry with todays date 
+            user_food.find({user_id : req.session.user_id, date: today}, {snacks: {$elemMatch:[{name:food}]}}, function(err, other){
+                console.log("er " + err + " other " + other);
+                return res.status(200).send();
+            });
+        }
     });
     
     app.post('/account/food/delete', function (req, res) {
@@ -180,25 +208,25 @@ var today = parseInt(JSON.stringify(new DateOnly));
         console.log("meal " + meal + " food " + food);
         
         if(meal == "breakfast"){
-            // search for an entry with todays date and update with the posted data
+            // search for an entry with todays date, meal, food and pull from the entry
             user_food.update({user_id : req.session.user_id, date: today}, {$pull: {breakfast:{name:food}}}, function(err, other){
                 return res.status(200).send();
             });
         }
         else if(meal == "lunch"){
-            // search for an entry with todays date and update with the posted data
+            // search for an entry with todays date, meal, food and pull from the entry
             user_food.update({user_id : req.session.user_id, date: today}, {$pull: {lunch:{name:food}}}, function(err, other){
                 return res.status(200).send();
             });
         }
         else if(meal == "dinner"){
-            // search for an entry with todays date and update with the posted data
+            // search for an entry with todays date, meal, food and pull from the entry
             user_food.update({user_id : req.session.user_id, date: today}, {$pull: {dinner:{name:food}}}, function(err, other){
                 return res.status(200).send();
             });
         }
         else{
-            // search for an entry with todays date and update with the posted data
+            // search for an entry with todays date, meal, food and pull from the entry
             user_food.update({user_id : req.session.user_id, date: today}, {$pull: {snacks:{name:food}}}, function(err, other){
                 return res.status(200).send();
             });
