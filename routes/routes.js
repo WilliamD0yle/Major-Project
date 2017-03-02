@@ -168,34 +168,52 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = req.body.meal;
         var food = req.body.food;
         
-        console.log("meal " + meal + " food " + food);
-        
         if(meal == "breakfast"){
             // search for an entry with todays date 
-            user_food.findOne({user_id : req.session.user_id, date: today}, {breakfast:{name:food}}, function(err, other){
-                console.log(err, other);
-                return res.status(200).send();
+            user_food.findOne({user_id : req.session.user_id, date: today}, {'breakfast': food}, function(err, item){
+                if(err){
+                    console.log("something went wrong: " + err);
+                }
+                else{
+                    console.log(item);
+                    return res.status(200).send(item);
+                }
             });
         }
         else if(meal == "lunch"){
             // search for an entry with todays date 
-            user_food.findOne({user_id : req.session.user_id, date: today}, {lunch:{name:food}}, function(err, other){
-                console.log(err, other);
-                return res.status(200).send();
+            user_food.findOne({user_id : req.session.user_id, date: today}, {'lunch': food}, function(err, item){
+                if(err){
+                    console.log("something went wrong: " + err);
+                }
+                else{
+                    console.log(item);
+                    return res.status(200).send(item);
+                }
             });
         }
         else if(meal == "dinner"){
             // search for an entry with todays date 
-            user_food.findOne({user_id : req.session.user_id, date: today}, {dinner:{name:food}}, function(err, other){
-                console.log(err, other);
-                return res.status(200).send();
+            user_food.findOne({user_id : req.session.user_id, date: today}, {'dinner': food}, function(err, item){
+                if(err){
+                    console.log("something went wrong: " + err);
+                }
+                else{
+                    console.log(item);
+                    return res.status(200).send(item);
+                }
             });
         }
         else{
             // search for an entry with todays date 
-            user_food.find({user_id : req.session.user_id, date: today}, {snacks: {$elemMatch:[{name:food}]}}, function(err, other){
-                console.log("er " + err + " other " + other);
-                return res.status(200).send();
+            user_food.findOne({user_id : req.session.user_id, date: today}, {'snacks': food}, function(err, item){
+                if(err){
+                    console.log("something went wrong: " + err);
+                }
+                else{
+                    console.log(item);
+                    return res.status(200).send(item);
+                }
             });
         }
     });

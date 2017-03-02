@@ -207,7 +207,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
             console.log(response);
         });
     };
-    
+
     //remove food from the diary page
     $scope.removeFood = function(meal,food){
         
