@@ -1,0 +1,25 @@
+<!-- Text Search Page -->
+<div class="container-fluid hidden">
+    <form class="form">
+        <div class="form-group">
+            <label>Search</label>
+            <input type="search" name="search" id="search">
+            <button type="button" class="btn btn-default" id="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputName" class="col-lg-2 control-label">Item Name</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="itemName" ng-model="item.name" required placeholder="Search">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

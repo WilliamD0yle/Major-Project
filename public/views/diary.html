@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2" ng-controller="DiaryController">
-            <h3 class="lead text-center">{{diary.date}}</h3>
+            <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
             <div>
                 <h3>Breakfast</h3>
                 <div ng-repeat="food in diary.breakfast">
@@ -81,7 +81,7 @@
                     <br>
                     </br>
 
-                    <input class="btn btn-primary" type="submit" value="Add Food" />
+                    <input class="btn btn-success" type="submit" value="Update Food" />
                     <input class="btn btn-danger" type="submit" value="Remove Food" />
                 </fieldset>
             </form>
