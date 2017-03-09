@@ -8,6 +8,7 @@ module.exports = function (app) {
     /********************************
     Create Account
     ********************************/
+    
     app.post('/account/create', function (req, res) {
         //Create new object that store's new user data
         var newUser = new users({
@@ -85,9 +86,11 @@ module.exports = function (app) {
 //        return res.status(401).send("Please log in.");
         return res.status(200).send('response');
     });
+    
     /********************************
     User Diary Page
     ********************************/
+    
 var today = parseInt(JSON.stringify(new DateOnly));
     
     app.get('/account/diary', function (req, res) {
@@ -128,6 +131,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         });
     });
     
+    //add single food item
     app.post('/account/diary', function (req, res) {
         
         // getting the meal name so that i can use it to post the food data to the collect object array
@@ -142,6 +146,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         });
     });
     
+    //get single food item
     app.post('/account/food/info', function (req, res) {
         
         var meal = req.body.meal;
@@ -151,14 +156,30 @@ var today = parseInt(JSON.stringify(new DateOnly));
         user_food.findOne({user_id : req.session.user_id, date: today}, {[meal]: food}, function(err, item){
             if(err){
                 console.log("something went wrong: " + err);
+                return res.status(500).send(err);
             }
             else{
-                console.log(item);
                 return res.status(200).send(item);
             }
         });
     });
     
+    //update single food item
+    app.post('/account/food/update', function (req, res) {
+        
+        var meal = req.body.meal;
+        var food = req.body.food;
+        
+        console.log("meal " + meal + " food " + food);
+
+        // search for an entry with todays date, meal, food and update the entry
+        user_food.update({user_id : req.session.user_id, date: today, [meal]:{name:food}}, {$inc: {serving:2}}, function(err, other){
+            return res.status(200).send();
+        });
+
+    });
+    
+    //delete single food item
     app.post('/account/food/delete', function (req, res) {
         
         var meal = req.body.meal;

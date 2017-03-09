@@ -6,7 +6,7 @@ var app = angular.module('myApp', ['ngRoute']);
 
 //route configuration
 app.config(function ($routeProvider) {
-
+    //allows me to change the html for each page of the application in a single page. Keeps it a single page application
     $routeProvider.
         //root
     when("/", {
@@ -18,7 +18,7 @@ app.config(function ($routeProvider) {
             templateUrl: "./views/login.html",
             controller: 'LoginController'
         }).
-        //Create Account page
+        //Create Account page 
     when('/account/create', {
             templateUrl: 'views/createAccount.html',
             controller: 'CreateAccountController'
@@ -172,6 +172,8 @@ app.controller('AccountController', function ($scope, $location, $http) {
 //Diary
 app.controller('DiaryController', function ($scope, $location, $http, $route) {
  
+    $scope.foodContent = false;
+    $scope.diary = true;
     
     $http({
         method: 'GET',
@@ -195,23 +197,38 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
             data: meal
         }).
         success(function (response) {
-            console.log(response);
-            $scope.item = response;
-            $scope.carbs = response;
-            $scope.fats = response;
-            $scope.protein = response;
-            $scope.cals = response;
-            $scope.serving = response;
+            $scope.fillInFoodInfo(response);
         }).
         error(function (response) {
             console.log(response);
         });
     };
-
-    //remove food from the diary page
-    $scope.removeFood = function(meal,food){
+    
+    $scope.fillInFoodInfo = function (response) {
         
-        var meal = {meal:meal,food:food};
+        $scope.foodContent = true;
+        $scope.diary = false;
+        var mealid = Object.keys(response)[1];
+
+        $scope.item = response[mealid][0].name;
+        $scope.carbs = response[mealid][0].nutrients[0].carbs;
+        $scope.fats = response[mealid][0].nutrients[0].fat;
+        $scope.protein = response[mealid][0].nutrients[0].protein;
+        $scope.cals = response[mealid][0].calories;
+        $scope.serving = response[mealid][0].servings;
+        $scope.totalCals = function () {
+            $scope.result = $scope.cals * $scope.serving;
+            return $scope.cals * $scope.serving;
+        };
+        $scope.meal = Object.keys(response)[1];
+        
+        $scope.meal = mealid;
+    };
+    
+    //remove food from the diary page
+    $scope.removeFood = function(meal,item){
+        
+        var meal = {meal:meal, food:item};
         
         $http({
             method: 'POST',
@@ -227,6 +244,24 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         });
     };
     
+    //update the item  and send the details to the server
+    $scope.updateFood = function (meal,item) {
+        
+        var meal = {meal:meal, food:item};
+
+        $http({
+            method: 'POST',
+            url: '/account/food/update',
+            data: meal
+        }).
+        success(function (response) {
+            console.log(response);
+//            $route.reload();
+        }).
+        error(function (response) {
+            console.log(response);
+        });
+    };
     
     //calculate all the calories on the diary page
     $scope.calculateCals = function(){

@@ -5,9 +5,9 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2" ng-controller="DiaryController">
+<div class="container" ng-controller="DiaryController">
+    <div class="row" ng-show="diary">
+        <div class="col-md-8 col-md-offset-2">
             <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
             <div>
                 <h3>Breakfast</h3>
@@ -51,11 +51,11 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="foodContent">
         <div class="col-md-8 col-md-offset-2">
             <form class="form-horizontal" ng-submit="" name="diaryForm">
                 <fieldset>
-                    <h3>Item {{item}}</h3>
+                    <h3>{{item}}</h3>
                     <p class="lead">Calories - {{cals}}</p>
 
                     <p class="lead">Carbs - {{carbs}}</p>
@@ -65,24 +65,15 @@
                     <p class="lead">Protein - {{protein}}</p>
 
                     <p class="lead">Serving size - {{serving}}</p>
-                    <label for="serving" class="control-label">Number of servings</label>
-                    <input type="number" class="form-control" ng-model="servingVal" ng-change="totalCals" id="serving">
+                    <label for="serving" class="control-label">Change number of servings</label>
+                    <input type="number" class="form-control" ng-model="serving" ng-change="totalCals" id="serving">
 
                     <p class="lead">Total Calories - {{totalCals()}}</p>
                     <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
                     <input type="hidden" name="cals" ng-model="cal" ng-value="{{totalCals()}}" />
 
-                    <p class="lead">What meal is this for?</p>
-
-                    <select ng-model="selectedMeal" required>
-                        <option ng-repeat="x in meal" value="{{x}}">{{x}}</option>
-                    </select>
-
-                    <br>
-                    </br>
-
-                    <input class="btn btn-success" type="submit" value="Update Food" />
-                    <input class="btn btn-danger" type="submit" value="Remove Food" />
+                    <input ng-click="updateFood(meal, item)" class="btn btn-success" value="Update Food" />
+                    <input ng-click="removeFood(meal, item)" class="btn btn-danger" value="Remove Food" />
                 </fieldset>
             </form>
         </div>
