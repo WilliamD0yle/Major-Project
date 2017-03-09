@@ -173,7 +173,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         console.log("meal " + meal + " food " + food);
 
         // search for an entry with todays date, meal, food and update the entry
-        user_food.update({user_id : req.session.user_id, date: today, [meal]:{name:food}}, {$inc: {serving:2}}, function(err, other){
+        user_food.update({user_id : req.session.user_id, date: today, [meal]:{name:food}}, {$set: {serving:2}}, function(err, other){
             return res.status(200).send();
         });
 
