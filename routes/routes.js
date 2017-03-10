@@ -169,14 +169,23 @@ var today = parseInt(JSON.stringify(new DateOnly));
         
         var meal = req.body.meal;
         var food = req.body.food;
-        
-        console.log("meal " + meal + " food " + food);
+        var serving = req.body.serving;
+        var calories = req.body.totalCals;
+        var nutrients = {protein:req.body.protein, carbs:req.body.carbs, fat:req.body.fats};
 
         // search for an entry with todays date, meal, food and update the entry
-        user_food.update({user_id : req.session.user_id, date: today, [meal]:{name:food}}, {$set: {serving:2}}, function(err, other){
-            return res.status(200).send();
+        // need to use variable for the meal instead of the word snacks etc
+        user_food.update({user_id : req.session.user_id, date: today, 'snacks.name': food},{$set: {'snacks.$.calories': calories}},function(err, other){
+            if(err){
+                console.log("something went wrong: " + err);
+            return res.status(500).send(err);
+            }
+            else{
+                console.log("this is other: " + other);
+            return res.status(200).send(other);
+            }
         });
-
+        
     });
     
     //delete single food item

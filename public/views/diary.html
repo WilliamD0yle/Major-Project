@@ -72,7 +72,7 @@
                     <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
                     <input type="hidden" name="cals" ng-model="cal" ng-value="{{totalCals()}}" />
 
-                    <input ng-click="updateFood(meal, item)" class="btn btn-success" value="Update Food" />
+                    <input ng-click="updateFood(meal, item, serving, totalCals, carbs, fats, protein)" class="btn btn-success" value="Update Food" />
                     <input ng-click="removeFood(meal, item)" class="btn btn-danger" value="Remove Food" />
                 </fieldset>
             </form>
