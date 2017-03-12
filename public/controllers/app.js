@@ -44,9 +44,9 @@ app.config(function ($routeProvider) {
             controller: 'AccountController'
         }).
         //Account page
-    when('/account/dummy', {
-        templateUrl: 'views/dummy.html',
-        controller: 'DummyController'
+    when('/account/textsearch', {
+        templateUrl: 'views/textSearch.html',
+        controller: 'textSearchController'
     }).
     otherwise({
         redirectTo: '/account/login'
@@ -169,7 +169,32 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 });
 
-//Diary
+
+//Text search controller
+app.controller('TextSearchController', function ($scope, $location, $http) {
+    
+    $scope.foodTextSearch = function(search) {
+
+        var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1"
+
+        console.log(searchURL);
+        $http({
+            //using the type of get to "Get" the json file
+            type: "GET", //location of the file to get
+            url: searchURL, // the url to get the data
+            dataType: "json", // the type of data being pulled
+            success: function (response) { //if its successful
+                console.log(response);
+            }, // if the ajax call is unsuccessful run the function
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+});
+
+//Diary controller
 app.controller('DiaryController', function ($scope, $location, $http, $route) {
  
     $scope.foodContent = false;
@@ -272,7 +297,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     
 });
 
-//Dummy controller
+//Search controller
 app.controller('SearchController', function ($scope, $location, $http, $route) {
     $scope.startQR = function () {
         var resultCollector = Quagga.ResultCollector.create({
@@ -399,6 +424,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
             jQuery(".video").hide();
             jQuery(".enteredBarcode").html(code);
             $scope.barcodeSearch(code);
+            Quagga.stop();
         });
     };
     

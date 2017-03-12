@@ -172,13 +172,13 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var serving = req.body.serving;
         var calories = req.body.totalCals;
         var nutrients = {protein:req.body.protein, carbs:req.body.carbs, fat:req.body.fats};
+        
         var query = meal+'.name';
         var queryCal = meal+".$.calories";
         var queryServ = meal+".$.servings";
         var queryNut = meal+".$.nutrients";
 
         // search for an entry with todays date, meal, food and update the entry
-        // need to use variable for the meal instead of the word snacks etc
         user_food.update({user_id : req.session.user_id, date: today, [query]: food},{$set: {[queryCal]: calories,[queryServ]: serving,[queryNut]: nutrients}},function(err, other){
             if(err){
                 console.log("something went wrong: " + err);
