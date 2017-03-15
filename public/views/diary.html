@@ -67,6 +67,7 @@
                     <p class="lead">Serving size - {{serving}}</p>
                     <label for="serving" class="control-label">Change number of servings</label>
                     <input type="number" class="form-control" ng-model="serving" ng-change="totalCals" id="serving">
+                    <input type="hidden" class="form-control" ng-model="serving_size" id="serving_size">
 
                     <p class="lead">Total Calories - {{totalCals()}}</p>
                     <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />

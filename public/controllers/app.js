@@ -240,7 +240,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         $scope.carbs = response[mealid][0].nutrients.carbs;
         $scope.fats = response[mealid][0].nutrients.fat;
         $scope.protein = response[mealid][0].nutrients.protein;
-        $scope.cals = response[mealid][0].calories;
+        $scope.cals = response[mealid][0].serving_size;
         $scope.serving = response[mealid][0].servings;
         $scope.totalCals = function () {
             $scope.result = $scope.cals * $scope.serving;
@@ -282,7 +282,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         }).
         success(function (response) {
             console.log(response);
-//            $route.reload();
+            $route.reload();
         }).
         error(function (response) {
             console.log(response);
@@ -439,11 +439,12 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
             url: searchURL,
         }).
         success(function (response) {
+            console.log(response.product.nutriments);
             $scope.item = response.product.product_name;
             $scope.carbs = response.product.nutriments.carbohydrates;
             $scope.fats = response.product.nutriments.fat;
             $scope.protein = response.product.nutriments.proteins;
-            $scope.cals = response.product.nutriments.energy / 4;
+            $scope.cals = Math.ceil(response.product.nutriments.energy_serving)/4;
             $scope.serving = response.product.serving_size;
             $scope.servingVal = 1;
             $scope.totalCals = function(){
@@ -460,22 +461,23 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
     $scope.submitDiary = function () {
         var item = $scope.item;
         var calories = $scope.result;
+        var serving_size = $scope.cals;
         var serving = $scope.servingVal;
         var carbs = $scope.carbs;
         var fat = $scope.fats;
         var protein = $scope.protein;
         
         if($scope.selectedMeal == "Breakfast"){
-            var diaryEntry = {breakfast:[{"name":item,"calories":calories, "servings":serving, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
+            var diaryEntry = {breakfast:[{"name":item,"calories":calories, "servings":serving, serving_size: serving_size, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
         }
         else if($scope.selectedMeal == "Lunch"){
-            var diaryEntry = {lunch:[{"name":item,"calories":calories, "servings":serving, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
+            var diaryEntry = {lunch:[{"name":item,"calories":calories, "servings":serving, serving_size: serving_size, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
         }
         else if($scope.selectedMeal == "Dinner"){
-            var diaryEntry = {dinner:[{"name":item,"calories":calories, "servings":serving, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
+            var diaryEntry = {dinner:[{"name":item,"calories":calories, "servings":serving, serving_size: serving_size, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
         }
         else{
-            var diaryEntry = {snacks:[{"name":item,"calories":calories, "servings":serving, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
+            var diaryEntry = {snacks:[{"name":item,"calories":calories, "servings":serving, serving_size: serving_size, "nutrients":{"fat":fat, "carbs":carbs,"protein":protein}}]};
         }
         
         $http({

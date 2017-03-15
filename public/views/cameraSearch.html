@@ -47,6 +47,8 @@
                 <p class="lead">Total Calories - {{totalCals()}}</p>
                 <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}"/>
                 <input type="hidden" name="cals" ng-model="cal" ng-value="{{totalCals()}}"/>
+                
+                
                 <p class="lead">What meal is this for?</p>
                 <select ng-model="selectedMeal" required>
                     <option ng-repeat="x in meal" value="{{x}}">{{x}}</option>
