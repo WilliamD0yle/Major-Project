@@ -13,6 +13,7 @@ var Schema = mongoose.Schema;
 
 var userFoodSchema = new Schema({
     user_id: {type : Schema.Types.ObjectId, required: true},
+    calories:{type: Number},
     date: {},
     breakfast: [],
     lunch: [],

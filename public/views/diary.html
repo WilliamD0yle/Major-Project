@@ -9,6 +9,7 @@
     <div class="row" ng-show="diary">
         <div class="col-md-8 col-md-offset-2">
             <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
+            <h3 class="lead text-center">{{diary.calories}} cals</h3>
             <div>
                 <h3>Breakfast</h3>
                 <div ng-repeat="food in diary.breakfast">
@@ -17,7 +18,7 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/search">Add Food</a>
+                <a href="#/account/textsearch">Add Food</a>
             </div>
             <div>
                 <h3>Lunch</h3>
@@ -27,7 +28,7 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/search">Add Food</a>
+                <a href="#/account/textsearch">Add Food</a>
             </div>
             <div>
                 <h3>Dinner</h3>
@@ -37,7 +38,7 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/search">Add Food</a>
+                <a href="#/account/textsearch">Add Food</a>
             </div>
             <div>
                 <h3>Snacks</h3>
@@ -47,7 +48,7 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/search">Add Food</a>
+                <a href="#/account/textsearch">Add Food</a>
             </div>
         </div>
     </div>

@@ -66,8 +66,12 @@ module.exports = function (app) {
             req.session.user = user.username;
             //creating user id session
             req.session.user_id = user._id;
+            //creating user id session
+            req.session.userCals = user.calories;
             //user found send 200 success status 
-            res.status(200).send(req.session.user_id );
+            res.status(200).send(req.session.user_id);
+            //send caloreis to be used elsewhere 
+            res.send(req.session.userCals);
             return;
         });
     });
@@ -98,15 +102,18 @@ var today = parseInt(JSON.stringify(new DateOnly));
         if (!req.session.user) {
             return res.status(401).send("Please log in.");
         }
+
         //create a blank entry for todays date. The users food choices will be added one at a time to the food arrays
         var blankEntry = new user_food({
             user_id: req.session.user_id,
+            calories: req.session.userCals,
             date: new DateOnly(),
             breakfast: [],
             lunch: [],
             dinner: [],
             snacks: []
         });
+        
         //Find the diary information
         user_food.findOne({user_id : req.session.user_id, date: today}, function (err, diary) {
             if(err){
@@ -142,7 +149,13 @@ var today = parseInt(JSON.stringify(new DateOnly));
         
         // search for an entry with todays date and update with the posted data
         user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {[meal]: food}}, function(err, other){
-            return res.status(200).send();
+            if(err){
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            }
+            else{
+                return res.status(200).send(item);
+            }
         });
     });
     
@@ -181,12 +194,10 @@ var today = parseInt(JSON.stringify(new DateOnly));
         // search for an entry with todays date, meal, food and update the entry
         user_food.update({user_id : req.session.user_id, date: today, [query]: food},{$set: {[queryCal]: calories,[queryServ]: serving,[queryNut]: nutrients}},function(err, other){
             if(err){
-                console.log("something went wrong: " + err);
-            return res.status(500).send(err);
+                return res.status(500).send(err);
             }
             else{
-                console.log("this is other: " + other);
-            return res.status(200).send(other);
+                return res.status(200).send(other);
             }
         });
         
@@ -194,13 +205,20 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     //delete single food item
     app.post('/account/food/delete', function (req, res) {
-        
+        //get the meal to be deleted
         var meal = req.body.meal;
+        //get the food that needs to be deleted
         var food = req.body.food;
 
         // search for an entry with todays date, meal, food and pull from the entry
         user_food.update({user_id : req.session.user_id, date: today}, {$pull: {[meal]:{name:food}}}, function(err, other){
-            return res.status(200).send();
+            if(err){
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            }
+            else{
+                return res.status(200).send(other);
+            }
         });
 
     });

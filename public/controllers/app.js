@@ -46,7 +46,7 @@ app.config(function ($routeProvider) {
         //Account page
     when('/account/textsearch', {
         templateUrl: 'views/textSearch.html',
-        controller: 'textSearchController'
+        controller: 'TextSearchController'
     }).
     otherwise({
         redirectTo: '/account/login'
@@ -172,26 +172,29 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 //Text search controller
 app.controller('TextSearchController', function ($scope, $location, $http) {
-    
-    $scope.foodTextSearch = function(search) {
+    //search variable value
+    $scope.search;
+    //each key press triggers the searh function
+    $scope.foodTextSearch = function (search) {
+        
+        //the if statement makes sure the ng change doesnt trigger a search with an empty string
+        if (search) {
+            var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1";
 
-        var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1"
-
-        console.log(searchURL);
-        $http({
-            //using the type of get to "Get" the json file
-            type: "GET", //location of the file to get
-            url: searchURL, // the url to get the data
-            dataType: "json", // the type of data being pulled
-            success: function (response) { //if its successful
+            $http({
+                method: 'GET',
+                url: searchURL,
+                dataType: "json"
+            }).
+            success(function (response) {
                 console.log(response);
-            }, // if the ajax call is unsuccessful run the function
-            error: function (response) {
+                $scope.results = response.products;
+            }).
+            error(function (response) {
                 console.log(response);
-            }
-        });
+            });
+        }
     }
-
 });
 
 //Diary controller
