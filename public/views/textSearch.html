@@ -1,5 +1,6 @@
 <!-- Text Search Page -->
 <div ng-controller="TextSearchController">
+
     <div class="row">
         <form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
             <fieldset>
@@ -7,6 +8,9 @@
                     <label for="inputName" class="col-md-4 control-label">Food Search</label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" id="search" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#/account/search">Barcode scan: <span class="glyphicon glyphicon-barcode"></span></a>
                     </div>
                 </div>
             </fieldset>
@@ -18,4 +22,5 @@
             <p class="lead" ng-click="addFood(food)">{{food.product_name}}</p>
         </div>
     </div>
+    
 </div>
