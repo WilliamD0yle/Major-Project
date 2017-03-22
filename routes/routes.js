@@ -136,6 +136,34 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(200).send(diary); 
             }
         });
+        
+        
+        user_food.find({user_id : req.session.user_id}, function (err, results) {
+            if(err){
+                console.log("something went wrong: " + err);
+            }
+            else{
+                console.log("something went right: " + results);
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     });
     
     //add single food item
@@ -157,6 +185,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(200).send(other);
             }
         });
+
     });
     
     //get single food item

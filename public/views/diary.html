@@ -31,7 +31,10 @@
                 <a href="#/account/textsearch">Add Food</a>
             </div>
             <div>
-                <h3>Dinner</h3>
+                <div class="row">
+                    <h3 class="col-md-6">Dinner</h3>
+                    <h3 class="col-md-6 text-center">{{}}</h3>
+                </div>
                 <div ng-repeat="food in diary.dinner" class="row">
                     <div class="foodHolder row" ng-click="foodInfo('dinner', food.name)">
                         <p class="col-md-6 lead">{{food.name}}</p>
@@ -66,7 +69,7 @@
                     <p class="lead">Protein - {{protein}}</p>
 
                     <p class="lead">Serving size - {{serving}}</p>
-                    <label for="serving" class="control-label">Change number of servings</label>
+                    <label for="serving" class="control-label">How many g's/ml's did you have?</label>
                     <input type="number" class="form-control" ng-model="serving" ng-change="totalCals" id="serving">
 
                     <p class="lead">Total Calories - {{totalCals()}}</p>

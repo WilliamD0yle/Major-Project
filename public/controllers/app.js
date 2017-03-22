@@ -82,17 +82,9 @@ app.controller('LoginController', function ($scope, $location, $http) {
 
 //create account controller
 app.controller('CreateAccountController', function ($scope, $http, $location) {
-
-    $scope.gender = {};
-    console.log($scope.gender);
-    var gender;
-    if ($scope.gender == "female") {
-        gender = "female";
-    } else {
-        gender = "male";
-    }
     // Create account
     $scope.submitForm = function () {
+    var gender = Object.keys($scope.gender).toString();
         $http({
             method: 'POST',
             url: '/account/create',
