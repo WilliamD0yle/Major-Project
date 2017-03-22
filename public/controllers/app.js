@@ -8,42 +8,42 @@ var app = angular.module('myApp', ['ngRoute']);
 app.config(function ($routeProvider) {
     //allows me to change the html for each page of the application in a single page. Keeps it a single page application
     $routeProvider.
-        //root
+    //root
     when("/", {
-            templateUrl: "./views/home.html",
-            //controller: 'HomeController'
-        }).
-        //login page
+        templateUrl: "./views/home.html",
+        //controller: 'HomeController'
+    }).
+    //login page
     when("/account/login", {
-            templateUrl: "./views/login.html",
-            controller: 'LoginController'
-        }).
-        //Create Account page 
+        templateUrl: "./views/login.html",
+        controller: 'LoginController'
+    }).
+    //Create Account page 
     when('/account/create', {
-            templateUrl: 'views/createAccount.html',
-            controller: 'CreateAccountController'
-        }).
-        //Create Account page
+        templateUrl: 'views/createAccount.html',
+        controller: 'CreateAccountController'
+    }).
+    //Create Account page
     when('/account/logout', {
-            templateUrl: 'views/logout.html',
-            controller: 'LogOutController'
-        }).
-        //Diary page
+        templateUrl: 'views/logout.html',
+        controller: 'LogOutController'
+    }).
+    //Diary page
     when('/account/diary', {
-            templateUrl: 'views/diary.html',
-            controller: 'DiaryController'
-        }).
-        //Camera searxch page
+        templateUrl: 'views/diary.html',
+        controller: 'DiaryController'
+    }).
+    //Camera searxch page
     when('/account/search', {
-            templateUrl: 'views/cameraSearch.html',
-            controller: 'SearchController'
-        }).
-        //Account page
+        templateUrl: 'views/cameraSearch.html',
+        controller: 'SearchController'
+    }).
+    //Account page
     when('/account/', {
-            templateUrl: 'views/account.html',
-            controller: 'AccountController'
-        }).
-        //Account page
+        templateUrl: 'views/account.html',
+        controller: 'AccountController'
+    }).
+    //Account page
     when('/account/textsearch', {
         templateUrl: 'views/textSearch.html',
         controller: 'TextSearchController'
@@ -172,6 +172,10 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 //Text search controller
 app.controller('TextSearchController', function ($scope, $location, $http) {
+    //hide empty form elements that will be filled with the food information when it has been selected
+    $scope.foodContent = false;
+
+    $scope.searchResults = true;
     //search variable value
     $scope.search;
     //each key press triggers the searh function
@@ -179,6 +183,10 @@ app.controller('TextSearchController', function ($scope, $location, $http) {
 
         //the if statement makes sure the ng change doesnt trigger a search with an empty string
         if (search) {
+
+            $scope.foodContent = false;
+
+            $scope.searchResults = true;
             var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1";
 
             $http({
@@ -195,20 +203,50 @@ app.controller('TextSearchController', function ($scope, $location, $http) {
         }
     }
     $scope.addFood = function (item) {
-        console.log(item);
+        $scope.foodContent = true;
+        $scope.searchResults = false;
         $scope.item = item.product_name;
         $scope.carbs = item.nutriments.carbohydrates;
         $scope.fats = item.nutriments.fat;
         $scope.protein = item.nutriments.proteins;
-        $scope.cals = Math.ceil(item.nutriments.energy_serving) / 4;
-        $scope.serving = item.serving_size;
-        $scope.servingVal = 1;
-        //        $scope.totalCals = function () {
-        //            $scope.result = $scope.cals * $scope.servingVal;
-        //            return $scope.cals * $scope.servingVal;
-        //        };
+        $scope.serving = item.serving_quantity;
+        $scope.cals = Math.ceil(item.nutriments.energy_serving);
+        $scope.servingVal = item.serving_quantity;
+        $scope.lowestcal = $scope.cals / $scope.serving;
+        $scope.totalCals = function () {
+            return Math.ceil($scope.lowestcal * $scope.serving);
+        };
         $scope.meal = ["Breakfast", "Lunch", "Dinner", "Snacks"];
-    }
+    };
+
+    $scope.submitDiary = function () {
+        var item = $scope.item;
+        console.log(item);
+        var calories = $scope.totalCals();
+        var serving = $scope.serving;
+        var carbs = $scope.carbs;
+        var fat = $scope.fats;
+        var protein = $scope.protein;
+        var meal = $scope.selectedMeal.toLowerCase();
+
+        var diaryEntry = {[meal]: [{"name": item,"calories": calories,"servings": serving,"nutrients": {"fat": fat,"carbs": carbs,"protein": protein}}]};
+        
+        console.log(diaryEntry);
+        
+        $http({
+            method: 'POST',
+            url: '/account/diary',
+            data: diaryEntry,
+        }).
+        success(function (response) {
+            console.log(response);
+            $location.path('/account/diary');
+        }).
+        error(function (err) {
+            console.log(err);
+        });
+    };
+
 });
 
 //Diary controller
@@ -223,6 +261,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     }).
     success(function (response) {
         $scope.diary = response;
+        $scope.calculateCals(response);
     }).
     error(function (response) {
         alert(response);
@@ -251,7 +290,8 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
 
     $scope.fillInFoodInfo = function (response) {
 
-
+        console.log(response);
+        
         $scope.foodContent = true;
         $scope.diary = false;
         var mealid = Object.keys(response)[1];
@@ -260,11 +300,11 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         $scope.carbs = response[mealid][0].nutrients.carbs;
         $scope.fats = response[mealid][0].nutrients.fat;
         $scope.protein = response[mealid][0].nutrients.protein;
-        $scope.cals = response[mealid][0].serving_size;
+        $scope.cals = response[mealid][0].calories;
         $scope.serving = response[mealid][0].servings;
+        $scope.lowestcal = $scope.cals / $scope.serving;
         $scope.totalCals = function () {
-            $scope.result = $scope.cals * $scope.serving;
-            return $scope.cals * $scope.serving;
+            return Math.ceil($scope.lowestcal * $scope.serving);
         };
         $scope.meal = Object.keys(response)[1];
 
@@ -274,10 +314,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     //remove food from the diary page
     $scope.removeFood = function (meal, item) {
 
-        var meal = {
-            meal: meal,
-            food: item
-        };
+        var meal = {meal: meal,food: item};
 
         $http({
             method: 'POST',
@@ -296,15 +333,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     //update the item  and send the details to the server
     $scope.updateFood = function (meal, item, serving, totalCals, carbs, fats, protein) {
 
-        var meal = {
-            meal: meal,
-            food: item,
-            serving: serving,
-            totalCals: totalCals(),
-            protein: protein,
-            carbs: carbs,
-            fats: fats
-        };
+        var meal = {meal: meal, food: item, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
 
         $http({
             method: 'POST',
@@ -322,8 +351,17 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
     };
 
     //calculate all the calories on the diary page
-    $scope.calculateCals = function () {
-
+    $scope.calculateCals = function (response) {
+        $scope.total = 0;
+        $scope.remaining = $scope.total - response.calories;
+        for(var key in response){
+            for(var x=0;x<response[key].length; x++){
+                if(response[key][x].calories){
+                    $scope.total = $scope.total + response[key][x].calories;
+                }
+            }  
+        }
+        $scope.remaining = response.calories - $scope.total; 
     };
 
 });
@@ -475,12 +513,11 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
             $scope.carbs = response.product.nutriments.carbohydrates;
             $scope.fats = response.product.nutriments.fat;
             $scope.protein = response.product.nutriments.proteins;
-            $scope.cals = Math.ceil(response.product.nutriments.energy_serving) / 4;
-            $scope.serving = response.product.serving_size;
-            $scope.servingVal = 1;
+            $scope.cals = Math.ceil(response.product.nutriments.energy_serving);
+            $scope.serving = response.product.serving_quantity;;
+            $scope.servingVal = $scope.serving;
             $scope.totalCals = function () {
-                $scope.result = $scope.cals * $scope.servingVal;
-                return $scope.cals * $scope.servingVal;
+                return ($scope.cals / $scope.serving) * $scope.servingVal;
             };
             $scope.meal = ["Breakfast", "Lunch", "Dinner", "Snacks"];
         }).
@@ -491,70 +528,14 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
 
     $scope.submitDiary = function () {
         var item = $scope.item;
-        var calories = $scope.result;
-        var serving_size = $scope.cals;
-        var serving = $scope.servingVal;
+        var calories = $scope.totalCals();
+        var serving = $scope.serving;
         var carbs = $scope.carbs;
         var fat = $scope.fats;
         var protein = $scope.protein;
-
-        if ($scope.selectedMeal == "Breakfast") {
-            var diaryEntry = {
-                breakfast: [{
-                    "name": item,
-                    "calories": calories,
-                    "servings": serving,
-                    serving_size: serving_size,
-                    "nutrients": {
-                        "fat": fat,
-                        "carbs": carbs,
-                        "protein": protein
-                    }
-                }]
-            };
-        } else if ($scope.selectedMeal == "Lunch") {
-            var diaryEntry = {
-                lunch: [{
-                    "name": item,
-                    "calories": calories,
-                    "servings": serving,
-                    serving_size: serving_size,
-                    "nutrients": {
-                        "fat": fat,
-                        "carbs": carbs,
-                        "protein": protein
-                    }
-                }]
-            };
-        } else if ($scope.selectedMeal == "Dinner") {
-            var diaryEntry = {
-                dinner: [{
-                    "name": item,
-                    "calories": calories,
-                    "servings": serving,
-                    serving_size: serving_size,
-                    "nutrients": {
-                        "fat": fat,
-                        "carbs": carbs,
-                        "protein": protein
-                    }
-                }]
-            };
-        } else {
-            var diaryEntry = {
-                snacks: [{
-                    "name": item,
-                    "calories": calories,
-                    "servings": serving,
-                    serving_size: serving_size,
-                    "nutrients": {
-                        "fat": fat,
-                        "carbs": carbs,
-                        "protein": protein
-                    }
-                }]
-            };
-        }
+        var meal = $scope.selectedMeal.toLowerCase();
+        
+        var diaryEntry = {[meal]: [{"name": item,"calories": calories,"servings": serving,"nutrients": {"fat": fat,"carbs": carbs,"protein": protein}}]};
 
         $http({
             method: 'POST',

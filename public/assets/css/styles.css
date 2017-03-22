@@ -143,3 +143,7 @@ html {
 .main-content #sidebar-toggle .bar:last-child {
     margin-bottom: 0;
 }
+
+.main-content .content p {
+    width: 50%;
+}

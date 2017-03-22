@@ -146,7 +146,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         
         // getting the foods to then add to the array
         var food = req.body[Object.keys(req.body)].shift();
-        
+        console.log("meal: " + meal + " food: " + food);
         // search for an entry with todays date and update with the posted data
         user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {[meal]: food}}, function(err, other){
             if(err){
@@ -154,7 +154,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(500).send(err);
             }
             else{
-                return res.status(200).send(item);
+                return res.status(200).send(other);
             }
         });
     });
