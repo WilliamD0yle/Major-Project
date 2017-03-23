@@ -82,6 +82,18 @@ app.controller('LoginController', function ($scope, $location, $http) {
 
 //create account controller
 app.controller('CreateAccountController', function ($scope, $http, $location) {
+    
+    // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
+    // gives the new user the suggested amount for their daily calorie consumption
+    $scope.calories = function(){
+        if(Object.keys($scope.gender).toString() == "female"){
+            return 655 + (9.6 * $scope.newUser.weight) + (1.8 * $scope.newUser.height) – (4.7 * $scope.newUser.age);
+        }
+        else{
+            return 66 + (13.7 * $scope.newUser.weight) + (5 * $scope.newUser.height) – (6.8 * $scope.newUser.age)
+        }
+    };
+    
     // Create account
     $scope.submitForm = function () {
     var gender = Object.keys($scope.gender).toString();
@@ -95,7 +107,7 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
                 'email': $scope.newUser.email,
                 'age': $scope.newUser.age,
                 'gender': gender,
-                'calories': $scope.newUser.calories
+                'calories': $scope.calories()
             }
         }).
         success(function (response) {
@@ -164,6 +176,20 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 //Text search controller
 app.controller('TextSearchController', function ($scope, $location, $http) {
+     
+    //send get request to get the most pupular items for the users
+//    $http({
+//        method: 'GET',
+//        url: '/account/diary',
+//    }).
+//    success(function (response) {
+//        console.log(response);
+//    }).
+//    error(function (response) {
+//        console.log(response);
+//    });
+//    
+    
     //hide empty form elements that will be filled with the food information when it has been selected
     $scope.foodContent = false;
 
@@ -500,7 +526,6 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
             url: searchURL,
         }).
         success(function (response) {
-            console.log(response.product.nutriments);
             $scope.item = response.product.product_name;
             $scope.carbs = response.product.nutriments.carbohydrates;
             $scope.fats = response.product.nutriments.fat;
@@ -535,7 +560,6 @@ app.controller('SearchController', function ($scope, $location, $http, $route) {
             data: diaryEntry,
         }).
         success(function (response) {
-            console.log(response);
             $location.path('/account/diary');
         }).
         error(function (err) {

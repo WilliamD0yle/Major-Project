@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 //takes the time element off the date element to make seraching via date easier
 var DateOnly = require('mongoose-dateonly')(mongoose);
 module.exports = function (app) {
+    
 
     /********************************
     Create Account
@@ -136,34 +137,25 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(200).send(diary); 
             }
         });
+    });
+    
+    /********************************
+    Search Page
+    ********************************/
+    
+    app.get('/account/textsearch', function (req, res) {
         
+        console.log(req.body);
         
-        user_food.find({user_id : req.session.user_id}, function (err, results) {
-            if(err){
-                console.log("something went wrong: " + err);
-            }
-            else{
-                console.log("something went right: " + results);
-            }
-        });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        //Most popular search for the user
+//        user_food.aggregate({$unwind: "$snacks"}, {$sortByCount: "$snacks.name"}, function(err, results){
+//            if(err){
+//                console.log("something went wrong: " + err);
+//            }
+//            else{
+//                console.log(results);
+//            }
+//        });
     });
     
     //add single food item
