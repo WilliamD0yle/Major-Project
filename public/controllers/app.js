@@ -187,7 +187,6 @@ app.factory('Meal', function () {
 app.controller('TextSearchController', function ($scope, $location, $http, Meal) {
 
     var selectedMeal = {meal: Meal.Meal};
-    console.log(selectedMeal);
      
     //send get request to get the most pupular items for the users
     $http({

@@ -144,12 +144,14 @@ var today = parseInt(JSON.stringify(new DateOnly));
     ********************************/
     
     app.post('/account/textsearch', function (req, res) {
-        
+        // meal selected into usable mongoose variable
         var meal = "$"+req.body.meal;
+        // formatted into a sprt method
         var sort = meal+".name";
+        var nutr = meal+".nutrients";
         
         //Most popular items for the specified meal
-        user_food.aggregate({$unwind: meal}, {$sortByCount: sort}, function(err, results){
+        user_food.aggregate({$unwind: meal},{$sortByCount: sort},function(err, results){
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
