@@ -195,7 +195,7 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
         data: selectedMeal,
     }).
     success(function (response) {
-        console.log(response);
+        console.log(response[0]);
     }).
     error(function (response) {
         console.log(response);

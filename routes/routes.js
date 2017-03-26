@@ -151,12 +151,11 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var nutr = meal+".nutrients";
         
         //Most popular items for the specified meal
-        user_food.aggregate({$unwind: meal},{$sortByCount: sort},function(err, results){
-            if(err){
+        user_food.aggregate([{$unwind: meal}, {$group:{_id: sort,[req.body.meal]:{$first:meal},count:{$sum:1}}}, {$sort:{count:-1}}], function(err, results) {
+            if (err) {
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
-            }
-            else{
+            } else {
                 return res.status(200).send(results);
             }
         });
