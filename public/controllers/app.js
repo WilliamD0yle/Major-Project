@@ -195,7 +195,8 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
         data: selectedMeal,
     }).
     success(function (response) {
-        console.log(response[0]);
+        $scope.popular = response;
+        console.log(response);
     }).
     error(function (response) {
         console.log(response);

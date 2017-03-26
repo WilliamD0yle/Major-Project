@@ -18,6 +18,15 @@
         </form>
     </div>
 
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>Most Popular</h3>
+        </div>
+        <div class="col-md-6 col-md-offset-3 results" ng-repeat="food in popular">
+            <p class="lead" ng-click="addFood(food)">{{food._id}}</p>
+        </div>
+    </div>
+
     <div class="row" ng-show="searchResults">
         <div class="col-md-6 col-md-offset-3 results" ng-repeat="food in results">
             <p class="lead" ng-click="addFood(food)">{{food.product_name}}</p>
