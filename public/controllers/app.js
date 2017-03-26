@@ -85,18 +85,18 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
     
     // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
     // gives the new user the suggested amount for their daily calorie consumption
-    $scope.calories = function(){
+    $scope.calculateCalories = function () {
         if(Object.keys($scope.gender).toString() == "female"){
-            return 655 + (9.6 * $scope.newUser.weight) + (1.8 * $scope.newUser.height) – (4.7 * $scope.newUser.age);
+            $scope.calories = Math.ceil(655 + (9.6 * $scope.newUser.weight) + (1.8 * $scope.newUser.height) - (4.7 * $scope.newUser.age));
         }
-        else{
-            return 66 + (13.7 * $scope.newUser.weight) + (5 * $scope.newUser.height) – (6.8 * $scope.newUser.age)
+        else {
+            $scope.calories = Math.ceil(66 + (13.7 * $scope.newUser.weight) + (5 * $scope.newUser.height) - (6.8 * $scope.newUser.age));
         }
     };
     
     // Create account
     $scope.submitForm = function () {
-    var gender = Object.keys($scope.gender).toString();
+        var gender = Object.keys($scope.gender).toString();
         $http({
             method: 'POST',
             url: '/account/create',

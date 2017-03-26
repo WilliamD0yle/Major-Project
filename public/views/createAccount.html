@@ -1,7 +1,8 @@
 <!--create_account.html-->
-<div class="container">
+<div class="container" ng-controller="CreateAccountController">
     <div class="jumbotron text-center">
         <h1>Create Account</h1>
+        <h3>Simply fill in the form below and we'll give you a recommended</br> daily calorie intake for slow controlled weight loss</h3>
     </div>
 
     <div class="row">
@@ -29,35 +30,35 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <label class="col-lg-4 control-label">Sex</label>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" ng-model="gender.male" value="male">Male
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" ng-model="gender.male" value="male">Male
                         </label>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" ng-model="gender.female" value="female">Female
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" ng-model="gender.female" value="female">Female
                         </label>
-                    </div>
+                    </div>  
                     <div class="form-group">
                         <label for="inputAge" class="col-lg-4 control-label">Age</label>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="age" ng-model="newUser.age" required placeholder="Age">
+                            <input type="number" class="form-control" id="age" ng-model="newUser.age" ng-change="calculateCalories()" required placeholder="24">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputAge" class="col-lg-4 control-label">Height in cm</label>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="height" ng-model="newUser.height" required placeholder="183cm">
+                            <input type="number" class="form-control" id="height" ng-model="newUser.height" ng-change="calculateCalories()" required placeholder="183">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputAge" class="col-lg-4 control-label">Weight in kg</label>
                         <div class="col-lg-6">
-                            <input type="number" class="form-control" id="weight" ng-model="newUser.weight" ng-change="calories" required placeholder="85kg">
+                            <input type="number" class="form-control" id="weight" ng-model="newUser.weight" ng-change="calculateCalories()" required placeholder="85">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputAge" class="col-lg-4 control-label">Suggested Calorie intake</label>
-                        <div class="col-lg-6">
-                            <input type="number" class="form-control" id="calories" ng-model="calories" ng-value="{{calories()}}" required placeholder="2000">
+                        <div class="col-lg-6"> 
+                            <input type="number" class="form-control" id="calories" ng-model="calories" required placeholder="2000">
                         </div>
                     </div>
                     <div class="form-group">
