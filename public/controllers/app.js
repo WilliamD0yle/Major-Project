@@ -86,6 +86,7 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
     // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
     // gives the new user the suggested amount for their daily calorie consumption
     $scope.calculateCalories = function () {
+        //if the user selects female a female only calculation is used
         if(Object.keys($scope.gender).toString() == "female"){
             $scope.calories = Math.ceil(655 + (9.6 * $scope.newUser.weight) + (1.8 * $scope.newUser.height) - (4.7 * $scope.newUser.age));
         }
@@ -173,38 +174,54 @@ app.controller('AccountController', function ($scope, $location, $http) {
 
 });
 
+// Create the factory that share the Fact
+app.factory('Meal', function () {
+    return {Meal: '',
+        update: function (meal) {
+            this.Meal = meal;
+        }
+    };
+});
 
 //Text search controller
-app.controller('TextSearchController', function ($scope, $location, $http) {
+app.controller('TextSearchController', function ($scope, $location, $http, Meal) {
+
+    var selectedMeal = {meal: Meal.Meal};
+    console.log(selectedMeal);
      
     //send get request to get the most pupular items for the users
-//    $http({
-//        method: 'GET',
-//        url: '/account/diary',
-//    }).
-//    success(function (response) {
-//        console.log(response);
-//    }).
-//    error(function (response) {
-//        console.log(response);
-//    });
-//    
+    $http({
+        method: 'POST',
+        url: '/account/textsearch',
+        data: selectedMeal,
+    }).
+    success(function (response) {
+        console.log(response);
+    }).
+    error(function (response) {
+        console.log(response);
+    });
+    
     
     //hide empty form elements that will be filled with the food information when it has been selected
     $scope.foodContent = false;
-
     $scope.searchResults = true;
-    //search variable value
-    $scope.search;
+    
+    $scope.back = function(){
+        $scope.foodContent = false;
+        $scope.searchResults = true;  
+    };
+    
+
     //each key press triggers the searh function
     $scope.foodTextSearch = function (search) {
 
         //the if statement makes sure the ng change doesnt trigger a search with an empty string
         if (search) {
-
+            
             $scope.foodContent = false;
-
             $scope.searchResults = true;
+            
             var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1";
 
             $http({
@@ -220,6 +237,7 @@ app.controller('TextSearchController', function ($scope, $location, $http) {
             });
         }
     }
+    
     $scope.addFood = function (item) {
         $scope.foodContent = true;
         $scope.searchResults = false;
@@ -268,7 +286,7 @@ app.controller('TextSearchController', function ($scope, $location, $http) {
 });
 
 //Diary controller
-app.controller('DiaryController', function ($scope, $location, $http, $route) {
+app.controller('DiaryController', function ($scope, $location, $http, $route, Meal) {
 
     $scope.foodContent = false;
     $scope.diary = true;
@@ -324,7 +342,6 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         $scope.totalCals = function () {
             return Math.ceil($scope.lowestcal * $scope.serving);
         };
-        $scope.meal = Object.keys(response)[1];
 
         $scope.meal = mealid;
     };
@@ -381,7 +398,10 @@ app.controller('DiaryController', function ($scope, $location, $http, $route) {
         }
         $scope.remaining = response.calories - $scope.total; 
     };
-
+    
+    $scope.mealSelected = function(selection){
+        Meal.update(selection);
+    }
 });
 
 //Search controller

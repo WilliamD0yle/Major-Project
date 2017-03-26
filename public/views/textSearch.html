@@ -26,6 +26,7 @@
 
     <div class="row" ng-show="foodContent">
         <div class="col-md-8 col-md-offset-2">
+            <span class="glyphicon glyphicon-arrow-left fa-lg" ng-click="back()"></span>
             <form class="form-horizontal" ng-submit="submitDiary()" name="diaryForm">
                 <fieldset>
                     <h3>{{item}}</h3>
@@ -39,20 +40,20 @@
 
                     <p class="lead">Serving size - {{serving}}</p>
                     <label for="serving" class="control-label">How many g's/ml's did you have?</label>
-                    <input class="form-control" ng-model="serving" ng-change="totalCals" id="serving"/>
+                    <input class="form-control" ng-model="serving" ng-change="totalCals" id="serving" />
 
                     <p class="lead">Total Calories - {{totalCals()}}</p>
                     <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
-                    
+
                     <p class="lead">What meal is this for?</p>
                     <select ng-model="selectedMeal" required>
                         <option ng-repeat="x in meal" value="{{x}}">{{x}}</option>
                     </select>
                     </br>
                     </br>
-                    
+
                     <input type="submit" class="btn btn-success" value="Add Food" />
-                    <input class="btn btn-danger" value="Cancel" type="button"/>
+                    <input class="btn btn-danger" value="Cancel" type="button" />
                 </fieldset>
             </form>
         </div>

@@ -143,19 +143,21 @@ var today = parseInt(JSON.stringify(new DateOnly));
     Search Page
     ********************************/
     
-    app.get('/account/textsearch', function (req, res) {
+    app.post('/account/textsearch', function (req, res) {
         
-        console.log(req.body);
+        var meal = "$"+req.body.meal;
+        var sort = meal+".name";
         
-        //Most popular search for the user
-//        user_food.aggregate({$unwind: "$snacks"}, {$sortByCount: "$snacks.name"}, function(err, results){
-//            if(err){
-//                console.log("something went wrong: " + err);
-//            }
-//            else{
-//                console.log(results);
-//            }
-//        });
+        //Most popular items for the specified meal
+        user_food.aggregate({$unwind: meal}, {$sortByCount: sort}, function(err, results){
+            if(err){
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            }
+            else{
+                return res.status(200).send(results);
+            }
+        });
     });
     
     //add single food item
