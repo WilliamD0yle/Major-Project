@@ -156,11 +156,14 @@ app.controller('LogOutController', function ($scope, $location, $http) {
     // Logout function
     $http({
         method: 'GET',
-        url: '/account/logout'
+        url: '/account/logout',
+        xhrFields: {
+            withCredentials: true
+        }
     }).
     success(function (response) {
         console.log(response);
-        $location.path('/');
+//        $location.path('/');
     }).
     error(function (response) {
         console.log(response);
@@ -187,21 +190,26 @@ app.factory('Meal', function () {
 app.controller('TextSearchController', function ($scope, $location, $http, Meal) {
 
     var selectedMeal = {meal: Meal.Meal};
-     
-    //send get request to get the most pupular items for the users
-    $http({
-        method: 'POST',
-        url: '/account/textsearch',
-        data: selectedMeal,
-    }).
-    success(function (response) {
-        $scope.popular = response;
-        console.log(response);
-    }).
-    error(function (response) {
-        console.log(response);
-    });
+    $scope.showPopular = false;
     
+    if(selectedMeal.meal === ""){
+        $scope.showPopular = false;
+    }else{
+        //send get request to get the most pupular items for the users
+        $http({
+            method: 'POST',
+            url: '/account/textsearch',
+            data: selectedMeal,
+        }).
+        success(function (response) {
+            $scope.popular = response;
+            $scope.showPopular = true;
+        }).
+        error(function (response) {
+            console.log(response);
+            $scope.showPopular = false;
+        });
+    }
     
     //hide empty form elements that will be filled with the food information when it has been selected
     $scope.foodContent = false;
@@ -209,16 +217,24 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
     
     $scope.back = function(){
         $scope.foodContent = false;
-        $scope.searchResults = true;  
+        $scope.searchResults = true; 
+        
+        if (!$scope.search){
+            $scope.showPopular = false;
+        }
+        
+        if(selectedMeal.meal){
+           $scope.showPopular = true;
+        }
     };
     
-
     //each key press triggers the searh function
     $scope.foodTextSearch = function (search) {
 
         //the if statement makes sure the ng change doesnt trigger a search with an empty string
         if (search) {
-            
+            //hide the most popular when there is a search 
+            $scope.showPopular = false;
             $scope.foodContent = false;
             $scope.searchResults = true;
             
@@ -230,17 +246,30 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
                 dataType: "json"
             }).
             success(function (response) {
-                $scope.results = response.products;
+                $scope.results = [];
+                // only pushes the item to the array variable if the information about it is complete
+                for(var i=0;i<response.products.length;i++){
+                    if(response.products[i].complete == 1){
+                        $scope.results.push(response.products[i]);
+                       }
+                }
+                console.log($scope.results);
             }).
             error(function (response) {
-                console.log(response);
+                console.log("err " + response);
             });
         }
+        else{
+            $scope.showPopular = true;
+            $scope.searchResults = false;
+        }
     }
-    
+    //take the contents of the food items to be prepared to add to the diary
     $scope.addFood = function (item) {
         $scope.foodContent = true;
         $scope.searchResults = false;
+        $scope.showPopular = false;
+        
         $scope.item = item.product_name;
         $scope.carbs = item.nutriments.carbohydrates;
         $scope.fats = item.nutriments.fat;
@@ -252,18 +281,36 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
         $scope.totalCals = function () {
             return Math.ceil($scope.lowestcal * $scope.serving);
         };
-        $scope.meal = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+        $scope.meal = selectedMeal.meal;
+    };
+    //take the contents of existing food items to be prepared to add to the diary
+    $scope.addExistingFood = function (item) {
+        $scope.foodContent = true;
+        $scope.searchResults = false;
+        $scope.showPopular = false;
+
+        $scope.item = item[selectedMeal.meal].name;
+        $scope.carbs = item[selectedMeal.meal].nutrients.carbs;
+        $scope.fats = item[selectedMeal.meal].nutrients.fat;
+        $scope.protein = item[selectedMeal.meal].nutrients.protein;
+        $scope.cals = item[selectedMeal.meal].calories;
+        $scope.serving = item[selectedMeal.meal].servings;
+        $scope.lowestcal = $scope.cals / $scope.serving;
+        
+        $scope.totalCals = function () {
+            return Math.ceil($scope.lowestcal * $scope.serving);
+        };
+        $scope.meal = selectedMeal.meal;
     };
 
     $scope.submitDiary = function () {
         var item = $scope.item;
-        console.log(item);
         var calories = $scope.totalCals();
         var serving = $scope.serving;
         var carbs = $scope.carbs;
         var fat = $scope.fats;
         var protein = $scope.protein;
-        var meal = $scope.selectedMeal.toLowerCase();
+        var meal = selectedMeal.meal;
 
         var diaryEntry = {[meal]: [{"name": item,"calories": calories,"servings": serving,"nutrients": {"fat": fat,"carbs": carbs,"protein": protein}}]};
         
@@ -290,7 +337,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
 
     $scope.foodContent = false;
     $scope.diary = true;
-
+    
     $http({
         method: 'GET',
         url: '/account/diary'
@@ -303,13 +350,13 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         alert(response);
         $location.path('/account/login');
     });
+    $scope.back = function(){
+        $route.reload();
+    };
 
     $scope.foodInfo = function (meal, food) {
 
-        var meal = {
-            meal: meal,
-            food: food
-        };
+        var meal = {meal: meal,food: food};
 
         $http({
             method: 'POST',
@@ -337,8 +384,9 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         $scope.fats = response[mealid][0].nutrients.fat;
         $scope.protein = response[mealid][0].nutrients.protein;
         $scope.cals = response[mealid][0].calories;
-        $scope.serving = response[mealid][0].servings;
+        $scope.serving = Number(response[mealid][0].servings);
         $scope.lowestcal = $scope.cals / $scope.serving;
+        
         $scope.totalCals = function () {
             return Math.ceil($scope.lowestcal * $scope.serving);
         };

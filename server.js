@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var morgan = require('morgan');
-var session = require('client-sessions');
+var session = require('express-session');
 
 // Configs
 var db = require('./config/db');
@@ -21,9 +21,13 @@ var app = express();
 
 // Configure session
 app.use(session({
-    cookieName: 'session',
-    secret: 'random_string_goes_here'
-}));
+    secret: 'keyboard_cat',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        secure: false
+    }
+}))
 // To expose public assets to the world
 app.use(express.static(__dirname + '/public'));
 

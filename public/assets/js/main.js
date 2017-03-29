@@ -17,5 +17,9 @@ $(document).ready(function () {
             }
         }
     });
+    //remove the nav from the screen when an option has been selected
+    $(".container #sidebar").click(function () {
+        $(".container").removeClass("open-sidebar");
+    })
 
 });

@@ -82,13 +82,13 @@ module.exports = function (app) {
     ********************************/
 
     app.get('/account/logout', function (req, res) {
-//        delete req.session;
-//        req.logout();
-//        console.log(req.session);
-//        if(!req.session){
-//            return res.status(200).send(req.session);
-//        }
-//        return res.status(401).send("Please log in.");
+//      delete req.session;
+        req.session.destroy();
+
+        if(!req.session){
+            return res.status(200).send(req.session);
+        }
+        return res.status(401).send("Please log in.");
         return res.status(200).send('response');
     });
     
@@ -99,9 +99,10 @@ module.exports = function (app) {
 var today = parseInt(JSON.stringify(new DateOnly));
     
     app.get('/account/diary', function (req, res) {
+
         //check if the user is logged in
         if (!req.session.user) {
-            return res.status(401).send("Please log in.");
+            res.status(401).send("Please log in.");
         }
 
         //create a blank entry for todays date. The users food choices will be added one at a time to the food arrays
@@ -144,6 +145,10 @@ var today = parseInt(JSON.stringify(new DateOnly));
     ********************************/
     
     app.post('/account/textsearch', function (req, res) {
+        //check if the user is logged in
+        if (!req.session.user) {
+            res.status(401).send("Please log in.");
+        }
         // meal selected into usable mongoose variable
         var meal = "$"+req.body.meal;
         // formatted into a sprt method
