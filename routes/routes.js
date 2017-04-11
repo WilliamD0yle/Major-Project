@@ -153,7 +153,8 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = "$"+req.body.meal;
         // formatted into a sprt method
         var sort = meal+".name";
-        var nutr = meal+".nutrients";
+        //dont need this anymore
+//        var nutr = meal+".nutrients";
         
         //Most popular items for the specified meal
         user_food.aggregate([{$unwind: meal}, {$group:{_id: sort,[req.body.meal]:{$first:meal},count:{$sum:1}}}, {$sort:{count:-1}}], function(err, results) {
@@ -174,7 +175,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         
         // getting the foods to then add to the array
         var food = req.body[Object.keys(req.body)].shift();
-        console.log("meal: " + meal + " food: " + food);
+
         // search for an entry with todays date and update with the posted data
         user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {[meal]: food}}, function(err, other){
             if(err){

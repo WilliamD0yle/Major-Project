@@ -1,8 +1,8 @@
-'use strict';
+'use strict'; 
 /********************************
  Export the controller
  ********************************/
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('myApp', ['ngRoute', 'angularModalService']);
 
 //route configuration
 app.config(function ($routeProvider) {
@@ -108,7 +108,7 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
                 'email': $scope.newUser.email,
                 'age': $scope.newUser.age,
                 'gender': gender,
-                'calories': $scope.calories()
+                'calories': $scope.calories
             }
         }).
         success(function (response) {
@@ -190,6 +190,7 @@ app.factory('Meal', function () {
 app.controller('TextSearchController', function ($scope, $location, $http, Meal) {
 
     var selectedMeal = {meal: Meal.Meal};
+    $scope.meal = selectedMeal.meal;
     $scope.showPopular = false;
     
     if(selectedMeal.meal === ""){
@@ -300,7 +301,7 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
         $scope.totalCals = function () {
             return Math.ceil($scope.lowestcal * $scope.serving);
         };
-        $scope.meal = selectedMeal.meal;
+        
     };
 
     $scope.submitDiary = function () {
@@ -314,15 +315,12 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
 
         var diaryEntry = {[meal]: [{"name": item,"calories": calories,"servings": serving,"nutrients": {"fat": fat,"carbs": carbs,"protein": protein}}]};
         
-        console.log(diaryEntry);
-        
         $http({
             method: 'POST',
             url: '/account/diary',
             data: diaryEntry,
         }).
         success(function (response) {
-            console.log(response);
             $location.path('/account/diary');
         }).
         error(function (err) {
@@ -333,7 +331,7 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal)
 });
 
 //Diary controller
-app.controller('DiaryController', function ($scope, $location, $http, $route, Meal) {
+app.controller('DiaryController', function ($scope, $location, $http, $route, Meal, ModalService) {
 
     $scope.foodContent = false;
     $scope.diary = true;
@@ -347,7 +345,6 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         $scope.calculateCals(response);
     }).
     error(function (response) {
-        alert(response);
         $location.path('/account/login');
     });
     $scope.back = function(){
@@ -450,6 +447,39 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
     $scope.mealSelected = function(selection){
         Meal.update(selection);
     }
+    
+    $scope.quickAdd = function () {
+        ModalService.showModal({
+            templateUrl: './views/quickAddCals.html',
+            controller: "ModalController"
+        }).then(function (modal) {
+            modal.element.modal();
+        });
+    };
+    
+});
+
+app.controller('ModalController', function ($scope, close) {
+
+    $scope.addCals = function () {
+        
+        console.log($scope.cals);
+        
+//        $http({
+//            method: 'POST',
+//            url: '/account/diary',
+//            data: 
+//        }).
+//        success(function (response) {
+//            $location.path('/account/diary');
+//        }).
+//        error(function (err) {
+//            console.log(err);
+//        });
+    };
+
+
+
 });
 
 //Search controller

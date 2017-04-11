@@ -1,6 +1,6 @@
 <!-- Text Search Page -->
 <div ng-controller="TextSearchController">
-
+    <a href="#/account/diary"><span class="glyphicon glyphicon-arrow-left fa-lg"></span></a>
     <div class="row">
         <form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
             <fieldset>
@@ -23,24 +23,23 @@
             <h3>Most Popular</h3>
         </div>
         <div class="col-md-6 col-md-offset-3" ng-repeat="food in popular">
-            <p class="lead" ng-click="addExistingFood(food)">{{food._id}}</p>
+            <p class="lead" ng-click="addExistingFood(food)">{{food._id}} - {{food[meal].calories}}cals</p>
         </div>
     </div>
 
     <div class="row" ng-show="searchResults">
         <div class="col-md-6 col-md-offset-3 results" ng-repeat="food in results">
-            <p class="lead" ng-click="addFood(food)">{{food.product_name}}</p>     
-            <p ng-click="addFood(food)">{{food.brands}}</p>     
+            <p class="lead" ng-click="addFood(food)">{{food.product_name}}</p>
+            <p ng-click="addFood(food)">{{food.brands}}</p>
         </div>
     </div>
 
     <div class="row" ng-show="foodContent">
         <div class="col-md-8 col-md-offset-2">
-            <span class="glyphicon glyphicon-arrow-left fa-lg" ng-click="back()"></span>
             <form class="form-horizontal" ng-submit="submitDiary()" name="diaryForm">
                 <fieldset>
                     <h3>{{item}}</h3>
-                    
+
                     <p class="lead">Calories - {{cals}}</p>
 
                     <p class="lead">Carbs - {{carbs}}</p>
@@ -57,7 +56,7 @@
                     <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
 
                     <input type="submit" class="btn btn-success" value="Add Food to {{meal}}" />
-                    <input class="btn btn-danger" value="Cancel" type="button" ng-click="back()"/>
+                    <input class="btn btn-danger" value="Cancel" type="button" ng-click="back()" />
                 </fieldset>
             </form>
         </div>

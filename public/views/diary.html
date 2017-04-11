@@ -4,8 +4,6 @@
         <h1>Diary</h1>
     </div>
 
-
-
     <div ng-show="diary">
         <div class="col-md-8 col-md-offset-2">
             <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
@@ -18,7 +16,10 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/textsearch" ng-click="mealSelected('breakfast')">Add Food</a>
+                <div class="row">
+                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('breakfast')">Add Food</a>
+                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                </div>
             </div>
             <div>
                 <h3>Lunch</h3>
@@ -28,7 +29,10 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/textsearch" ng-click="mealSelected('lunch')">Add Food</a>
+                <div class="row">
+                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('lunch')">Add Food</a>
+                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                </div>
             </div>
             <div>
                 <h3>Dinner</h3>
@@ -38,7 +42,10 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/textsearch" ng-click="mealSelected('dinner')">Add Food</a>
+                <div class="row">
+                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('dinner')">Add Food</a>
+                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                </div>
             </div>
             <div>
                 <h3>Snacks</h3>
@@ -48,7 +55,10 @@
                         <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <a href="#/account/textsearch" ng-click="mealSelected('snacks')">Add Food</a>
+                <div class="row">
+                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('snacks')">Add Food</a>
+                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                </div>
             </div>
         </div>
     </div>
