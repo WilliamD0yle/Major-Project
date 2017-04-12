@@ -1,0 +1,33 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{item}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" name="diaryForm">
+                    <fieldset>
+                        <p class="lead">Calories - {{cals}}</p>
+
+                        <p class="lead">Carbs - {{carbs}}</p>
+
+                        <p class="lead">Fats - {{fats}}</p>
+
+                        <p class="lead">Protein - {{protein}}</p>
+
+                        <p class="lead">Serving size - {{serving}}</p>
+                        <label for="serving" class="control-label">How many g's/ml's did you have?</label>
+                        <input type="number" class="form-control" ng-model="serving" ng-change="totalCals" id="serving">
+
+                        <p class="lead">Total Calories - {{totalCals()}}</p>
+                        <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="removeFood(item)" class="btn btn-danger pull-left" data-dismiss="modal">Delete Food</button>
+                <button type="button" ng-click="updateFood(item, serving, totalCals, carbs, fats, protein)" ng-disabled="diaryForm.$invalid" class="btn btn-primary" data-dismiss="modal">Update Food</button>
+            </div>
+        </div>
+    </div>
+</div>

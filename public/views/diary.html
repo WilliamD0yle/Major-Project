@@ -11,82 +11,57 @@
             <div>
                 <h3>Breakfast</h3>
                 <div ng-repeat="food in diary.breakfast">
-                    <div class="foodHolder row" ng-click="foodInfo('breakfast', food.name)">
-                        <p class="col-md-6 lead">{{food.name}}</p>
-                        <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
+                    <div class="foodHolder row">
+                        <div ng-click="foodInformation('breakfast', food.name)">
+                            <p class="col-sm-6 lead">{{food.name}}</p>
+                            <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('breakfast')">Add Food</a>
-                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('breakfast')">Add Food</a>
+                    <a href="" class="col-sm-6 text-center" ng-click="quickAdd('breakfast')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
             <div>
                 <h3>Lunch</h3>
                 <div ng-repeat="food in diary.lunch">
-                    <div class="foodHolder row" ng-click="foodInfo('lunch', food.name)">
-                        <p class="col-md-6 lead">{{food.name}}</p>
-                        <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
+                    <div class="foodHolder row" ng-click="foodInformation('lunch', food.name)">
+                        <p class="col-sm-6 lead">{{food.name}}</p>
+                        <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('lunch')">Add Food</a>
-                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('lunch')">Add Food</a>
+                    <a class="col-sm-6 text-center" ng-click="quickAdd('lunch')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
             <div>
                 <h3>Dinner</h3>
                 <div ng-repeat="food in diary.dinner">
-                    <div class="foodHolder row" ng-click="foodInfo('dinner', food.name)">
-                        <p class="col-md-6 lead">{{food.name}}</p>
-                        <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
+                    <div class="foodHolder row" ng-click="foodInformation('dinner', food.name)">
+                        <p class="col-sm-6 lead">{{food.name}}</p>
+                        <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('dinner')">Add Food</a>
-                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('dinner')">Add Food</a>
+                    <a class="col-sm-6 text-center" ng-click="quickAdd('dinner')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
             <div>
                 <h3>Snacks</h3>
                 <div ng-repeat="food in diary.snacks">
-                    <div class="foodHolder row" ng-click="foodInfo('snacks', food.name)">
-                        <p class="col-md-6 lead">{{food.name}}</p>
-                        <p class="col-md-6 text-center lead">{{food.calories}} cals</p>
+                    <div class="foodHolder row" ng-click="foodInformation('snacks', food.name)">
+                        <p class="col-sm-6 lead">{{food.name}}</p>
+                        <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#/account/textsearch" class="col-md-6" ng-click="mealSelected('snacks')">Add Food</a>
-                    <a href="" class="col-md-6 text-center" ng-click="quickAdd()"><b>Quick Add Cals</b></a>
+                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('snacks')">Add Food</a>
+                    <a class="col-sm-6 text-center" ng-click="quickAdd('snacks')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row" ng-show="foodContent">
-        <div class="col-md-8 col-md-offset-2">
-            <span class="glyphicon glyphicon-arrow-left fa-lg" ng-click="back()"></span>
-            <form class="form-horizontal" name="diaryForm">
-                <fieldset>
-                    <h3>{{item}}</h3>
-                    <p class="lead">Calories - {{cals}}</p>
-
-                    <p class="lead">Carbs - {{carbs}}</p>
-
-                    <p class="lead">Fats - {{fats}}</p>
-
-                    <p class="lead">Protein - {{protein}}</p>
-
-                    <p class="lead">Serving size - {{serving}}</p>
-                    <label for="serving" class="control-label">How many g's/ml's did you have?</label>
-                    <input type="number" class="form-control" ng-model="serving" ng-change="totalCals" id="serving">
-
-                    <p class="lead">Total Calories - {{totalCals()}}</p>
-                    <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
-
-                    <input ng-click="updateFood(meal, item, serving, totalCals, carbs, fats, protein)" class="btn btn-success" value="Update Food" />
-                    <input ng-click="removeFood(meal, item)" class="btn btn-danger" value="Remove Food" />
-                </fieldset>
-            </form>
         </div>
     </div>
 </div>

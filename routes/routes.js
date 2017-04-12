@@ -181,7 +181,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
-            }
+            } 
             else{
                 return res.status(200).send(other);
             }
@@ -192,11 +192,12 @@ var today = parseInt(JSON.stringify(new DateOnly));
     //get single food item
     app.post('/account/food/info', function (req, res) {
         
-        var meal = req.body.meal;
+        var meal = req.body.meal + '.name';
+        var mealLimit = req.body.meal + '.$';
         var food = req.body.food;
-        
+
         // search for an entry with todays date 
-        user_food.findOne({user_id : req.session.user_id, date: today}, {[meal]: food}, function(err, item){
+        user_food.findOne({user_id : req.session.user_id, date: today,[meal]: food},{[mealLimit] : 1},function(err, item){
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
@@ -220,13 +221,15 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var queryCal = meal+".$.calories";
         var queryServ = meal+".$.servings";
         var queryNut = meal+".$.nutrients";
-
+        
         // search for an entry with todays date, meal, food and update the entry
         user_food.update({user_id : req.session.user_id, date: today, [query]: food},{$set: {[queryCal]: calories,[queryServ]: serving,[queryNut]: nutrients}},function(err, other){
             if(err){
+                console.log(err);
                 return res.status(500).send(err);
             }
             else{
+                console.log(other);
                 return res.status(200).send(other);
             }
         });

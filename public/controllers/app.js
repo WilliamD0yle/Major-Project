@@ -33,7 +33,7 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/diary.html',
         controller: 'DiaryController'
     }).
-    //Camera searxch page
+    //Camera search page
     when('/account/search', {
         templateUrl: 'views/cameraSearch.html',
         controller: 'SearchController'
@@ -351,85 +351,6 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         $route.reload();
     };
 
-    $scope.foodInfo = function (meal, food) {
-
-        var meal = {meal: meal,food: food};
-
-        $http({
-            method: 'POST',
-            url: '/account/food/info',
-            data: meal
-        }).
-        success(function (response) {
-            $scope.fillInFoodInfo(response);
-        }).
-        error(function (response) {
-            console.log(response);
-        });
-    };
-
-    $scope.fillInFoodInfo = function (response) {
-
-        console.log(response);
-        
-        $scope.foodContent = true;
-        $scope.diary = false;
-        var mealid = Object.keys(response)[1];
-
-        $scope.item = response[mealid][0].name;
-        $scope.carbs = response[mealid][0].nutrients.carbs;
-        $scope.fats = response[mealid][0].nutrients.fat;
-        $scope.protein = response[mealid][0].nutrients.protein;
-        $scope.cals = response[mealid][0].calories;
-        $scope.serving = Number(response[mealid][0].servings);
-        $scope.lowestcal = $scope.cals / $scope.serving;
-        
-        $scope.totalCals = function () {
-            return Math.ceil($scope.lowestcal * $scope.serving);
-        };
-
-        $scope.meal = mealid;
-    };
-
-    //remove food from the diary page
-    $scope.removeFood = function (meal, item) {
-
-        var meal = {meal: meal,food: item};
-
-        $http({
-            method: 'POST',
-            url: '/account/food/delete',
-            data: meal
-        }).
-        success(function (response) {
-            console.log(response);
-            $route.reload();
-        }).
-        error(function (response) {
-            console.log(response);
-        });
-    };
-
-    //update the item  and send the details to the server
-    $scope.updateFood = function (meal, item, serving, totalCals, carbs, fats, protein) {
-
-        var meal = {meal: meal, food: item, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
-
-        $http({
-            method: 'POST',
-            url: '/account/food/update',
-            data: meal
-        }).
-        success(function (response) {
-            console.log(response);
-            $route.reload();
-        }).
-        error(function (response) {
-            console.log(response);
-        });
-
-    };
-
     //calculate all the calories on the diary page
     $scope.calculateCals = function (response) {
         $scope.total = 0;
@@ -448,10 +369,38 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         Meal.update(selection);
     }
     
-    $scope.quickAdd = function () {
+    $scope.foodInformation = function (chosenmeal, food) {
+        var meal = {meal: chosenmeal,food: food};
+
+        $http({
+            method: 'POST',
+            url: '/account/food/info',
+            data: meal
+        }).success(function (response) {
+            ModalService.showModal({
+                templateUrl: './views/foodcontent.html',
+                controller: "FoodContentController",
+                inputs: {
+                    chosenMeal: chosenmeal,
+                    food: response
+                }
+            }).then(function (modal) {
+                modal.element.modal();
+            });
+        }).error(function (response) {
+            console.log(response);
+        });
+
+    };
+    
+    $scope.quickAdd = function (meal) {
+        console.log(meal);
         ModalService.showModal({
             templateUrl: './views/quickAddCals.html',
-            controller: "ModalController"
+            controller: "QuickAddController",
+            inputs: {
+                chosenMeal: meal
+            }
         }).then(function (modal) {
             modal.element.modal();
         });
@@ -459,23 +408,82 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
     
 });
 
-app.controller('ModalController', function ($scope, close) {
+app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal) {
 
     $scope.addCals = function () {
+        console.log(chosenMeal + " : " + $scope.cals);
         
-        console.log($scope.cals);
+        var diaryEntry = {[chosenMeal]: [{"name": "Quick Add","calories": $scope.cals, "servings": 1,"nutrients": {"fat": 0,"carbs": 0,"protein": 0}}]};
         
-//        $http({
-//            method: 'POST',
-//            url: '/account/diary',
-//            data: 
-//        }).
-//        success(function (response) {
-//            $location.path('/account/diary');
-//        }).
-//        error(function (err) {
-//            console.log(err);
-//        });
+        $http({
+            method: 'POST',
+            url: '/account/diary',
+            data: diaryEntry
+        }).
+        success(function (response) {
+            $route.reload();
+        }).
+        error(function (err) {
+            console.log(err);
+        });
+    };
+
+
+
+});
+
+app.controller('FoodContentController', function ($scope, $http, $route, chosenMeal, food) {
+    
+    $scope.chosenMeal = chosenMeal;
+    
+    $scope.item = food[chosenMeal][0].name;
+    $scope.carbs = food[chosenMeal][0].nutrients.carbs;
+    $scope.fats = food[chosenMeal][0].nutrients.fat;
+    $scope.protein = food[chosenMeal][0].nutrients.protein;
+    $scope.cals = food[chosenMeal][0].calories;
+    $scope.serving = Number(food[chosenMeal][0].servings);
+    $scope.lowestcal = $scope.cals / $scope.serving;
+
+    $scope.totalCals = function () {
+        return Math.ceil($scope.lowestcal * $scope.serving);
+    };
+    
+    //update the item  and send the details to the server
+    $scope.updateFood = function (item, serving, totalCals, carbs, fats, protein) {
+        
+        var meal = {meal: $scope.chosenMeal, food: item, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
+        console.log(meal);
+        $http({
+            method: 'POST',
+            url: '/account/food/update',
+            data: meal
+        }).
+        success(function (response) {
+            console.log(response);
+            $route.reload();
+        }).
+        error(function (response) {
+            console.log(response);
+        });
+    };
+    
+    //remove food from the diary page
+    $scope.removeFood = function (item) {
+
+        var meal = {meal: $scope.chosenMeal, food: item};
+
+        $http({
+            method: 'POST',
+            url: '/account/food/delete',
+            data: meal
+        }).
+        success(function (response) {
+            console.log(response);
+            $route.reload();
+        }).
+        error(function (response) {
+            console.log(response);
+        });
     };
 
 
