@@ -9,6 +9,9 @@
             <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
             <h3 class="lead text-center">{{diary.calories}} - {{total}} = {{remaining}} cals remaining</h3>
             <div>
+                <a href="#/account/custom" class="btn btn-info pull-right">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
                 <h3>Breakfast</h3>
                 <div ng-repeat="food in diary.breakfast">
                     <div class="foodHolder row">

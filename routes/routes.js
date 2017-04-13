@@ -235,6 +235,46 @@ var today = parseInt(JSON.stringify(new DateOnly));
         });
         
     });
+        
+    //add meal to custom meal in user table
+    app.post('/account/food/custom', function (req, res) {
+        
+        console.log(req.body);
+        //get the meal to be added
+        var meal = req.body;
+
+        // search for the user and add the data to their custome field
+        users.findOneAndUpdate({username : req.session.user, }, {$push: {'customs': meal}}, function(err, other){
+            if(err){
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            }
+            else{
+                return res.status(200).send(other);
+            }
+        });
+
+    });  
+    
+    //delete meal from custom in user table
+    app.post('/account/food/deletecustom', function (req, res) {
+        
+        console.log(req.body);
+        //get the meal to be deleted
+        var meal = req.body;
+
+        // search for the user and delte the data from their custome field
+        users.findOneAndUpdate({username : req.session.user, }, {$pull: {'customs': meal}}, function(err, other){
+            if(err){
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            }
+            else{
+                return res.status(200);
+            }
+        });
+
+    });
     
     //delete single food item
     app.post('/account/food/delete', function (req, res) {
@@ -255,4 +295,5 @@ var today = parseInt(JSON.stringify(new DateOnly));
         });
 
     });
+
 };

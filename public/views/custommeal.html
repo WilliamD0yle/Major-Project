@@ -1,0 +1,70 @@
+<!-- Diary HTML -->
+<div class="container" ng-controller="CustomMealController">
+    <div class="jumbotron text-center">
+        <h1>Create Meal</h1>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+        <h3 class="lead text-center">Select items for your custom meal</h3>
+        <div ng-repeat="food in diary.breakfast">
+            <div class="foodHolder row">
+                <p class="col-sm-6 lead">{{food.name}}</p>
+                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('breakfast',food.name)">
+                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                </a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div ng-repeat="food in diary.lunch">
+            <div class="foodHolder row">
+                <p class="col-sm-6 lead">{{food.name}}</p>
+                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('lunch',food.name)">
+                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                </a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div ng-repeat="food in diary.dinner">
+            <div class="foodHolder row">
+                <p class="col-sm-6 lead">{{food.name}}</p>
+                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('dinner',food.name)">
+                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                </a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div ng-repeat="food in diary.snacks">
+            <div class="foodHolder row">
+                <p class="col-sm-6 lead">{{food.name}}</p>
+                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('snacks',food.name)">
+                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                </a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="form-group">
+            <form class="form-horizontal" name="createMealForm">
+                <label for="mealName" class="col-lg-4 control-label lead">Give your meal a name</label>
+                <div class="col-lg-6">
+                    <input type="text" class="form-control" name="mealName" ng-model="name" required placeholder="Eggs & Bacon">
+                </div>
+            </form>
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+            <div class="col-lg-6">
+                <a type="button" class="btn btn-danger" href="#/account/diary">Cancel</a>
+                <button type="button" ng-click="fetchFoodData()" ng-disabled="createMealForm.$invalid" class="btn btn-primary pull-right" data-dismiss="modal">Add Meal</button>
+            </div>
+        </div>
+    </div>
+</div>

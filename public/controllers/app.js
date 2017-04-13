@@ -43,10 +43,15 @@ app.config(function ($routeProvider) {
         templateUrl: 'views/account.html',
         controller: 'AccountController'
     }).
-    //Account page
+    //Account textsearch
     when('/account/textsearch', {
         templateUrl: 'views/textSearch.html',
         controller: 'TextSearchController'
+    }).
+    //Account textsearch
+    when('/account/custom', {
+        templateUrl: 'views/custommeal.html',
+        controller: 'CustomMealController'
     }).
     otherwise({
         redirectTo: '/account/login'
@@ -405,16 +410,15 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
             modal.element.modal();
         });
     };
-    
 });
 
 app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal) {
-
+    //add cals sends the selected data to the server to then be added to the users food data for that day in the database
     $scope.addCals = function () {
         console.log(chosenMeal + " : " + $scope.cals);
-        
+        //create an object holding all the information
         var diaryEntry = {[chosenMeal]: [{"name": "Quick Add","calories": $scope.cals, "servings": 1,"nutrients": {"fat": 0,"carbs": 0,"protein": 0}}]};
-        
+        //use a post method to send the data to the server
         $http({
             method: 'POST',
             url: '/account/diary',
@@ -427,9 +431,6 @@ app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal
             console.log(err);
         });
     };
-
-
-
 });
 
 app.controller('FoodContentController', function ($scope, $http, $route, chosenMeal, food) {
@@ -485,9 +486,68 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             console.log(response);
         });
     };
+});
 
-
-
+//Custome meal controller
+app.controller('CustomMealController', function ($scope, $http, $route, $location, $timeout) {
+    
+    $http({
+        method: 'GET',
+        url: '/account/diary'
+    }).
+    success(function (response) {
+        $scope.diary = response;
+    }).
+    error(function (response) {
+        $location.path('/account/diary');
+    });
+    
+    //empty array that will hold the selected items
+    $scope.selectedFood = [];
+    
+    //function that adds the selected items to the array
+    $scope.addToSelected = function(meal,food){
+        $scope.selectedFood.push({meal,food});
+    };
+     
+    //function that fetches all the data for the meal
+    $scope.fetchFoodData = function () {
+        //empty array that will be used to format the returning items from the database for the custom meal
+        var mealItems = [];
+        //loop over the select meal names to get the specific info for each item
+        for (var i = 0; i < $scope.selectedFood.length; i++) {
+            var mealtype = $scope.selectedFood[i].meal;
+            $http({
+                method: 'POST',
+                url: '/account/food/info',
+                data: $scope.selectedFood[i]
+            }).success(function (response) {
+                mealItems.push(response[mealtype]);  
+            }).error(function (response) {
+                console.log(response);
+            });
+        };
+        $timeout(function () {
+            $scope.sendFoodData(mealItems);
+        }, 250);
+    };  
+    
+    //function that pushes the data to the server
+    $scope.sendFoodData = function (items) {
+        //sends the json data to the server
+        $http({
+            method: 'POST',
+            url: '/account/food/custom',
+            data: {[$scope.name]:items}
+        }).success(function (response) {
+            $location.path('/account/diary');
+            console.log(response);
+        }).error(function (response) {
+            console.log(response);
+        });
+        
+    };
+    
 });
 
 //Search controller

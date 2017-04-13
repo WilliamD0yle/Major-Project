@@ -18,6 +18,7 @@ var accountSchema = new Schema({
     gender: {type: String, required: true},
     age: {type: Number, required: true},
     calories: {type: Number, default: 2000},
+    customs: [],
     password: {type: String, required: true}
 });
 
