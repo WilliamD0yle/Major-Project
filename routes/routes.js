@@ -165,6 +165,18 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(200).send(results);
             }
         });
+    }); 
+    
+    app.get('/account/custom', function (req, res) { 
+        //Most popular items for the specified meal
+        users.find({username: req.session.user},{'customs': 1}, function(err, results) {
+            if (err) {
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            } else {
+                return res.status(200).send(results);
+            }
+        });
     });
     
     //add single food item

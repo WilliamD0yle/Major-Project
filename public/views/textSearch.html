@@ -8,7 +8,7 @@
                     <label for="inputName" class="col-md-4 control-label">Food Search</label>
                     <div class="col-md-4">
                         <!--   Using debounce runs the function 1 second after a change has been made   -->
-                        <input type="text" class="form-control" id="search" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
+                        <input type="text" class="form-control" id="search" ng-click="active = 2" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
                     </div>
                     <div class="col-md-4">
                         <a href="#/account/search">Barcode scan: <span class="glyphicon glyphicon-barcode"></span></a>
@@ -18,48 +18,20 @@
         </form>
     </div>
 
-    <div class="row" ng-show="showPopular">
-        <div class="col-md-6 col-md-offset-3">
-            <h3>Most Popular</h3>
-        </div>
-        <div class="col-md-6 col-md-offset-3" ng-repeat="food in popular">
-            <p class="lead" ng-click="addExistingFood(food)">{{food._id}} - {{food[meal].calories}}cals</p>
-        </div>
-    </div>
-
-    <div class="row" ng-show="searchResults">
-        <div class="col-md-6 col-md-offset-3 results" ng-repeat="food in results">
-            <p class="lead" ng-click="addFood(food)">{{food.product_name}}</p>
-            <p ng-click="addFood(food)">{{food.brands}}</p>
-        </div>
-    </div>
-
-    <div class="row" ng-show="foodContent">
-        <div class="col-md-8 col-md-offset-2">
-            <form class="form-horizontal" ng-submit="submitDiary()" name="diaryForm">
-                <fieldset>
-                    <h3>{{item}}</h3>
-
-                    <p class="lead">Calories - {{cals}}</p>
-
-                    <p class="lead">Carbs - {{carbs}}</p>
-
-                    <p class="lead">Fats - {{fats}}</p>
-
-                    <p class="lead">Protein - {{protein}}</p>
-
-                    <p class="lead">Serving size - {{serving}}</p>
-                    <label for="serving" class="control-label">How many g's/ml's did you have?</label>
-                    <input class="form-control" ng-model="serving" ng-change="totalCals" id="serving" />
-
-                    <p class="lead">Total Calories - {{totalCals()}}</p>
-                    <input type="hidden" name="calories" ng-model="calories" ng-value="{{totalCals()}}" />
-
-                    <input type="submit" class="btn btn-success" value="Add Food to {{meal}}" />
-                    <input class="btn btn-danger" value="Cancel" type="button" ng-click="back()" />
-                </fieldset>
-            </form>
-        </div>
-    </div>
-
+    <uib-tabset active="active" class="col-md-6 col-md-offset-3">
+        <uib-tab index="0" heading="Most Popular">
+            <p class="lead" ng-repeat="food in popular" ng-click="foodInformation(food)">{{food._id}} - {{food[meal].calories}}cals</p>
+        </uib-tab>
+        <uib-tab index="$index + 1" heading="Custom Meals">
+            <div ng-repeat="meal in keys">
+                <p class="lead" ng-click="addCustom(customMeals[$index],meal[0])">{{meal[0]}}</p>
+            </div>
+        </uib-tab>
+        <uib-tab index="$index + 2" heading="Search Results" class="">
+            <div ng-repeat="food in results">
+                <p class="lead" ng-click="foodInformation(food)">{{food.product_name}}</p>
+                <p ng-click="foodInformation(food)">{{food.brands}}</p>
+            </div>
+        </uib-tab>
+    </uib-tabset>
 </div>
