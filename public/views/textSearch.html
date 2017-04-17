@@ -7,7 +7,7 @@
                 <div class="form-group">
                     <label for="inputName" class="col-md-4 control-label">Food Search</label>
                     <div class="col-md-4">
-                        <!--   Using debounce runs the function 1 second after a change has been made   -->
+                        <!--   Using debounce runs the function after a change has been made   -->
                         <input type="text" class="form-control" id="search" ng-click="active = 2" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
                     </div>
                     <div class="col-md-4">

@@ -76,6 +76,59 @@ module.exports = function (app) {
             return;
         });
     });
+    
+    /********************************
+    Get account info
+    ********************************/
+    
+    app.get('/account', function (req, res) {
+
+        //Find the user in the database
+        users.findOne({username: req.session.user}, function (err, user) {
+            if (err) {
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            } else {
+                return res.status(200).send(user);
+            }
+        });
+        
+    });
+    
+    /********************************
+    update account info
+    ********************************/
+    
+    app.post('/account/update', function (req, res) {
+        
+        var user = req.body.name;
+        var username = req.body.username;
+        var email = req.body.email;
+        var gender = req.body.gender;
+        var age = req.body.age;
+        var height = req.body.height;
+        var weight = req.body.weight;
+        var password = req.body.password;
+        var calories = req.body.calories;
+
+        //Find the user in the database
+        users.findOneAndUpdate({username: req.session.user},{$set:{'name':user,'username':username,'email':email,'gender':gender,'age':age,'height':height,'weight':weight, 'password':password, 'calories':calories}}, function (err, user) {
+            if (err) {
+                console.log("something went wrong: " + err);
+                return res.status(500).send("Error updating account.");
+            }
+            user_food.update({user_id: req.session.user_id},{$set:{'calories':calories}},{multi: true}, function (err, result) {
+                if(err){
+                    console.log("err " + err);
+                }
+                else{
+                    console.log(result);
+                    return res.status(200).send('Account updated.');
+                }
+            });
+        });
+        
+    });
 
     /********************************
     Log out
@@ -256,7 +309,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = req.body;
 
         // search for the user and add the data to their custome field
-        users.findOneAndUpdate({username : req.session.user, }, {$push: {'customs': meal}}, function(err, other){
+        users.findOneAndUpdate({username : req.session.user}, {$push: {'customs': meal}}, function(err, other){
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
@@ -276,13 +329,13 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = req.body;
 
         // search for the user and delte the data from their custome field
-        users.findOneAndUpdate({username : req.session.user, }, {$pull: {'customs': meal}}, function(err, other){
+        users.findOneAndUpdate({username : req.session.user}, {$pull: {'customs': meal}}, function(err, other){
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
             }
             else{
-                return res.status(200);
+                return res.status(200).send(other);
             }
         });
 

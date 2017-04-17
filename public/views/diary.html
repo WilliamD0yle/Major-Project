@@ -8,63 +8,60 @@
         <div class="col-md-8 col-md-offset-2">
             <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
             <h3 class="lead text-center">{{diary.calories}} - {{total}} = {{remaining}} cals remaining</h3>
-            <div>
-                <a href="#/account/custom" class="btn btn-info pull-right">
-                    <span class="glyphicon glyphicon-edit"></span>
-                </a>
-                <h3>Breakfast</h3>
-                <div ng-repeat="food in diary.breakfast">
-                    <div class="foodHolder row">
-                        <div ng-click="foodInformation('breakfast', food.name)">
-                            <p class="col-sm-6 lead">{{food.name}}</p>
-                            <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('breakfast')">Add Food</a>
-                    <a href="" class="col-sm-6 text-center" ng-click="quickAdd('breakfast')"><b>Quick Add Cals</b></a>
-                </div>
-            </div>
-            <div>
-                <h3>Lunch</h3>
-                <div ng-repeat="food in diary.lunch">
-                    <div class="foodHolder row" ng-click="foodInformation('lunch', food.name)">
+            <uib-progressbar class="progress-striped active" max="diary.calories" value="total" ng-model="progress" type="success">
+                <b><i>{{remaining}} remaining</i></b>
+            </uib-progressbar>
+
+            <h3>Breakfast</h3>
+            <div ng-repeat="food in diary.breakfast">
+                <div class="foodHolder row">
+                    <div ng-click="foodInformation('breakfast', food.name)">
                         <p class="col-sm-6 lead">{{food.name}}</p>
                         <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                     </div>
                 </div>
-                <div class="row">
-                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('lunch')">Add Food</a>
-                    <a class="col-sm-6 text-center" ng-click="quickAdd('lunch')"><b>Quick Add Cals</b></a>
+            </div>
+            <div class="row">
+                <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('breakfast')">Add Food</a>
+                <a href="" class="col-sm-6 text-center" ng-click="quickAdd('breakfast')"><b>Quick Add Cals</b></a>
+            </div>
+
+            <h3>Lunch</h3>
+            <div ng-repeat="food in diary.lunch">
+                <div class="foodHolder row" ng-click="foodInformation('lunch', food.name)">
+                    <p class="col-sm-6 lead">{{food.name}}</p>
+                    <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                 </div>
             </div>
-            <div>
-                <h3>Dinner</h3>
-                <div ng-repeat="food in diary.dinner">
-                    <div class="foodHolder row" ng-click="foodInformation('dinner', food.name)">
-                        <p class="col-sm-6 lead">{{food.name}}</p>
-                        <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('dinner')">Add Food</a>
-                    <a class="col-sm-6 text-center" ng-click="quickAdd('dinner')"><b>Quick Add Cals</b></a>
+            <div class="row">
+                <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('lunch')">Add Food</a>
+                <a class="col-sm-6 text-center" ng-click="quickAdd('lunch')"><b>Quick Add Cals</b></a>
+            </div>
+
+            <h3>Dinner</h3>
+            <div ng-repeat="food in diary.dinner">
+                <div class="foodHolder row" ng-click="foodInformation('dinner', food.name)">
+                    <p class="col-sm-6 lead">{{food.name}}</p>
+                    <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                 </div>
             </div>
-            <div>
-                <h3>Snacks</h3>
-                <div ng-repeat="food in diary.snacks">
-                    <div class="foodHolder row" ng-click="foodInformation('snacks', food.name)">
-                        <p class="col-sm-6 lead">{{food.name}}</p>
-                        <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('snacks')">Add Food</a>
-                    <a class="col-sm-6 text-center" ng-click="quickAdd('snacks')"><b>Quick Add Cals</b></a>
+            <div class="row">
+                <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('dinner')">Add Food</a>
+                <a class="col-sm-6 text-center" ng-click="quickAdd('dinner')"><b>Quick Add Cals</b></a>
+            </div>
+
+            <h3>Snacks</h3>
+            <div ng-repeat="food in diary.snacks">
+                <div class="foodHolder row" ng-click="foodInformation('snacks', food.name)">
+                    <p class="col-sm-6 lead">{{food.name}}</p>
+                    <p class="col-sm-6 text-center lead">{{food.calories}} cals</p>
                 </div>
             </div>
+            <div class="row">
+                <a href="#/account/textsearch" class="col-sm-6" ng-click="mealSelected('snacks')">Add Food</a>
+                <a class="col-sm-6 text-center" ng-click="quickAdd('snacks')"><b>Quick Add Cals</b></a>
+            </div>
+
         </div>
     </div>
 </div>
