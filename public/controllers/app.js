@@ -2,7 +2,7 @@
 /********************************
  Export the controller
  ********************************/
-var app = angular.module('myApp', ['ngRoute', 'angularModalService','ui.bootstrap']);
+var app = angular.module('myApp', ['ngRoute', 'angularModalService','ui.bootstrap','chart.js']);
 
 //route configuration
 app.config(function ($routeProvider) {
@@ -248,6 +248,96 @@ app.controller('AccountController', function ($scope, $location, $http) {
         error(function (response) {
             console.log(response);
         });
+    };
+});
+
+
+//progress controller
+app.controller('ProgressController', function ($scope, $location, $http, $filter) {
+    
+    $http({
+        method: 'GET',
+        url: '/account/diary'
+    }).
+    success(function (response) {
+        $scope.target = response.calories;
+        $scope.progress();
+    }).
+    error(function (response) {
+        $location.path('/account/login');
+    });
+    
+    // get user info
+    $scope.progress = function(){
+        $http({
+            method: 'GET',
+            url: '/account/progress',
+        }).
+        success(function (response) {
+            // creating arrays to hold graph data
+            $scope.cals = [];
+            $scope.targetCals = [];
+            $scope.monthlyTargetCals = [];
+            $scope.dailyTargetCals = [];
+            $scope.dates = [];
+            $scope.monthlyDates = [];
+            $scope.monthlyCals = [];
+            $scope.dailyDates = [];
+            $scope.dailyCals = [];
+            
+            //pattern to decode the date from the database
+            var pattern = /(\d{4})(\d{2})(\d{2})/;
+            var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            
+            var d = new Date();
+            var thisMonth = monthNames[d.getMonth()];
+            var today = d.getDate();
+            
+            //loop over the information to sort into the correct arrays
+            for(var i=0;i<response.length;i++){
+                
+                var date = response[i].date + 100;
+                var month = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
+                var todaysDate = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
+                
+                // all entris are shown for long term overview
+                $scope.cals.push(response[i].calories);
+                $scope.dates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
+                $scope.targetCals.push($scope.target);
+                
+                //if its in this month or the previous month 
+                if(thisMonth == month.substring(0, 3) || date-100 <= date){
+                   $scope.monthlyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
+                   $scope.monthlyCals.push(response[i].calories);
+                   $scope.monthlyTargetCals.push($scope.target);
+                }
+                
+                //if the entry is within the last 7 days
+                todaysDate = todaysDate.substring(3, 6);
+                if(thisMonth == month.substring(0, 3) && todaysDate >= today-7){
+                   console.log('working');
+                   $scope.dailyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
+                   $scope.dailyCals.push(response[i].calories);
+                   $scope.dailyTargetCals.push($scope.target);
+                }
+            }
+            
+            // finsihed data ready for the graphs
+            $scope.data = [$scope.cals, $scope.targetCals];
+            $scope.monthlyData = [$scope.monthlyCals, $scope.monthlyTargetCals];
+            $scope.dailyData = [$scope.dailyCals, $scope.dailyTargetCals];
+        }).
+        error(function (err) {
+            console.log(err);
+        }); 
+    }
+    
+    // graph settings
+    $scope.series = ['Calories', 'Goal Calorie Amount']; 
+    $scope.options = {scales: {yAxes: [{id: 'y-axis-1', type: 'linear', display: true, position: 'left'}]}};
+    $scope.colors = ['#3f51b5','#4caf50'],
+    $scope.onClick = function (points, evt) {
+        console.log(points, evt);
     };
 });
 

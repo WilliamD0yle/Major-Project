@@ -135,7 +135,6 @@ module.exports = function (app) {
     ********************************/
 
     app.get('/account/logout', function (req, res) {
-//      delete req.session;
         req.session.destroy();
 
         if(!req.session){
@@ -143,6 +142,28 @@ module.exports = function (app) {
         }
         return res.status(401).send("Please log in.");
         return res.status(200).send('response');
+    });
+
+    /********************************
+    Progress page
+    ********************************/
+
+    app.get('/account/progress', function (req, res) {
+
+        //find all user food diaries, group by date and add up total cals per day
+        user_food.aggregate({$match:{user_id:mongoose.Types.ObjectId(req.session.user_id)}},{$project: {date:1,calories:{$add:[
+                            {$reduce: {input: "$breakfast",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}}, 
+                            {$reduce: {input: "$lunch",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}},
+                            {$reduce: {input: "$snacks",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}},
+                            {$reduce: {input: "$dinner",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}}]}}}, function (err, results) {
+            //if the user exists
+            if (err) {
+                console.log("something went wrong: " + err);
+                return res.status(500).send(err);
+            } else {
+                return res.status(200).send(results);
+            }
+        });
     });
     
     /********************************
