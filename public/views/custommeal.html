@@ -3,7 +3,7 @@
     <div class="jumbotron text-center">
         <h1>Custom Meals</h1>
     </div>
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         <h2>Delete Custom Meals</h2>
         <div ng-repeat="meal in keys">
             <p class="col-sm-8 lead">{{meal[0]}}</p>
@@ -11,9 +11,7 @@
                 <span class="glyphicon glyphicon-remove text-danger"></span>
             </a>
         </div>
-    </div>
-
-    <div class="col-md-8 col-md-offset-2">
+        
         <h2>Create a custom meal</h2>
         <h3 class="lead text-center">Select items for your custom meal</h3>
         <div ng-repeat="food in diary.breakfast">

@@ -2,8 +2,10 @@
 <div class="container" ng-controller="ProgressController">
     <div class="jumbotron text-center">
         <h1>Progress Overview</h1>
+        <p>View your long term calorie tracking below and see whether you have been over or under eating.<br> The green line indicates the desired number of calories in which you should be consuming.</p>
     </div>
-    <uib-tabset active="active" class="col-md-8 col-md-offset-2">
+    
+    <uib-tabset active="active" class="col-md-10 col-md-offset-1">
        
         <uib-tab index="0" heading="Long Term">
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>

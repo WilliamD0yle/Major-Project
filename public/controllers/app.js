@@ -306,7 +306,7 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
                 $scope.targetCals.push($scope.target);
                 
                 //if its in this month or the previous month 
-                if(thisMonth == month.substring(0, 3) || date-100 <= date){
+                if(date-100 <= date){
                    $scope.monthlyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
                    $scope.monthlyCals.push(response[i].calories);
                    $scope.monthlyTargetCals.push($scope.target);
@@ -453,6 +453,7 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
                         $scope.results.push(response.products[i]);
                        }
                 }
+                console.log($scope.results);
             }).
             error(function (response) {
                 console.log("err " + response);
@@ -483,20 +484,23 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
     // this is done as this format of the json is slightly different
     if(food[meal]){
         $scope.item = food[meal].name;
+        $scope.brand = food[meal].brands;
         $scope.carbs = food[meal].nutrients.carbs;
         $scope.fats = food[meal].nutrients.fat;
         $scope.protein = food[meal].nutrients.protein;
         $scope.cals = food[meal].calories;
         $scope.serving = Number(food[meal].servings);
+        $scope.image = food[meal].image;
     }
     else{
         $scope.item = food.product_name;
+        $scope.brand = food.brands;
         $scope.carbs = food.nutriments.carbohydrates;
         $scope.fats = food.nutriments.fat;
         $scope.protein = food.nutriments.proteins;
         $scope.serving = food.serving_quantity;
         $scope.cals = Math.ceil(food.nutriments.energy_serving);
-        $scope.servingVal = food.serving_quantity;
+        $scope.image = food.image_front_small_url;
     }
     
     $scope.lowestcal = $scope.cals / $scope.serving;
@@ -510,7 +514,7 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
     $scope.addCals = function () {
 
         //create an object holding all the information
-        var diaryEntry = {[meal]: [{"name": $scope.item,"calories": $scope.totalCals(),"servings": $scope.serving,"nutrients": {"fat": $scope.fats,"carbs": $scope.carbs,"protein": $scope.protein}}]};
+        var diaryEntry = {[meal]: [{"name": $scope.item,"brand": $scope.brand,"image": $scope.image,"calories": $scope.totalCals(),"servings": $scope.serving,"nutrients": {"fat": $scope.fats,"carbs": $scope.carbs,"protein": $scope.protein}}]};
 
         //use a post method to send the data to the server
         $http({

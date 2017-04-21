@@ -1,6 +1,6 @@
 <!-- Text Search Page -->
 <div ng-controller="TextSearchController">
-    <a href="#/account/diary"><span class="glyphicon glyphicon-arrow-left fa-lg"></span></a>
+    <br>
     <div class="row">
         <form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
             <fieldset>
@@ -20,7 +20,20 @@
 
     <uib-tabset active="active" class="col-md-6 col-md-offset-3">
         <uib-tab index="0" heading="Most Popular">
-            <p class="lead" ng-repeat="food in popular" ng-click="foodInformation(food)">{{food._id}} - {{food[meal].calories}}cals</p>
+            <div class="col-xs-12 food-container" ng-repeat="food in popular" ng-click="foodInformation(food)">
+                <ul class="diary-list">
+                    <li>
+                        <img alt="{{food.brand}}" class="pull-left" src="{{food[meal].image}}" />
+                        <div class="info">
+                            <p class="title lead">{{food._id}}</p>
+                            <p class="desc">{{food[meal].brand}}</p>
+                        </div>
+                        <div class="social">
+                            <p class="title lead">{{food[meal].calories}}cals</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </uib-tab>
         <uib-tab index="$index + 1" heading="Custom Meals">
             <div ng-repeat="meal in keys">
@@ -28,9 +41,22 @@
             </div>
         </uib-tab>
         <uib-tab index="$index + 2" heading="Search Results" class="">
+<!--
             <div ng-repeat="food in results">
                 <p class="lead" ng-click="foodInformation(food)">{{food.product_name}}</p>
                 <p ng-click="foodInformation(food)">{{food.brands}}</p>
+            </div>
+-->
+            <div class="col-xs-12 food-container" ng-repeat="food in results" ng-click="foodInformation(food)">
+                <ul class="diary-list">
+                    <li>
+                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image_front_small_url}}" />
+                        <div class="info">
+                            <p class="title lead">{{food.product_name}}</p>
+                            <p class="desc">{{food.brands}}</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </uib-tab>
     </uib-tabset>
