@@ -1,21 +1,25 @@
 <!-- Diary HTML -->
 <div class="container" ng-controller="DiaryController">
-    <div class="jumbotron text-center">
-        <h1>Diary</h1>
-    </div>
-
-    <div class="diary-container col-md-10 col-md-offset-1">
-       
+    <header class="main-header">
+        <div class="text-center">
+            <br>
+            <br>
+            <h1>Diary</h1>
+        </div>
+    </header>
+    <div class="col-md-10 col-md-offset-1"> 
         <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
         <h3 class="lead text-center">{{diary.calories}} - {{total}} = {{remaining}} cals remaining</h3>
 
         <uib-progressbar class="progress-striped active" max="diary.calories" value="total" ng-model="progress" type="success">
             <b><i>{{remaining}} remaining</i></b>
         </uib-progressbar>
+    </div>
 
+    <main class="diary-container col-md-10 col-md-offset-1">
         <div class="meal-container">
             <h3>Breakfast</h3>
-            <div class="col-xs-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
+            <div class="col-xs-12 col-sm-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
                 <ul class="diary-list">
                     <li>
                         <img alt="{{food.brand}}" class="pull-left" src="{{food.image}}" />
@@ -29,7 +33,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="row links">
                 <div class="col-sm-6 col-xs-6">
                     <a href="#/account/textsearch" class="btn btn-success primary-green text-left" ng-click="mealSelected('breakfast')">Add Food</a>
@@ -121,6 +125,6 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
 </div>

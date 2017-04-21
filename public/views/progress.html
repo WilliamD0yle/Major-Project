@@ -1,23 +1,27 @@
 <!-- Diary HTML -->
 <div class="container" ng-controller="ProgressController">
-    <div class="jumbotron text-center">
-        <h1>Progress Overview</h1>
-        <p>View your long term calorie tracking below and see whether you have been over or under eating.<br> The green line indicates the desired number of calories in which you should be consuming.</p>
-    </div>
-    
+    <header class="main-header">
+        <div class="text-center">
+            <br>
+            <br>
+            <h1>Progress Overview</h1>
+            <p>View your long term calorie tracking below and see whether you have been over or under eating.<br> The green line indicates the desired number of calories in which you should be consuming.</p>
+        </div>
+    </header>
+
     <uib-tabset active="active" class="col-md-10 col-md-offset-1">
-       
+
         <uib-tab index="0" heading="Long Term">
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>
         </uib-tab>
-        
+
         <uib-tab index="$index + 1" heading="Monthly">
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="monthlyData" chart-labels="monthlyDates" chart-series="series" chart-options="options"></canvas>
         </uib-tab>
-        
+
         <uib-tab index="$index + 2" heading="Daily">
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="dailyData" chart-labels="dailyDates" chart-series="series" chart-options="options"></canvas>
         </uib-tab>
-        
+
     </uib-tabset>
 </div>

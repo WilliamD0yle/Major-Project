@@ -35,7 +35,30 @@ html {
     font-family: helvetica;
     font-weight: 100;
 }
+.navigation{
+    background-color: #3f51b5;
+    height: 50px;
+    border-radius: 0;
+    opacity: 0.95;
+}
+.navigation .btn{
+    color: #3f51b5;
+    background-color: #ffffff;
+    padding: 5px 7.5px;
+    margin: 7.5px;
+}
+.login{
+    padding: 7px 5px 0 5px;
+}
+.login input{
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+}
 
+.navbar-right {
+    margin-right: 0;
+}
 .container {
     position: relative;
     height: 100%;
@@ -145,7 +168,11 @@ html {
     margin-bottom: 0;
 }
 
-
+.gi-2x{font-size: 2em;}
+.gi-3x{font-size: 3em;}
+.gi-4x{font-size: 4em;}
+.gi-5x{font-size: 5em;}
+.gi-6x{font-size: 6em;}
 /* diary styles */
 
 .swipe-area {
@@ -165,37 +192,36 @@ html {
     -o-background-size: cover;
 }
 
-.header h1{
+.main-header {
+    height: 250px;
+    background: url('../img/background.jpg') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    -webkit-filter: grayscale(35%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(35%);
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+    animation: titleAnimation 36s linear infinite 0s; 
+}
+
+.header  h1{
     color: #ffffff;
 }
 .header p{
     color: #ffffff;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.primary-green{
-    background-color: #4caf50;
+.main-header h1{
+    color: #ffffff;
+}
+.main-header p{
+    color: #ffffff;
 }
 
-.modal-header{
-    
+.progress-bar{
+    background-color: #3f51bf;
 }
-
 .col-xs-12{
     padding: 0;
 }
@@ -227,7 +253,6 @@ html {
     box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
     padding: 0px;
     margin: 0px 0px 20px;
-    background-color: rgb(245, 245, 245);
     height: 150px;
 }
 
@@ -273,7 +298,10 @@ html {
     background-color: rgb(200, 200, 200);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 500px) {
+    .navbar-nav.navbar-right:last-child {
+     margin-right: 0; 
+    }
     .diary-list>li {
         position: relative;
         display: block;
