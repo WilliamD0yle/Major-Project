@@ -1,6 +1,6 @@
 <!-- Diary HTML -->
 <div class="container" ng-controller="DiaryController">
-    <header class="main-header">
+    <header class="main-header-diary">
         <div class="text-center">
             <br>
             <br>
@@ -16,13 +16,13 @@
         </uib-progressbar>
     </div>
 
-    <main class="diary-container col-md-10 col-md-offset-1">
+    <main class="diary-container col-md-10 col-md-offset-1"> 
         <div class="meal-container">
             <h3>Breakfast</h3>
             <div class="col-xs-12 col-sm-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
                             <p class="desc">{{food.brand}}</p>
@@ -49,7 +49,7 @@
             <div class="col-xs-12 food-container" ng-repeat="food in diary.lunch" ng-click="foodInformation('lunch', food.name)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
                             <p class="desc">{{food.brand}}</p>
@@ -62,10 +62,10 @@
             </div>
 
             <div class="row links">
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="#/account/textsearch" class="btn btn-success primary-green text-left" ng-click="mealSelected('lunch')">Add Food</a>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="" class="btn btn-primary pull-right" ng-click="quickAdd('lunch')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="col-xs-12 food-container" ng-repeat="food in diary.dinner" ng-click="foodInformation('dinner', food.name)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
                             <p class="desc">{{food.brand}}</p>
@@ -89,10 +89,10 @@
             </div>
 
             <div class="row links">
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="#/account/textsearch" class="btn btn-success primary-green text-left" ng-click="mealSelected('dinner')">Add Food</a>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="" class="btn btn-primary pull-right" ng-click="quickAdd('dinner')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
@@ -103,7 +103,7 @@
             <div class="col-xs-12 food-container" ng-repeat="food in diary.snacks" ng-click="foodInformation('snacks', food.name)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
                             <p class="desc">{{food.brand}}</p>
@@ -116,15 +116,18 @@
             </div>
 
             <div class="row links">
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="#/account/textsearch" class="btn btn-success text-left" ng-click="mealSelected('snacks')">Add Food</a>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 col-xs-6">
                     <a href="" class="btn btn-primary pull-right" ng-click="quickAdd('snacks')"><b>Quick Add Cals</b></a>
                 </div>
             </div>
         </div>
-
+        <br>
+        <br>
+        <br>
+        <br>
     </main>
 
 </div>

@@ -18,12 +18,12 @@
         </form>
     </div>
 
-    <uib-tabset active="active" class="col-md-6 col-md-offset-3">
+    <uib-tabset active="active" class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
         <uib-tab index="0" heading="Most Popular">
             <div class="col-xs-12 food-container" ng-repeat="food in popular" ng-click="foodInformation(food)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food[meal].image}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food._id}}</p>
                             <p class="desc">{{food[meal].brand}}</p>
@@ -41,16 +41,10 @@
             </div>
         </uib-tab>
         <uib-tab index="$index + 2" heading="Search Results" class="">
-<!--
-            <div ng-repeat="food in results">
-                <p class="lead" ng-click="foodInformation(food)">{{food.product_name}}</p>
-                <p ng-click="foodInformation(food)">{{food.brands}}</p>
-            </div>
--->
             <div class="col-xs-12 food-container" ng-repeat="food in results" ng-click="foodInformation(food)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" src="{{food.image_front_small_url}}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image_front_small_url || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.product_name}}</p>
                             <p class="desc">{{food.brands}}</p>

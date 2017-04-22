@@ -64,6 +64,29 @@ app.config(function ($routeProvider) {
 });
 
 //login controller
+app.controller('HomeController', function ($scope, $location, $http) {
+
+    // Login submission
+    $scope.login = function () {
+        // Login request
+        $http({
+            method: 'POST',
+            url: '/account/login',
+            data: {
+                'username': $scope.loginForm.username,
+                'password': $scope.loginForm.password
+            }
+        }).
+        success(function (response) {
+            $location.path('/account/diary');
+        }).
+        error(function (err) {
+            alert(err + 'Login failed. Check username/password and try again.');
+        });
+    };
+});
+
+//login controller
 app.controller('LoginController', function ($scope, $location, $http) {
 
     // Login submission
@@ -453,7 +476,6 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
                         $scope.results.push(response.products[i]);
                        }
                 }
-                console.log($scope.results);
             }).
             error(function (response) {
                 console.log("err " + response);
@@ -479,7 +501,6 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
 
 // add food modal controller
 app.controller('AddFoodController', function ($scope, $http, $route, $location, meal, food) {
-    console.log(food);
     // check if the food being added is an existing item or not
     // this is done as this format of the json is slightly different
     if(food[meal]){
@@ -501,13 +522,23 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
         $scope.serving = food.serving_quantity;
         $scope.cals = Math.ceil(food.nutriments.energy_serving);
         $scope.image = food.image_front_small_url;
-    }
+    } 
     
     $scope.lowestcal = $scope.cals / $scope.serving;
     $scope.totalCals = function () {
-        return Math.ceil($scope.lowestcal * $scope.serving);
+        
+        if(!$scope.lowestcal){
+            console.log("not working");
+            return "No calorie information availible.";
+        }
+        else{
+            console.log("working");
+            return Math.ceil($scope.lowestcal * $scope.serving);
+        }
+        
     };
     
+
     $scope.meal = meal;
     
     //add cals sends the selected data to the server to then be added to the users food data for that day in the database
@@ -547,7 +578,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         $scope.calculateCals(response);
     }).
     error(function (response) {
-        $location.path('/account/login');
+        $location.path('/');
     });
     $scope.back = function(){
         $route.reload();
@@ -563,7 +594,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
                     $scope.total = $scope.total + response[key][x].calories;
                 }
             }  
-        }
+        } 
         $scope.remaining = response.calories - $scope.total;        
     };
     

@@ -39,7 +39,7 @@ html {
     background-color: #3f51b5;
     height: 50px;
     border-radius: 0;
-    opacity: 0.95;
+    opacity: 0.9;
 }
 .navigation .btn{
     color: #3f51b5;
@@ -192,7 +192,7 @@ html {
     -o-background-size: cover;
 }
 
-.main-header {
+.main-header-diary {
     height: 250px;
     background: url('../img/background.jpg') center center no-repeat scroll;
     -webkit-background-size: cover;
@@ -203,22 +203,56 @@ html {
     filter: grayscale(35%);
     box-shadow: 0px 0px 5px rgb(51, 51, 51);
     box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-    animation: titleAnimation 36s linear infinite 0s; 
 }
 
-.header  h1{
-    color: #ffffff;
-}
-.header p{
-    color: #ffffff;
-}
-.main-header h1{
-    color: #ffffff;
-}
-.main-header p{
-    color: #ffffff;
+.main-header-progress {
+    height: 275px;
+    background: url('../img/background3.png') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    -webkit-filter: grayscale(35%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(35%);
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
 }
 
+.main-header-custom {
+    height: 250px;
+    background: url('../img/background5.jpg') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    -webkit-filter: grayscale(35%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(35%);
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+}
+
+.main-header-account {
+    height: 250px;
+    background: url('../img/background6.jpg') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    -webkit-filter: grayscale(35%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(35%);
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+}
+
+header h1{
+    color: #ffffff;
+}
+header p{
+    color: #ffffff;
+}
+.form-horizontal .control-label{
+    text-align: left;
+}
 .progress-bar{
     background-color: #3f51bf;
 }
@@ -254,6 +288,10 @@ html {
     padding: 0px;
     margin: 0px 0px 20px;
     height: 150px;
+}
+
+.diary-list>li:hover {
+    box-shadow: 0px 0px 10px rgb(33, 33, 34);
 }
 
 .diary-list>li>{
@@ -292,6 +330,7 @@ html {
     height:150px;
     overflow:hidden;
     object-fit: cover;
+    margin-right: 5px;
 }
 .diary-list>li>.info>ul>li:hover{
     color: rgb(30, 30, 30);

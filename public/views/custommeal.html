@@ -1,20 +1,30 @@
 <!-- Diary HTML -->
 <div class="container" ng-controller="CustomMealController">
-    <div class="jumbotron text-center">
-        <h1>Custom Meals</h1>
-    </div>
-    <div class="col-md-10 col-md-offset-1">
+    <header class="main-header-custom">
+        <div class="text-center">
+            <br>
+            <br>
+            <br>
+            <h1>Custom Meals</h1>
+        </div>
+    </header>
+    <div class="col-md-8 col-md-offset-2">
         <h2>Delete Custom Meals</h2>
-        <div ng-repeat="meal in keys">
+        <div class="col-md-12" ng-repeat="meal in keys">
             <p class="col-sm-8 lead">{{meal[0]}}</p>
             <a href="" ng-click="removeCustom(customMeals[$index])" class="col-sm-2 text-center">
                 <span class="glyphicon glyphicon-remove text-danger"></span>
             </a>
         </div>
         
+        <br>
+        <br>
+        <br>
+        
         <h2>Create a custom meal</h2>
-        <h3 class="lead text-center">Select items for your custom meal</h3>
-        <div ng-repeat="food in diary.breakfast">
+        <h3>Select items for your custom meal</h3>
+        <br>
+        <div class="col-md-12"  ng-repeat="food in diary.breakfast">
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
@@ -25,7 +35,7 @@
                 <br>
             </div>
         </div>
-        <div ng-repeat="food in diary.lunch">
+        <div class="col-md-12" ng-repeat="food in diary.lunch">
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
@@ -36,7 +46,7 @@
                 <br>
             </div>
         </div>
-        <div ng-repeat="food in diary.dinner">
+        <div class="col-md-12"  ng-repeat="food in diary.dinner">
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
@@ -47,7 +57,7 @@
                 <br>
             </div>
         </div>
-        <div ng-repeat="food in diary.snacks">
+        <div class="col-md-12"  ng-repeat="food in diary.snacks">
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
@@ -60,16 +70,16 @@
         </div>
         <div class="form-group">
             <form class="form-horizontal" name="createMealForm">
-                <label for="mealName" class="col-lg-4 control-label lead">Give your meal a name</label>
+                <label for="mealName" class="col-lg-4 control-label lead pull-left">Give your meal a name</label>
                 <div class="col-lg-6">
                     <input type="text" class="form-control" name="mealName" ng-model="name" required placeholder="Eggs & Bacon">
                 </div>
             </form>
         </div>
         <br>
-        <br>
+        <hr>
         <div class="form-group">
-            <div class="col-lg-6">
+            <div class="col-lg-10">
                 <a type="button" class="btn btn-danger" href="#/account/diary">Cancel</a>
                 <button type="button" ng-click="fetchFoodData()" ng-disabled="createMealForm.$invalid" class="btn btn-primary pull-right" data-dismiss="modal">Add Meal</button>
             </div>

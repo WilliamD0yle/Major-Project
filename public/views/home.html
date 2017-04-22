@@ -1,16 +1,16 @@
-<header class="header">
+<header class="header" ng-controller="HomeController">
     <nav class="navbar navigation">
         <div class="pull-right" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="login"><input type="text" class="form-control" id="name" placeholder="Username"></li>
-                <li class="login"><input type="password" class="form-control" id="name" placeholder="Password"></li>
-                <li><a class="btn btn-default lead" href="#/account/login">Login</a></li>
+                <li class="login"><input type="text" class="form-control" id="name" ng-model="loginForm.username" placeholder="Username"></li>
+                <li class="login"><input type="password" class="form-control" id="name" ng-model="loginForm.password" placeholder="Password"></li>
+                <li><a class="btn btn-default lead" ng-click="login()" href="#/account/login">Login</a></li>
                 <li><a class="btn btn-default lead" href="#/account/create">Sign up</a></li>
             </ul>
         </div>
     </nav>
     <div class="text-center">
-        <br>
+        <br> 
         <br>
         <br>
         <h1>Count My Calories</h1>
