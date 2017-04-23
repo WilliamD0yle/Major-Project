@@ -11,7 +11,7 @@ app.config(function ($routeProvider) {
     //root
     when("/", {
         templateUrl: "./views/home.html",
-        //controller: 'HomeController'
+        controller: 'HomeController'
     }).
     //login page
     when("/account/login", {
@@ -65,9 +65,11 @@ app.config(function ($routeProvider) {
 
 //login controller
 app.controller('HomeController', function ($scope, $location, $http) {
-
+    
+    console.log("working");
+    
     // Login submission
-    $scope.login = function () {
+    $scope.submitLogin = function () {
         // Login request
         $http({
             method: 'POST',
@@ -84,6 +86,7 @@ app.controller('HomeController', function ($scope, $location, $http) {
             alert(err + 'Login failed. Check username/password and try again.');
         });
     };
+    
 });
 
 //login controller
@@ -760,26 +763,29 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
      
     //function that fetches all the data for the meal
     $scope.fetchFoodData = function () {
-        //empty array that will be used to format the returning items from the database for the custom meal
-        var mealItems = [];
-        //loop over the select meal names to get the specific info for each item
-        for (var i = 0; i < $scope.selectedFood.length; i++) {
-            var mealtype = $scope.selectedFood[i].meal;
-            $http({
-                method: 'POST',
-                url: '/account/food/info',
-                data: $scope.selectedFood[i]
-            }).success(function (response) {
-                mealItems.push(response[mealtype]);  
-            }).error(function (response) {
-                console.log(response);
-            });
-        };
-        $timeout(function () {
-            $scope.sendFoodData(mealItems);
-        }, 250);
-    };  
-    
+            //empty array that will be used to format the returning items from the database for the custom meal
+            var mealItems = [];
+            if($scope.selectedFood != ""){
+            //loop over the select meal names to get the specific info for each item
+            for (var i = 0; i < $scope.selectedFood.length; i++) {
+                var mealtype = $scope.selectedFood[i].meal;
+                $http({
+                    method: 'POST',
+                    url: '/account/food/info',
+                    data: $scope.selectedFood[i]
+                }).success(function (response) {
+                    mealItems.push(response[mealtype]);  
+                }).error(function (response) {
+                    console.log(response);
+                });
+            };
+            $timeout(function () {
+                $scope.sendFoodData(mealItems);
+            }, 250);
+        }else{
+            alert("Please add food items to create a custom meal!");
+        } 
+    }
     //function that pushes the data to the server to be removed
     $scope.removeCustom = function (meal) {
         //sends the json data to the server
@@ -797,14 +803,15 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
     
     //function that pushes the data to the server
     $scope.sendFoodData = function (items) {
+        
         //sends the json data to the server
         $http({
             method: 'POST',
             url: '/account/food/custom',
             data: {[$scope.name]:items}
         }).success(function (response) {
+            alert($scope.name);
             $location.path('/account/diary');
-            console.log(response);
         }).error(function (response) {
             console.log(response);
         });

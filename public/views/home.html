@@ -1,10 +1,10 @@
 <header class="header" ng-controller="HomeController">
     <nav class="navbar navigation">
         <div class="pull-right" id="myNavbar">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right"> 
                 <li class="login"><input type="text" class="form-control" id="name" ng-model="loginForm.username" placeholder="Username"></li>
                 <li class="login"><input type="password" class="form-control" id="name" ng-model="loginForm.password" placeholder="Password"></li>
-                <li><a class="btn btn-default lead" ng-click="login()" href="#/account/login">Login</a></li>
+                <li><a class="btn btn-default lead" ng-click="submitLogin()">Login</a></li>
                 <li><a class="btn btn-default lead" href="#/account/create">Sign up</a></li>
             </ul>
         </div>
@@ -17,7 +17,7 @@
         <p class="lead">Track your calories the easy way.</p>
         <p class="lead">Quickly add all your meals in a matter of seconds. Simple, fast, reliable.</p>
         <br>
-        <a class="btn btn-success btn-md" href="#">Get Started</a>
+        <a class="btn btn-success btn-md" href="#/account/create">Get Started</a>
     </div>
 </header>
 <main>
