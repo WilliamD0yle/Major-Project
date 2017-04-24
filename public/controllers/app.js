@@ -290,7 +290,7 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
         $scope.progress();
     }).
     error(function (response) {
-        $location.path('/account/login');
+        $location.path('/');
     });
     
     // get user info
@@ -318,13 +318,14 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
             var d = new Date();
             var thisMonth = monthNames[d.getMonth()];
             var today = d.getDate();
-            
+
             //loop over the information to sort into the correct arrays
             for(var i=0;i<response.length;i++){
                 
                 var date = response[i].date + 100;
                 var month = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
                 var todaysDate = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
+                todaysDate = todaysDate.substring(3, 6);
                 
                 // all entris are shown for long term overview
                 $scope.cals.push(response[i].calories);
@@ -332,19 +333,17 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
                 $scope.targetCals.push($scope.target);
                 
                 //if its in this month or the previous month 
-                if(date-100 <= date){
-                   $scope.monthlyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
-                   $scope.monthlyCals.push(response[i].calories);
-                   $scope.monthlyTargetCals.push($scope.target);
+                if(todaysDate >= today){
+                    $scope.monthlyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
+                    $scope.monthlyCals.push(response[i].calories);
+                    $scope.monthlyTargetCals.push($scope.target);
                 }
                 
                 //if the entry is within the last 7 days
-                todaysDate = todaysDate.substring(3, 6);
                 if(thisMonth == month.substring(0, 3) && todaysDate >= today-7){
-                   console.log('working');
-                   $scope.dailyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
-                   $scope.dailyCals.push(response[i].calories);
-                   $scope.dailyTargetCals.push($scope.target);
+                    $scope.dailyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
+                    $scope.dailyCals.push(response[i].calories);
+                    $scope.dailyTargetCals.push($scope.target);
                 }
             }
             
@@ -752,6 +751,9 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
         console.log(response);
     });
     
+    $scope.toggleClass = function (event){
+        $(event.target).toggleClass('added');
+    }
     
     //empty array that will hold the selected items
     $scope.selectedFood = [];

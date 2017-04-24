@@ -28,8 +28,8 @@
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('breakfast',food.name)">
-                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('breakfast',food.name); toggleClass($event)">
+                    <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
@@ -39,8 +39,8 @@
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('lunch',food.name)">
-                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('lunch',food.name); toggleClass($event)">
+                    <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
@@ -50,8 +50,8 @@
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('dinner',food.name)">
-                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('dinner',food.name); toggleClass($event)">
+                    <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
@@ -61,8 +61,8 @@
             <div class="foodHolder row">
                 <p class="col-sm-6 lead">{{food.name}}</p>
                 <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('snacks',food.name)">
-                    <span class="glyphicon glyphicon-ok text-muted"></span>
+                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('snacks',food.name); toggleClass($event)">
+                    <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
