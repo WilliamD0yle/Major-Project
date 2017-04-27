@@ -1,6 +1,7 @@
 var users = require('../app/models/user.model');
 var user_food = require('../app/models/diary.model');
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 //takes the time element off the date element to make seraching via date easier
 var DateOnly = require('mongoose-dateonly')(mongoose);
 module.exports = function (app) {
@@ -12,6 +13,7 @@ module.exports = function (app) {
     
     app.post('/account/create', function (req, res) {
         //Create new object that store's new user data
+        
         var newUser = new users({
             name: req.body.name,
             username: req.body.username,
@@ -49,9 +51,9 @@ module.exports = function (app) {
 
         var username = req.body.username;
         var password = req.body.password;
-
+ 
         //Check for the username in the mongo database
-        users.findOne({username: username,password: password}, function (err, user) {
+        users.findOne({username: username}, function (err, user) {
             //if there is an error
             if (err) {
                 console.log(err);
@@ -63,17 +65,23 @@ module.exports = function (app) {
                 res.status(404).send('User not found. Please create an account to login.');
                 return;
             }
-            //creating user session
-            req.session.user = user.username;
-            //creating user id session
-            req.session.user_id = user._id;
-            //creating user id session
-            req.session.userCals = user.calories;
-            //user found send 200 success status 
-            res.status(200).send(req.session.user_id);
-            //send caloreis to be used elsewhere 
-            res.send(req.session.userCals);
-            return;
+            user.comparePassword(password, function(err, isMatch) {
+                if (isMatch && isMatch == true){
+                    //creating user session
+                    req.session.user = user.username;
+                    //creating user id session
+                    req.session.user_id = user._id;
+                    //creating user id session
+                    req.session.userCals = user.calories;
+                    //user found send 200 success status 
+                    res.status(200).send(req.session.user_id);
+                    //send caloreis to be used elsewhere 
+                    res.send(req.session.userCals);
+                    return;
+                }else{
+                    return res.status(401).send();
+                }
+            });
         });
     });
     
@@ -108,11 +116,12 @@ module.exports = function (app) {
         var age = req.body.age;
         var height = req.body.height;
         var weight = req.body.weight;
-        var password = req.body.password;
         var calories = req.body.calories;
-
+        
+        var salt = bcrypt.genSaltSync(10),
+        hash = bcrypt.hashSync(req.body.password, salt);
         //Find the user in the database
-        users.findOneAndUpdate({username: req.session.user},{$set:{'name':user,'username':username,'email':email,'gender':gender,'age':age,'height':height,'weight':weight, 'password':password, 'calories':calories}}, function (err, user) {
+        users.findOneAndUpdate({username: req.session.user},{$set:{'name':user,'username':username,'email':email,'gender':gender,'age':age,'height':height,'weight':weight, 'password':hash, 'calories':calories}}, function (err, user) {
             if (err) {
                 console.log("something went wrong: " + err);
                 return res.status(500).send("Error updating account.");
@@ -231,7 +240,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
 //        var nutr = meal+".nutrients";
         
         //Most popular items for the specified meal
-        user_food.aggregate([{$unwind: meal}, {$group:{_id: sort,[req.body.meal]:{$first:meal},count:{$sum:1}}}, {$sort:{count:-1}}], function(err, results) {
+        user_food.aggregate([{$match:{user_id:mongoose.Types.ObjectId(req.session.user_id)}},{$unwind: meal}, {$group:{_id: sort,[req.body.meal]:{$first:meal},count:{$sum:1}}}, {$sort:{count:-1}},{$limit:5}], function(err, results) {
             if (err) {
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);
@@ -272,7 +281,6 @@ var today = parseInt(JSON.stringify(new DateOnly));
                 return res.status(200).send(other);
             }
         });
-
     });
     
     //get single food item

@@ -5,6 +5,7 @@
   "main": "server.js",
   "author": "William Doyle",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "*",
     "body-parser": "latest",
     "connect-flash": "*",

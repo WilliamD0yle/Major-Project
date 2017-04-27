@@ -13,15 +13,36 @@
     <uib-tabset active="active" class="col-md-10 col-md-offset-1">
 
         <uib-tab index="0" heading="Long Term">
+            <br>
+            <p class="lead text-center">See your calorie tracking from when you signed up for our service</p>
+            <br>
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>
+            <br>
+            <br>
+            <br>
+            <br>
         </uib-tab>
 
         <uib-tab index="$index + 1" heading="Monthly">
+            <br>
+            <p class="lead text-center">See your calorie tracking for the last month</p>
+            <br>
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="monthlyData" chart-labels="monthlyDates" chart-series="series" chart-options="options"></canvas>
+            <br>
+            <br>
+            <br>
+            <br>
         </uib-tab>
 
         <uib-tab index="$index + 2" heading="Daily">
+            <br>
+            <p class="lead text-center">See your calorie tracking for the week</p>
+            <br>
             <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="dailyData" chart-labels="dailyDates" chart-series="series" chart-options="options"></canvas>
+            <br>
+            <br>
+            <br>
+            <br>
         </uib-tab>
 
     </uib-tabset>

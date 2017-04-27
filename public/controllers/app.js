@@ -149,7 +149,7 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
         }).
         success(function (response) {
             alert(response);
-            $location.path('/account/login');
+            $location.path('/');
         }).
         error(function (response) {
             // When a string is returned
@@ -244,20 +244,22 @@ app.controller('AccountController', function ($scope, $location, $http) {
         }
     };
     
+    //when the form is submitted the function is called
     $scope.submitForm = function(){
-        
+        //if the user selected male assign the value male
         if($scope.male == true){
             $scope.gender = "male";
-        }
+        }//if the user selected  female assign the value female
         else{
             $scope.gender = "female";
         }
+        //use the HTTP request to post the information to the server
         $http({
             method: 'POST',
             url: '/account/update',
             data: {
                 'username': $scope.user.username,
-                'password': $scope.user.password,
+                'password': $scope.password,
                 'name': $scope.user.name,
                 'email': $scope.user.email,
                 'age': $scope.user.age,
@@ -266,7 +268,7 @@ app.controller('AccountController', function ($scope, $location, $http) {
                 'gender': $scope.gender,
                 'calories': $scope.user.calories
             }
-        }).
+        }).//if its a success the user is redirected to the diary page
         success(function (response) {
             alert(response);
             $location.path('/account/diary');
@@ -281,20 +283,23 @@ app.controller('AccountController', function ($scope, $location, $http) {
 //progress controller
 app.controller('ProgressController', function ($scope, $location, $http, $filter) {
     
+    //get the diary information from the server
     $http({
         method: 'GET',
         url: '/account/diary'
     }).
     success(function (response) {
+        //assign target the value of the users calories
         $scope.target = response.calories;
         $scope.progress();
-    }).
+    }).//if theres an error redirect to the diary
     error(function (response) {
         $location.path('/');
     });
     
     // get user info
     $scope.progress = function(){
+        //get the full calorie information for this user from the server
         $http({
             method: 'GET',
             url: '/account/progress',
@@ -347,7 +352,7 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
                 }
             }
             
-            // finsihed data ready for the graphs
+            // finished data ready for the graphs
             $scope.data = [$scope.cals, $scope.targetCals];
             $scope.monthlyData = [$scope.monthlyCals, $scope.monthlyTargetCals];
             $scope.dailyData = [$scope.dailyCals, $scope.dailyTargetCals];
@@ -366,7 +371,7 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
     };
 });
 
-// Create the factory that share the Fact
+// Create the factory that share the meal type to any controller
 app.factory('Meal', function () {
     return {Meal: '',
         update: function (meal) {
@@ -377,20 +382,24 @@ app.factory('Meal', function () {
 
 //Text search controller
 app.controller('TextSearchController', function ($scope, $location, $http, Meal, ModalService) {
-
+    //assign the value from the factory giving the meal type
     var selectedMeal = {meal: Meal.Meal};
     $scope.meal = selectedMeal.meal;
     
+    //get the custome meal items from the server
     $scope.getCustoms = function() {
         //send get request to get the custom items for the users
         $http({
             method: 'GET',
             url: '/account/custom',
-        }).
+        }).//when a success has been called
         success(function (response) { 
+            //empty array that will hold the meal key values
             $scope.keys = [];
             $scope.customMeals = response[0].customs;
+            //loop over the meals
             for(var i = 0;i<$scope.customMeals.length;i++){
+                //push the key values to the key array
                 $scope.keys.push(Object.keys($scope.customMeals[i]));
             }
         }).
@@ -399,8 +408,9 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
         });
     }
     
+    //function that will add the data from a users custom meal
     $scope.addCustom = function(custommeal,key) {
-        
+        //loop over the custom meal and send each item to the server
         for(var i=0;i<custommeal[key].length;i++){
         //use a post method to send the data to the server
             $http({
@@ -414,17 +424,18 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
             error(function (err) {
                 console.log(err);
             });            
-        }
+        }//when done redirect to the diary page
         $location.path('/account/diary');
     }
     
+    //get the users most popular items for the selected meal from the server
     $scope.getPopular = function(){
         //send get request to get the most pupular items for the users
         $http({
             method: 'POST',
             url: '/account/textsearch',
             data: selectedMeal,
-        }).
+        }).//on success assign the data to the pop variable
         success(function (response) {
             $scope.popular = response;
         }).
@@ -432,28 +443,14 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
             $location.path('/account/diary');
         });
     }
-
+    //if the meal variable is empty redirect to the diary page
     if($scope.meal == ""){
        $location.path('/account/diary');
     }
-    else{
+    else{//call the functions to get the popular and custom items
         $scope.getCustoms();
         $scope.getPopular();
     }
-    
-    
-    $scope.back = function(){
-        $scope.foodContent = false;
-        $scope.searchResults = true; 
-        
-        if (!$scope.search){
-            $scope.showPopular = false;
-        }
-        
-        if(selectedMeal.meal){
-           $scope.showPopular = true;
-        }
-    };
     
     //each key press triggers the searh function
     $scope.foodTextSearch = function (search) {
@@ -462,9 +459,9 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
         if (search) {
             //hide the most popular when there is a search 
             $scope.showPopular = false;
-            
+            //api used for the search
             var searchURL = "https://uk.openfoodfacts.org/cgi/search.pl?search_terms=" + search + "&search_simple=1&json=1";
-
+            //http request to fetch the data
             $http({
                 method: 'GET',
                 url: searchURL,
@@ -485,11 +482,13 @@ app.controller('TextSearchController', function ($scope, $location, $http, Meal,
         }
     }
     
+    //function called to add the selected food
     $scope.foodInformation = function (food) {
-
+        //modal is called in a separate controller
         ModalService.showModal({
             templateUrl: './views/addfood.html',
             controller: 'AddFoodController',
+            // two variables are sent to the controller 
             inputs: {
                 food: food,
                 meal: selectedMeal.meal
@@ -525,8 +524,11 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
         $scope.cals = Math.ceil(food.nutriments.energy_serving);
         $scope.image = food.image_front_small_url;
     } 
-    
+    //work out the specific values for each nutrient by the users selected serving
     $scope.lowestcal = $scope.cals / $scope.serving;
+    $scope.lowestcarbs = $scope.carbs / $scope.serving;
+    $scope.lowestfats = $scope.fats / $scope.serving;
+    $scope.lowestprotein = $scope.protein / $scope.serving;
     $scope.totalCals = function () {
         
         if(!$scope.lowestcal){
@@ -534,20 +536,48 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
             return "No calorie information availible.";
         }
         else{
-            console.log("working");
             return Math.ceil($scope.lowestcal * $scope.serving);
         }
-        
+    };
+    //work out the specific values for each nutrient by the users selected serving
+    $scope.totalCarbs = function () {
+        if(!$scope.lowestcal){
+            console.log("not working");
+            return "No carb information availible.";
+        }
+        else{
+            return Math.ceil($scope.lowestcarbs * $scope.serving);
+        }
+    };
+    //work out the specific values for each nutrient by the users selected serving
+    $scope.totalFats = function () {
+        if(!$scope.lowestcal){
+            console.log("not working");
+            return "No fat information availible.";
+        }
+        else{
+            return Math.ceil($scope.lowestfats * $scope.serving);
+        }
+    };
+    //work out the specific values for each nutrient by the users selected serving
+    $scope.totalProtein = function () {
+        if(!$scope.lowestcal){
+            console.log("not working");
+            return "No protein information availible.";
+        }
+        else{
+            return Math.ceil($scope.lowestprotein * $scope.serving);
+        }
     };
     
-
+    //the meal type selected
     $scope.meal = meal;
     
     //add cals sends the selected data to the server to then be added to the users food data for that day in the database
     $scope.addCals = function () {
 
         //create an object holding all the information
-        var diaryEntry = {[meal]: [{"name": $scope.item,"brand": $scope.brand,"image": $scope.image,"calories": $scope.totalCals(),"servings": $scope.serving,"nutrients": {"fat": $scope.fats,"carbs": $scope.carbs,"protein": $scope.protein}}]};
+        var diaryEntry = {[meal]: [{"name": $scope.item,"brand": $scope.brand,"image": $scope.image,"calories": $scope.totalCals(),"servings": $scope.serving,"nutrients": {"fat": $scope.totalFats(),"carbs": $scope.totalCarbs(),"protein": $scope.totalProtein()}}]};
 
         //use a post method to send the data to the server
         $http({
@@ -571,21 +601,20 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
 //Diary controller
 app.controller('DiaryController', function ($scope, $location, $http, $route, Meal, ModalService) {
     
+    //get request that retrieves the users dairy for today
     $http({
         method: 'GET',
         url: '/account/diary'
-    }).
+    }).//assign the entries to the diary variable
     success(function (response) {
         $scope.diary = response;
+        //function that works out the total amount of calories
         $scope.calculateCals(response);
     }).
     error(function (response) {
         $location.path('/');
     });
-    $scope.back = function(){
-        $route.reload();
-    };
-    $scope.breakfastCals;
+
     //calculate all the calories on the diary page
     $scope.calculateCals = function (response) {
         $scope.total = 0;
@@ -599,14 +628,14 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         } 
         $scope.remaining = response.calories - $scope.total;        
     };
-    
+    //set the meal type for the factory
     $scope.mealSelected = function(selection){
         Meal.update(selection);
     }
-    
+    //calls a function 
     $scope.foodInformation = function (chosenmeal, food) {
         var meal = {meal: chosenmeal,food: food};
-
+        //http post request
         $http({
             method: 'POST',
             url: '/account/food/info',
@@ -627,7 +656,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         });
 
     };
-    
+    //quick add calories 
     $scope.quickAdd = function (meal) {
         console.log(meal);
         ModalService.showModal({
@@ -674,9 +703,25 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
     $scope.cals = food[chosenMeal][0].calories;
     $scope.serving = Number(food[chosenMeal][0].servings);
     $scope.lowestcal = $scope.cals / $scope.serving;
+    $scope.lowestcarbs = $scope.carbs / $scope.serving;
+    $scope.lowestfats = $scope.fats / $scope.serving;
+    $scope.lowestprotein = $scope.protein / $scope.serving;
 
     $scope.totalCals = function () {
         return Math.ceil($scope.lowestcal * $scope.serving);
+    };
+
+    $scope.totalCarbs = function () {
+        return Math.ceil($scope.lowestcarbs * $scope.serving);
+    };
+
+    $scope.totalFats = function () {
+        return Math.ceil($scope.lowestfats * $scope.serving);
+
+    };
+
+    $scope.totalProtein = function () {
+        return Math.ceil($scope.lowestprotein * $scope.serving);
     };
     
     //update the item  and send the details to the server
@@ -745,7 +790,6 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
         for(var i = 0;i<$scope.customMeals.length;i++){
             $scope.keys.push(Object.keys($scope.customMeals[i]));
         }
-        console.log($scope.keys);
     }).
     error(function (response) {
         console.log(response);
@@ -753,40 +797,40 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
     
     $scope.toggleClass = function (event){
         $(event.target).toggleClass('added');
-    }
+    };
     
     //empty array that will hold the selected items
     $scope.selectedFood = [];
     
     //function that adds the selected items to the array
-    $scope.addToSelected = function(meal,food){
+    $scope.addToSelected = function (meal, food) {
         $scope.selectedFood.push({meal,food});
-    };
+    };    
      
     //function that fetches all the data for the meal
     $scope.fetchFoodData = function () {
             //empty array that will be used to format the returning items from the database for the custom meal
             var mealItems = [];
             if($scope.selectedFood != ""){
-            //loop over the select meal names to get the specific info for each item
-            for (var i = 0; i < $scope.selectedFood.length; i++) {
-                var mealtype = $scope.selectedFood[i].meal;
-                $http({
-                    method: 'POST',
-                    url: '/account/food/info',
-                    data: $scope.selectedFood[i]
-                }).success(function (response) {
-                    mealItems.push(response[mealtype]);  
-                }).error(function (response) {
-                    console.log(response);
-                });
-            };
-            $timeout(function () {
-                $scope.sendFoodData(mealItems);
-            }, 250);
+                //loop over the selected meal names to get the specific info for each item
+                for (var i = 0; i < $scope.selectedFood.length; i++) {
+                    var mealtype = $scope.selectedFood[i].meal;
+                    $http({
+                        method: 'POST',
+                        url: '/account/food/info',
+                        data: $scope.selectedFood[i]
+                    }).success(function (response) {
+                        mealItems.push(response[mealtype]);  
+                    }).error(function (response) {
+                        console.log(response);
+                    });
+                };
+                $timeout(function () {
+                    $scope.sendFoodData(mealItems);
+                }, 250);
         }else{
             alert("Please add food items to create a custom meal!");
-        } 
+        }
     }
     //function that pushes the data to the server to be removed
     $scope.removeCustom = function (meal) {
@@ -805,7 +849,6 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
     
     //function that pushes the data to the server
     $scope.sendFoodData = function (items) {
-        
         //sends the json data to the server
         $http({
             method: 'POST',
@@ -817,9 +860,7 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
         }).error(function (response) {
             console.log(response);
         });
-        
     };
-    
 });
 
 //Search controller
@@ -870,7 +911,8 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
             },
             state: {
                 inputStream: {
-                    type: "LiveStream",
+                    name : "Live",
+                    type : "LiveStream",
                     constraints: {
                         //rare facing camera if availible 
                         facingMode: "environment"
@@ -945,7 +987,6 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
         });
 
         Quagga.onDetected(function (result) {
-            Quagga.stop();
             var code = result.codeResult.code;
             jQuery(".video").hide();
             jQuery(".enteredBarcode").html(code);
@@ -956,6 +997,10 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
 
     //load the load function
     $scope.startQR();
+    
+    $scope.$on("$locationChangeStart", function(event) {
+        Quagga.stop();
+    });
 
     $scope.barcodeSearch = function (barcode) {
 
@@ -965,7 +1010,12 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
             url: searchURL,
         }).
         success(function (response) {
-            $scope.foodInformation(response.product);
+            if(response.product.complete == 0){
+                alert("Product not found!");  
+                $location.path('/account/diary');
+               }else{
+                $scope.foodInformation(response.product);  
+               }
         }).
         error(function (response) {
             console.log(response);
@@ -973,7 +1023,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
     };
     
     var selectedMeal = {meal: Meal.Meal};
-    $scope.meal = selectedMeal.meal;
+    $scope.meal = selectedMeal.meal; 
     
     $scope.foodInformation = function (food) {
         ModalService.showModal({
