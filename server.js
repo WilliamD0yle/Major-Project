@@ -14,10 +14,10 @@ var db = require('./config/db');
 
 mongoose.Promise = global.Promise;
 // Connect to the DB
-mongoose.connect(db.url);
+mongoose.connect(db.url); 
 
 // Initialize the Express App
-var app = express();
+var app = express(); 
 
 // Configure session
 app.use(session({

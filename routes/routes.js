@@ -12,8 +12,8 @@ module.exports = function (app) {
     ********************************/
     
     app.post('/account/create', function (req, res) {
-        //Create new object that store's new user data
         
+        //Create new object that store's new user data
         var newUser = new users({
             name: req.body.name,
             username: req.body.username,
