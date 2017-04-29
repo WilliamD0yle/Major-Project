@@ -30,9 +30,10 @@
             <div class="col-xs-12 food-container" ng-repeat="food in popular" ng-click="foodInformation(food)">
                 <ul class="diary-list">
                     <li>
-                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
+                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food[meal].image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food._id}}</p>
+                            <p>{{food.image}}</p>
                             <p class="desc">{{food[meal].brand}}</p>
                         </div>
                         <div class="social">

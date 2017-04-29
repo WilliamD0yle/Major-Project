@@ -289,6 +289,7 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
         url: '/account/diary'
     }).
     success(function (response) {
+        console.log(response);
         //assign target the value of the users calories
         $scope.target = response.calories;
         $scope.progress();
