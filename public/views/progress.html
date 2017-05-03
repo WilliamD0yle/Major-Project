@@ -16,7 +16,8 @@
             <br>
             <p class="lead text-center">See your calorie tracking from when you signed up for our service</p>
             <br>
-            <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartLine" class="chart chart-line" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartPolar" class="chart chart-polar-area" chart-data="data" chart-labels="dates | date" chart-series="series" chart-options="options"></canvas>
             <br>
             <br>
             <br>
@@ -27,7 +28,8 @@
             <br>
             <p class="lead text-center">See your calorie tracking for the last month</p>
             <br>
-            <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="monthlyData" chart-labels="monthlyDates" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartLine" class="chart chart-line" chart-data="monthlyData" chart-labels="monthlyDates" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartPolar" class="chart chart-polar-area" chart-data="monthlyData" chart-labels="monthlyDates" chart-series="series" chart-options="options"></canvas>
             <br>
             <br>
             <br>
@@ -38,7 +40,8 @@
             <br>
             <p class="lead text-center">See your calorie tracking for the week</p>
             <br>
-            <canvas id="line" chart-colors="colors" class="chart chart-line" chart-data="dailyData" chart-labels="dailyDates" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartLine" class="chart chart-line" chart-data="dailyData" chart-labels="dailyDates" chart-series="series" chart-options="options"></canvas>
+            <canvas id="line" chart-colors="colors" ng-show="chartPolar" class="chart chart-polar-area" chart-data="dailyData" chart-labels="dailyDates" chart-series="series" chart-options="options"></canvas>
             <br>
             <br>
             <br>

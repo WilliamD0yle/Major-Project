@@ -19,16 +19,16 @@
     <main class="diary-container col-md-10 col-md-offset-1"> 
         <div class="meal-container"> 
             <h3>Breakfast</h3>
-            <div class="col-xs-12 col-sm-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
+            <div class="col-xs-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
                 <ul class="diary-list">
                     <li>
                         <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
-                            <p class="desc">{{food.brand}}</p>
+                            <p class="brand">{{food.brand}}</p>
                         </div>
-                        <div class="social">
-                            <p class="title lead">{{food.calories}} cals</p>
+                        <div class="social pull-right">
+                            <p class="title lead"><b>{{food.calories}} cals</b></p>
                         </div>
                     </li>
                 </ul>
@@ -52,10 +52,10 @@
                         <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
-                            <p class="desc">{{food.brand}}</p>
+                            <p class="brand">{{food.brand}}</p>
                         </div>
-                        <div class="social">
-                            <p class="title lead">{{food.calories}} cals</p>
+                        <div class="social pull-right">
+                            <p class="title lead"><b>{{food.calories}} cals</b></p>
                         </div>
                     </li>
                 </ul>
@@ -79,10 +79,10 @@
                         <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
-                            <p class="desc">{{food.brand}}</p>
+                            <p class="brand">{{food.brand}}</p>
                         </div>
-                        <div class="social">
-                            <p class="title lead">{{food.calories}} cals</p>
+                        <div class="social pull-right">
+                            <p class="title lead"><b>{{food.calories}} cals</b></p>
                         </div>
                     </li>
                 </ul>
@@ -106,10 +106,10 @@
                         <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
                         <div class="info">
                             <p class="title lead">{{food.name}}</p>
-                            <p class="desc">{{food.brand}}</p>
+                            <p class="brand">{{food.brand}}</p>
                         </div>
-                        <div class="social">
-                            <p class="title lead">{{food.calories}} cals</p>
+                        <div class="social pull-right">
+                            <p class="title lead"><b>{{food.calories}} cals</b></p>
                         </div>
                     </li>
                 </ul>

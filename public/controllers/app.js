@@ -70,8 +70,17 @@ app.config(function ($routeProvider) {
 
 //login controller
 app.controller('HomeController', function ($scope, $location, $http) {
-    
-    console.log("working");
+    	
+    $("#sidebar-toggle").hide();
+    var screenWidth = $(window).width();
+    //if the width is greater than 700
+    if (screenWidth > 700){
+        $scope.login = true;    
+        $scope.loginPage = false;    
+    }else{
+        $scope.login = false;
+        $scope.loginPage = true; 
+    }
     
     // Login submission
     $scope.submitLogin = function () {
@@ -85,6 +94,7 @@ app.controller('HomeController', function ($scope, $location, $http) {
             }
         }).
         success(function (response) {
+            $("#sidebar-toggle").show();
             $location.path('/account/diary');
         }).
         error(function (err) {
@@ -96,7 +106,7 @@ app.controller('HomeController', function ($scope, $location, $http) {
 
 //login controller
 app.controller('LoginController', function ($scope, $location, $http) {
-
+    $("#sidebar-toggle").hide();
     // Login submission
     $scope.submitLogin = function () {
         // Login request
@@ -109,6 +119,7 @@ app.controller('LoginController', function ($scope, $location, $http) {
             }
         }).
         success(function (response) {
+            $("#sidebar-toggle").show();
             $location.path('/account/diary');
         }).
         error(function (err) {
@@ -123,7 +134,7 @@ app.controller('LoginController', function ($scope, $location, $http) {
 
 //create account controller
 app.controller('CreateAccountController', function ($scope, $http, $location) {
-    
+    $("#sidebar-toggle").hide();
     // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
     // gives the new user the suggested amount for their daily calorie consumption
     $scope.calculateCalories = function () {
@@ -192,7 +203,11 @@ app.controller('CreateAccountController', function ($scope, $http, $location) {
 });
 
 //Logout controller
-app.controller('LogOutController', function ($scope, $location, $http) {
+app.controller('LogOutController', function ($scope, $location, $http, Meal) {
+    $("#sidebar-toggle").hide();
+    if(!$scope.meal){
+       $location.path('/');
+    }
 
     // Logout function
     $http({
@@ -204,7 +219,6 @@ app.controller('LogOutController', function ($scope, $location, $http) {
     }).
     success(function (response) {
         console.log(response);
-//        $location.path('/');
     }).
     error(function (response) {
         console.log(response);
@@ -214,7 +228,7 @@ app.controller('LogOutController', function ($scope, $location, $http) {
 });
 
 //Account controller
-app.controller('AccountController', function ($scope, $location, $http) {
+app.controller('AccountController', function ($scope, $location, $http, Meal) {
     
     // get user details
     $http({
@@ -222,6 +236,9 @@ app.controller('AccountController', function ($scope, $location, $http) {
         url: '/account',
     }).
     success(function (response) {
+        if(!response){
+           $location.path('/account/login'); 
+        }
         $scope.user = response;
         $scope.user.calories = response.calories;
         if($scope.user.gender == "male"){
@@ -234,6 +251,7 @@ app.controller('AccountController', function ($scope, $location, $http) {
     }).
     error(function (response) {
         console.log(response);
+        $location.path('/account/login');
     });
     
     // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
@@ -328,29 +346,36 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
             var d = new Date();
             var thisMonth = monthNames[d.getMonth()];
             var today = d.getDate();
+            Date.prototype.yyyymmdd = function() {
+              var mm = this.getMonth() + 1;
+              var dd = this.getDate();
+
+              return [this.getFullYear(),
+                      (mm>9 ? '' : '0') + mm,
+                      (dd>9 ? '' : '0') + dd
+                     ].join('');
+            };
+
+            var currentDate = new Date();
 
             //loop over the information to sort into the correct arrays
             for(var i=0;i<response.length;i++){
                 
                 var date = response[i].date + 100;
-                var month = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
-                var todaysDate = $filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3')));
-                todaysDate = todaysDate.substring(3, 6);
-                
                 // all entris are shown for long term overview
                 $scope.cals.push(response[i].calories);
                 $scope.dates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
                 $scope.targetCals.push($scope.target);
                 
-                //if its in this month or the previous month 
-                if(todaysDate >= today){
+                //if its in this month or the previous month
+                if(response[i].date + 100 >= currentDate.yyyymmdd() - 100){
                     $scope.monthlyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
                     $scope.monthlyCals.push(response[i].calories);
                     $scope.monthlyTargetCals.push($scope.target);
                 }
                 
                 //if the entry is within the last 7 days
-                if(thisMonth == month.substring(0, 3) && todaysDate >= today-7){
+                if(response[i].date + 100 > currentDate.yyyymmdd() - 7){
                     $scope.dailyDates.push($filter('date')(new Date(date.toString().replace(pattern, '$1-$2-$3'))));
                     $scope.dailyCals.push(response[i].calories);
                     $scope.dailyTargetCals.push($scope.target);
@@ -364,7 +389,18 @@ app.controller('ProgressController', function ($scope, $location, $http, $filter
         }).
         error(function (err) {
             console.log(err);
+            $location.path('/account/diary');
         }); 
+    }
+    //get screen size so that i can change the chart type depending on the device size
+    var screenWidth = $(window).width();
+    //if the width is greater than 700
+    if (screenWidth > 700){
+        $scope.chartPolar = false;
+        $scope.chartLine = true;    
+    }else{
+        $scope.chartLine = false;
+        $scope.chartPolar = true;
     }
     
     // graph settings
