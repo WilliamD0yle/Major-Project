@@ -13,6 +13,17 @@
     "express": "latest",
     "express-session": "^1.14.2",
     "express-validator": "^2.18.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cache": "^0.4.5",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-ruby-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0",
+    "gulp-useref": "^3.1.2",
     "mongoose": "latest",
     "mongoose-dateonly": "^1.0.3",
     "morgan": "latest",
@@ -20,5 +31,9 @@
     "passport-local": "~1.0.0",
     "request": "latest"
   },
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "gulp-jshint": "^2.0.4",
+    "jshint": "^2.9.4"
+  }
 }

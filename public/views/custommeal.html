@@ -8,81 +8,91 @@
             <h1>Custom Meals</h1>
         </div>
     </header>
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Delete Custom Meals</h2>
-        <div class="col-md-12" ng-repeat="meal in keys">
-            <p class="col-sm-8 lead">{{meal[0]}}</p>
-            <a href="" ng-click="removeCustom(customMeals[$index])" class="col-sm-2 text-center">
-                <span class="glyphicon glyphicon-remove text-danger"></span>
-            </a>
-        </div>
-
-        <br>
-        <br>
-        <br>
-
+    <br>
+    <div class="col-md-8 col-md-offset-2 col-xs-12">
         <h2>Create a custom meal</h2>
         <h3>Select items for your custom meal</h3>
         <br>
-        <div class="col-md-12" ng-repeat="food in diary.breakfast">
+        <div ng-repeat="food in diary.breakfast">
             <div class="foodHolder row">
-                <p class="col-sm-6 lead">{{food.name}}</p>
-                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a class="col-sm-2 text-center" ng-click="addToSelected('breakfast', food.name); toggleClass($event)">
+                <p class="col-sm-6 col-xs-6 lead">{{food.name}}</p>
+                <p class="col-sm-3 col-xs-4 text-center lead">{{food.calories}} cals</p>
+                <a class="col-sm-3 col-xs-2 text-center" ng-click="addToSelected('breakfast', food.name); toggleClass($event)">
                     <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
             </div>
         </div>
-        <div class="col-md-12" ng-repeat="food in diary.lunch">
+        <br>
+        <div ng-repeat="food in diary.lunch">
             <div class="foodHolder row">
-                <p class="col-sm-6 lead">{{food.name}}</p>
-                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('lunch', food.name); toggleClass($event)">
+                <p class="col-sm-6 col-xs-6 lead">{{food.name}}</p>
+                <p class="col-sm-3 col-xs-4 text-center lead">{{food.calories}} cals</p>
+                <a class="col-sm-3 col-xs-2 text-center" ng-click="addToSelected('lunch', food.name); toggleClass($event)">
                     <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
             </div>
         </div>
-        <div class="col-md-12" ng-repeat="food in diary.dinner">
+        <br>
+        <div ng-repeat="food in diary.dinner">
             <div class="foodHolder row">
-                <p class="col-sm-6 lead">{{food.name}}</p>
-                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('dinner', food.name); toggleClass($event)">
+                <p class="col-sm-6 col-xs-6 lead">{{food.name}}</p>
+                <p class="col-sm-3 col-xs-4 text-center lead">{{food.calories}} cals</p>
+                <a class="col-sm-3 col-xs-2 text-center" ng-click="addToSelected('dinner', food.name); toggleClass($event)">
                     <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
             </div>
         </div>
-        <div class="col-md-12" ng-repeat="food in diary.snacks">
+        <br>
+        <div ng-repeat="food in diary.snacks">
             <div class="foodHolder row">
-                <p class="col-sm-6 lead">{{food.name}}</p>
-                <p class="col-sm-2 text-center lead">{{food.calories}} cals</p>
-                <a href="" class="col-sm-2 text-center" ng-click="addToSelected('snacks', food.name); toggleClass($event)">
+                <p class="col-sm-6 col-xs-6 lead">{{food.name}}</p>
+                <p class="col-sm-3 col-xs-4 text-center lead">{{food.calories}} cals</p>
+                <a class="col-sm-3 col-xs-2 text-center" ng-click="addToSelected('snacks', food.name); toggleClass($event)">
                     <span class="glyphicon glyphicon-ok" ng-class="added"></span>
                 </a>
                 <br>
                 <br>
             </div>
         </div>
+
         <div class="form-group">
+            <br>
             <form class="form-horizontal" name="createMealForm">
-                <label for="mealName" class="col-lg-4 control-label lead pull-left">Give your meal a name</label>
+                <br>
+                <label for="mealName" class="col-lg-6 control-label lead pull-left">Give your meal a name </label>
                 <div class="col-lg-6">
                     <input type="text" class="form-control" name="mealName" ng-model="name" required placeholder="Eggs & Bacon">
                 </div>
             </form>
         </div>
         <br>
-        <hr>
+        <br>
         <div class="form-group">
-            <div class="col-lg-10">
+            <div class="col-lg-6 col-lg-offset-3">
                 <a type="button" class="btn btn-danger" href="#/account/diary">Cancel</a>
                 <button type="button" ng-click="fetchFoodData()" ng-disabled="createMealForm.$invalid" class="btn btn-primary pull-right" data-dismiss="modal">Add Meal</button>
             </div>
         </div>
+        <br>
+        <div class="col-md-12">
+            <h2>Delete Custom Meals</h2>
+            <div ng-repeat="meal in keys">
+                <p class="col-xs-8 col-sm-10 lead">{{meal[0]}}</p>
+                <a ng-click="removeCustom(customMeals[$index])" class="col-xs-4 col-sm-2 text-center">
+                    <span class="glyphicon glyphicon-remove text-danger"></span>
+                </a>
+            </div>
+        </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </div>

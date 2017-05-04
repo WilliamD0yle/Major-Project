@@ -1,11 +1,15 @@
 <!--create_account.html-->
 <div class="container" ng-controller="CreateAccountController">
-    <div class="jumbotron text-center">
-        <h1>Create Account</h1>
-        <h3>Simply fill in the form below and we'll give you a recommended<br/> daily calorie intake for slow controlled weight loss</h3>
-    </div>
-
-    <div class="col-md-6 col-md-offset-3 col-xs-8 col-xs-offset-2">
+    <header class="main-header-diary">
+        <div class="text-center">
+            <br>
+            <br>
+            <h1>Create Account</h1>
+            <h2>Simply fill in the form below and we'll give you a recommended<br/> daily calorie intake for slow controlled weight loss</h2>
+        </div>
+    </header>
+    <br>
+    <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
         <form class="form-horizontal" novalidate ng-submit="submitForm()" name="createAccountForm">
             <fieldset>
                 <legend>Account Information</legend>
@@ -27,14 +31,16 @@
                         <input type="email" class="form-control" id="email" ng-model="newUser.email" required placeholder="Email">
                     </div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <label class="col-lg-4 control-label">Gender</label>
-                    <label class="radio-inline">
+                <div class="form-group form-check-inline">
+                    <label class="col-lg-4 control-label text-left">Gender</label>
+                    <div class="col-lg-6">
+                        <label class="radio-inline">
                             <input type="radio" name="gender" ng-model="gender.male" value="male">Male
                         </label>
-                    <label class="radio-inline">
+                        <label class="radio-inline">
                             <input type="radio" name="gender" ng-model="gender.female" value="female">Female
                         </label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="inputAge" class="col-lg-4 control-label">Age</label>
