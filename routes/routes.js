@@ -160,7 +160,7 @@ module.exports = function (app) {
     app.get('/account/progress', function (req, res) {
 
         //find all user food diaries, group by date and add up total cals per day
-        user_food.aggregate({$match:{user_id:req.session.user_id}},{$project: {date:1,calories:{$add:[
+        user_food.aggregate({$match:{user_id:mongoose.Types.ObjectId(req.session.user_id)}},{$project: {date:1,calories:{$add:[
                             {$reduce: {input: "$breakfast",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}}, 
                             {$reduce: {input: "$lunch",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}},
                             {$reduce: {input: "$snacks",initialValue: 0,in: { $add : ["$$value", "$$this.calories"]}}},
