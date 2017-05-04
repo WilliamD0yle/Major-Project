@@ -73,24 +73,28 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
     
     //add cals sends the selected data to the server to then be added to the users food data for that day in the database
     $scope.addCals = function () {
-
         //create an object holding all the information
         var diaryEntry = {[meal]: [{"name": $scope.item,"brand": $scope.brand,"image": $scope.image,"calories": $scope.totalCals(),"servings": $scope.serving,"nutrients": {"fat": $scope.totalFats(),"carbs": $scope.totalCarbs(),"protein": $scope.totalProtein()}}]};
-
-        //use a post method to send the data to the server
-        $http({
-            method: 'POST',
-            url: '/account/diary',
-            data: diaryEntry
-        }).
-        success(function (response) {
-            angular.element('body').removeClass('modal-open');
-            angular.element('div').removeClass('modal-backdrop');
-            $location.path('/account/diary');
-        }).
-        error(function (err) {
-            console.log(err);
-        });
+        console.log($scope.totalCals());
+        if(!$scope.lowestcal){
+            alert("Cannot add item with incomplete details, please select another item or use the quick add feature.");
+        }
+        else{
+            //use a post method to send the data to the server
+            $http({
+                method: 'POST',
+                url: '/account/diary',
+                data: diaryEntry
+            }).
+            success(function (response) {
+                angular.element('body').removeClass('modal-open');
+                angular.element('div').removeClass('modal-backdrop');
+                $location.path('/account/diary');
+            }).
+            error(function (err) {
+                console.log(err);
+            });
+        }
         
     };
     

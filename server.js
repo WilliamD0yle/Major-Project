@@ -8,9 +8,15 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var morgan = require('morgan');
 var session = require('express-session');
+var favicon = require('serve-favicon');
 
+//var https = require('https');
+//var fs = require('fs');
+//var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+//var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 // Configs
 var db = require('./config/db');
+
 
 mongoose.Promise = global.Promise;
 // Connect to the DB
@@ -28,6 +34,7 @@ app.use(session({
         secure: false
     }
 }))
+app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
 // To expose public assets to the world
 app.use(express.static(__dirname + '/public'));
 // log every request to the console
