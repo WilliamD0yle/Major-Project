@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 //takes the time element off the date element to make seraching via date easier
 var DateOnly = require('mongoose-dateonly')(mongoose);
+var ObjectID = require('mongodb').ObjectID;
 module.exports = function (app) {
     
 
@@ -198,7 +199,7 @@ var today = parseInt(JSON.stringify(new DateOnly));
             dinner: [],
             snacks: []
         });
-        
+
         //Find the diary information
         user_food.findOne({user_id : req.session.user_id, date: today}, function (err, diary) {
             if(err){
@@ -236,8 +237,6 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var meal = "$"+req.body.meal;
         // formatted into a sprt method
         var sort = meal+".name";
-        //dont need this anymore
-//        var nutr = meal+".nutrients";
         
         //Most popular items for the specified meal
         user_food.aggregate([{$match:{user_id:mongoose.Types.ObjectId(req.session.user_id)}},{$unwind: meal}, {$group:{_id: sort,[req.body.meal]:{$first:meal},count:{$sum:1}}}, {$sort:{count:-1}},{$limit:5}], function(err, results) {
@@ -270,8 +269,9 @@ var today = parseInt(JSON.stringify(new DateOnly));
         
         // getting the foods to then add to the array
         var food = req.body[Object.keys(req.body)].shift();
-
-        // search for an entry with todays date and update with the posted data
+        food.id = new ObjectID();
+        
+        // search for an entry with todays date and update with the posted data 
         user_food.findOneAndUpdate({user_id : req.session.user_id, date: today}, {$push: {[meal]: food}}, function(err, other){
             if(err){
                 console.log("something went wrong: " + err);
@@ -309,15 +309,15 @@ var today = parseInt(JSON.stringify(new DateOnly));
         var food = req.body.food;
         var serving = req.body.serving;
         var calories = req.body.totalCals;
-        var nutrients = {protein:req.body.protein, carbs:req.body.carbs, fat:req.body.fats};
-        
-        var query = meal+'.name';
+        var nutrients = {protein:req.body.protein, carbs:req.body.carbs, fat: req.body.fats};
+  
+        var query = meal+'.id';
         var queryCal = meal+".$.calories";
         var queryServ = meal+".$.servings";
         var queryNut = meal+".$.nutrients";
         
         // search for an entry with todays date, meal, food and update the entry
-        user_food.update({user_id : req.session.user_id, date: today, [query]: food},{$set: {[queryCal]: calories,[queryServ]: serving,[queryNut]: nutrients}},function(err, other){
+        user_food.update({user_id:mongoose.Types.ObjectId(req.session.user_id), date: today, [query]: mongoose.Types.ObjectId(req.body.id)}, {$set: {[queryCal]: calories,[queryServ]: serving,[queryNut]: nutrients}},function(err, other){
             if(err){
                 console.log(err);
                 return res.status(500).send(err);
@@ -374,11 +374,11 @@ var today = parseInt(JSON.stringify(new DateOnly));
     app.post('/account/food/delete', function (req, res) {
         //get the meal to be deleted
         var meal = req.body.meal;
-        //get the food that needs to be deleted
-        var food = req.body.food;
+        //get the food that needs to be deleted by its unique id
+        var id = req.body.id;
 
         // search for an entry with todays date, meal, food and pull from the entry
-        user_food.update({user_id : req.session.user_id, date: today}, {$pull: {[meal]:{name:food}}}, function(err, other){
+        user_food.update({user_id :mongoose.Types.ObjectId(req.session.user_id), date: today}, {$pull: {[meal]:{id:mongoose.Types.ObjectId(id)}}}, function(err, other){
             if(err){
                 console.log("something went wrong: " + err);
                 return res.status(500).send(err);

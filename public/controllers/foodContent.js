@@ -1,7 +1,7 @@
 app.controller('FoodContentController', function ($scope, $http, $route, chosenMeal, food) {
     
     $scope.chosenMeal = chosenMeal;
-    
+    $scope.id = food[chosenMeal][0].id;
     $scope.item = food[chosenMeal][0].name;
     $scope.carbs = food[chosenMeal][0].nutrients.carbs;
     $scope.fats = food[chosenMeal][0].nutrients.fat;
@@ -33,7 +33,7 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
     //update the item  and send the details to the server
     $scope.updateFood = function (item, serving, totalCals, carbs, fats, protein) {
         
-        var meal = {meal: $scope.chosenMeal, food: item, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
+        var meal = {meal: $scope.chosenMeal, food: item,id: $scope.id, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
         console.log(meal);
         $http({
             method: 'POST',
@@ -51,9 +51,9 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
     };
     
     //remove food from the diary page
-    $scope.removeFood = function (item) {
+    $scope.removeFood = function () {
 
-        var meal = {meal: $scope.chosenMeal, food: item};
+        var meal = {meal: $scope.chosenMeal, id: $scope.id};
 
         $http({
             method: 'POST',
@@ -61,7 +61,6 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             data: meal
         }).
         success(function (response) {
-//            $('.modal, .modal-backdrop, .modal-open').removeClass();
             console.log(response);
             $route.reload();
         }).

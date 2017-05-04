@@ -7,6 +7,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
         url: '/account/diary'
     }).//assign the entries to the diary variable
     success(function (response) {
+        console.log(response.breakfast);
         $scope.diary = response;
         //function that works out the total amount of calories
         $scope.calculateCals(response);
