@@ -76,7 +76,8 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
             data: meal
         }).success(function (response) {
             console.log(response);
-            $location.path('/account/diary');
+            alert("Meal Deleted");
+            $route.reload();
         }).error(function (response) {
             console.log(response);
         });

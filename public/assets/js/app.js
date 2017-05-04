@@ -248,7 +248,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
     $scope.meal = selectedMeal.meal;
     //redirect if the user isnt logged in
     if(!$scope.meal){
-       $location.path('/');
+       $location.path('/account/diary');
     }
     //start the camera on desktop
     var App = {
@@ -354,27 +354,28 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
 			Quagga.decodeSingle($.extend({}, fileConfig, {src: URL.createObjectURL(e.target.files[0])}), function(result) {});
 		}
 	});
-    
+    //when as user scans a barcode it calls the search for the product using the barcode
     $scope.barcodeSearch = function (barcode) {
+        Quagga.stop();	
         var search = true;
         var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+        $scope.loading = true;
         if(search){
             $http({
             method: 'GET',
             url: searchURL,
-            }).
-            success(function (response) {
+            }).success(function (response) {
+                $scope.loading = false;
+                search = false;
                 if(response.product.complete == 0){
                     alert("Product not found!");  
                     $location.path('/account/diary');
                    }else{
                     $scope.foodInformation(response.product);  
                    }
-            }).
-            error(function (response) {
+            }).error(function(response) {
                 console.log(response);
             });
-            search = false;
         } 
     };
     
@@ -539,7 +540,8 @@ app.controller('CustomMealController', function ($scope, $http, $route, $locatio
             data: meal
         }).success(function (response) {
             console.log(response);
-            $location.path('/account/diary');
+            alert("Meal Deleted");
+            $route.reload();
         }).error(function (response) {
             console.log(response);
         });

@@ -1,68 +1,67 @@
 <!-- Text Search Page -->
-<div ng-controller="TextSearchController">
-    <header class="main-header-search">
-        <div class="text-center">
-            <br>
-            <br>
-            <div class="headerText">
-                <h1>Search</h1>
+
+<header class="main-header-search">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="headerText">
+            <h1>Search</h1>
+        </div>
+    </div>
+</header>
+
+<form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
+    <br>
+    <fieldset>
+        <div class="form-group col-md-12 search">
+            <div class="col-md-6 col-md-offset-2 col-xs-6 col-xs-offset-2" id="search">
+                <!--   Using debounce runs the function after a change has been made   -->
+                <input type="text" class="form-control" ng-click="active = 2" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
+            </div>
+            <div class="col-sm-2">
+                <!--   Using debounce runs the function after a change has been made   -->
+                <a href="#/account/search"><span class="glyphicon glyphicon-barcode gi-2x"></span></a>
             </div>
         </div>
-    </header>
-
-    <form class="form-horizontal" novalidate ng-submit="" name="foodSearch">
-        <br>
-        <fieldset>
-            <div class="form-group col-md-12 search">
-                <div class="col-md-6 col-md-offset-2 col-xs-6 col-xs-offset-2" id="search">
-                    <!--   Using debounce runs the function after a change has been made   -->
-                    <input type="text" class="form-control" ng-click="active = 2" ng-model="search" ng-change="foodTextSearch(search)" ng-model-options="{debounce: 1000}" placeholder="Search">
-                </div>
-                <div class="col-sm-2">
-                    <!--   Using debounce runs the function after a change has been made   -->
-                    <a href="#/account/search"><span class="glyphicon glyphicon-barcode gi-2x"></span></a>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+    </fieldset>
+</form>
 
 
-    <uib-tabset active="active" class="col-md-10 col-md-offset-1 col-sm-12">
-        <uib-tab index="0" heading="Most Popular" class="col-xs-4">
-            <div class="col-xs-12 food-container" ng-repeat="food in popular" ng-click="foodInformation(food)">
-                <ul class="diary-list">
-                    <li>
-                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food[meal].image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
-                        <div class="info">
-                            <p class="title lead">{{food._id}}</p>
-                            <p class="brand">{{food[meal].brand}}</p>
-                        </div>
-                        <div class="social">
-                            <p class="title lead">{{food[meal].calories}}cals</p>
-                        </div>
-                    </li>
-                </ul>
+<uib-tabset active="active" class="col-md-10 col-md-offset-1 col-sm-12">
+    <uib-tab index="0" heading="Most Popular" class="col-xs-4">
+        <div class="col-xs-12 food-container" ng-repeat="food in popular" ng-click="foodInformation(food)">
+            <ul class="diary-list">
+                <li>
+                    <img alt="{{food.brand}}" class="pull-left" ng-src="{{food[meal].image || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
+                    <div class="info">
+                        <p class="title lead">{{food._id}}</p>
+                        <p class="brand">{{food[meal].brand}}</p>
+                    </div>
+                    <div class="social">
+                        <p class="title lead">{{food[meal].calories}}cals</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </uib-tab>
+    <uib-tab index="$index + 1" heading="Custom Meals" class="col-xs-4">
+        <div ng-repeat="meal in keys">
+            <div class="customMeal col-xs-12 text-center" ng-click="addCustom(customMeals[$index],meal[0])">
+                <p class="title lead">{{meal[0]}}</p>
             </div>
-        </uib-tab>
-        <uib-tab index="$index + 1" heading="Custom Meals" class="col-xs-4">
-            <div ng-repeat="meal in keys">
-                <div class="customMeal col-xs-12 text-center" ng-click="addCustom(customMeals[$index],meal[0])">
-                    <p class="title lead">{{meal[0]}}</p>
-                </div>
-            </div>
-        </uib-tab>
-        <uib-tab index="$index + 2" heading="Search Results" class="col-xs-4">
-            <div class="col-xs-12 food-container" ng-repeat="food in results" ng-click="foodInformation(food)">
-                <ul class="diary-list">
-                    <li>
-                        <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image_front_small_url || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
-                        <div class="info">
-                            <p class="title lead">{{food.product_name}}</p>
-                            <p class="brand">{{food.brands}}</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </uib-tab>
-    </uib-tabset>
-</div>
+        </div>
+    </uib-tab>
+    <uib-tab index="$index + 2" heading="Search Results" class="col-xs-4">
+        <div class="col-xs-12 food-container" ng-repeat="food in results" ng-click="foodInformation(food)">
+            <ul class="diary-list">
+                <li>
+                    <img alt="{{food.brand}}" class="pull-left" ng-src="{{food.image_front_small_url || 'https://media.giphy.com/media/14uQ3cOFteDaU/giphy.gif' }}" />
+                    <div class="info">
+                        <p class="title lead">{{food.product_name}}</p>
+                        <p class="brand">{{food.brands}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </uib-tab>
+</uib-tabset>

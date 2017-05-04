@@ -1,5 +1,5 @@
 <!-- Diary HTML -->
-<div class="container" ng-controller="SearchController">
+<div class="container">
     <header class="main-header-diary">
         <div class="text-center">
             <br>
@@ -20,8 +20,11 @@
             </div>
         </div>
         <div class="text-center">
-            <label class="btn btn-success">
-                <i class="fa fa-camera"></i> Upload image
+            <p class="lead" id="loader" ng-show="loading">
+                <span class="glyphicon glyphicon-refresh spinning"></span> Searching...    
+            </p>
+            <label class="btn btn-success btn-lg">
+                <i class="fa fa-camera"></i>Use Camera or Upload image
                 <input type="file" accept="capture=camera" capture="camera" class="hidden" />
             </label>
         </div>
