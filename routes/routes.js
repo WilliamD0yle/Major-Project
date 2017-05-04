@@ -12,7 +12,7 @@ module.exports = function (app) {
     Create Account
     ********************************/
     
-    app.post('/account/create', function (req, res) {
+    app.post('/account/create', function (req, res) { 
         
         //Create new object that store's new user data
         var newUser = new users({
