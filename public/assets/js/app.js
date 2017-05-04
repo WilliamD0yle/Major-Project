@@ -909,7 +909,7 @@ app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal
             data: diaryEntry
         }).
         success(function (response) {
-            $('.modal').remove();
+            $('.modal, .modal-backdrop').remove();
             $route.reload();
         }).
         error(function (err) {
