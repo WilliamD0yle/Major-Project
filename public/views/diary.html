@@ -4,10 +4,12 @@
         <div class="text-center">
             <br>
             <br>
-            <h1>Diary</h1>
+            <div class="headerText">
+                <h1>Diary</h1>
+            </div>
         </div>
     </header>
-    <div class="col-md-10 col-md-offset-1"> 
+    <div class="col-md-10 col-md-offset-1">
         <h3 class="lead text-center" ng-bind="date | date:'DD/MM/yyyy'">{{diary.date}}</h3>
         <h3 class="lead text-center">{{diary.calories}} - {{total}} = {{remaining}} cals remaining</h3>
 
@@ -16,8 +18,8 @@
         </uib-progressbar>
     </div>
 
-    <main class="diary-container col-md-10 col-md-offset-1"> 
-        <div class="meal-container"> 
+    <main class="diary-container col-md-10 col-md-offset-1">
+        <div class="meal-container">
             <h3>Breakfast</h3>
             <div class="col-xs-12 food-container" ng-repeat="food in diary.breakfast" ng-click="foodInformation('breakfast', food.name)">
                 <ul class="diary-list">

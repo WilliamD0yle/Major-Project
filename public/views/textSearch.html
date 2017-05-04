@@ -4,7 +4,9 @@
         <div class="text-center">
             <br>
             <br>
-            <h1>Search</h1>
+            <div class="headerText">
+                <h1>Search</h1>
+            </div>
         </div>
     </header>
 
@@ -45,7 +47,7 @@
         <uib-tab index="$index + 1" heading="Custom Meals" class="col-xs-4">
             <div ng-repeat="meal in keys">
                 <div class="customMeal col-xs-12 text-center" ng-click="addCustom(customMeals[$index],meal[0])">
-                    <p class="title lead" >{{meal[0]}}</p>
+                    <p class="title lead">{{meal[0]}}</p>
                 </div>
             </div>
         </uib-tab>
