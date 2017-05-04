@@ -41,6 +41,7 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             data: meal
         }).
         success(function (response) {
+//            $('.modal, .modal-backdrop, .modal-open').removeClass();
             console.log(response);
             $route.reload();
         }).
@@ -60,6 +61,7 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             data: meal
         }).
         success(function (response) {
+//            $('.modal, .modal-backdrop, .modal-open').removeClass();
             console.log(response);
             $route.reload();
         }).

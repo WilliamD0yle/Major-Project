@@ -671,6 +671,7 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             data: meal
         }).
         success(function (response) {
+//            $('.modal, .modal-backdrop, .modal-open').removeClass();
             console.log(response);
             $route.reload();
         }).
@@ -690,6 +691,7 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
             data: meal
         }).
         success(function (response) {
+//            $('.modal, .modal-backdrop, .modal-open').removeClass();
             console.log(response);
             $route.reload();
         }).
@@ -909,7 +911,7 @@ app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal
             data: diaryEntry
         }).
         success(function (response) {
-            $('.modal, .modal-backdrop, .modal-open').remove();
+//            $('.modal, .modal-backdrop, .modal-open').remove();
             $route.reload();
         }).
         error(function (err) {
