@@ -10,7 +10,7 @@ app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal
             url: '/account/diary',
             data: diaryEntry
         }).
-        success(function (response) {
+        then(function (response) {
             $route.reload();
         }).
         error(function (err) {
