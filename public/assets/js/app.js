@@ -908,7 +908,8 @@ app.controller('QuickAddController', function ($scope, $http, $route, chosenMeal
             url: '/account/diary',
             data: diaryEntry
         }).
-        then(function (response) {
+        success(function (response) {
+            $('.modal').remove();
             $route.reload();
         }).
         error(function (err) {
