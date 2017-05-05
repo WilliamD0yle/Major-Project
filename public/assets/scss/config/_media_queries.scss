@@ -1,0 +1,129 @@
+//screens
+$smartWatch: 260px;
+$smallSmartPhone: 320px;
+$phablet: 414px;
+$smallTablet: 600px;
+$tablet: 768px;
+$smallLaptop: 1024px;
+$laptop: 1366px;
+$desktop:1920px;
+$_4K:3840px;
+$_5K:5120px;
+
+//ads
+$smallBannerWidth:234px;
+$smallBannerHeight:60px;
+$mediumBannerWidth:468px;
+$mediumBannerHeight:60px;
+$leaderboardWidth:728px;
+$leaderboardHeight:90px;
+$mobileSquareWidth:250px;
+$mobileSquareHeight:250px;
+$mediumVerticalWidth:240px;
+$mediumVerticalHeight:400px;
+$mpuWidth:300px;
+$mpuHeight:250px;
+
+//media query mixins -- FLEXIBLE
+@mixin min-breakpoint($value) {
+    @media (min-width: $value) {
+        @content;
+    }
+}
+
+@mixin max-breakpoint($value) {
+    @media (max-width: $value) {
+        @content;
+    }
+}
+
+@mixin breakpoint($value1, $value2) {
+    @media (min-width: $value1) and (max-width: $value2) {
+        @content;
+    }
+}
+
+@mixin breakpoint-extensive($value1, $value2) {
+    @media (min-width: $value1) and (max-width: $value1) and (min-height: $value2) and (max-height: $value2){
+        @content;
+    }
+}
+
+//media query mixins -- RIGID
+/*EACH PROJECT WILL HAVE TO BE ADJUSTED DEPENDING ON THE REQUIREMENTS OF THE DETAIL OF RESPONSIVENESS.
+THE MAX WIDTH VALUES CAN BE SKIPPED OR ADDED TO. IF ADDED TO A HIGHER LEVEL OF DETAIL
+WILL OCCUR (MORE BREAKPOINTS) IF TAKEN AWAY THE LESS DETAIL OF RESPONSIVENESS (LESS BREAKPOINTS)*/
+/*for example --  phablet can jump straight to tablet, ignoring the small tablet breakpoint by changing
+the small tablet max width variable on phablet to the tablet variable. As default all of the media query
+mxins are set*/
+// @mixin smallSmartPhone
+//     {
+//     @media (min-width: #{$smallSmartPhone}) and (max-width: #{$phablet - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin phablet
+//     {
+//     @media (min-width: #{$phablet}) and (max-width: #{$smallTablet - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin smallTablet
+//     {
+//     @media (min-width: #{$smallTablet}) and (max-width: #{$tablet - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin tablet
+//     {
+//     @media (min-width: #{$tablet}) and (max-width: #{$smallLaptop - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin smallLaptop
+//     {
+//     @media (min-width: #{$smallLaptop}) and (max-width: #{$laptop - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin laptop
+//     {
+//     @media (min-width: #{$laptop}) and (max-width: #{$desktop - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin desktop
+//     {
+//     @media (min-width: #{$desktop}) and (max-width: #{$_4K - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin fourK
+//     {
+//     @media (min-width: #{$_4K}) and (max-width: #{$_5K - 1px})
+//         {
+//         @content;
+//         }
+//     }
+
+// @mixin fiveK
+//     {
+//     @media (min-width: #{$_5K})
+//         {
+//         @content;
+//         }
+//     }

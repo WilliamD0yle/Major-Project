@@ -20,7 +20,15 @@ gulp.task('scripts', function(){
 	.pipe(notify({message: 'JS files merged.'}));
 });
 
+gulp.task('styles', function(){
+	return sass('public/assets/scss/app.scss', {style: 'expanded', sourcemap: true})
+	.pipe(sourcemaps.write())
+    .pipe(cssnano())
+	.pipe(gulp.dest('public/assets/css'))
+	.pipe(notify({message: 'SCSS to CSS Complete.' }));
+});
+
 gulp.task('watch', function(){
-//	gulp.watch('build/styles/**/*', ['styles']);
-	gulp.watch('public/controllers/*', ['scripts']);
+	gulp.watch('public/assets/scss/**/*', ['styles']); 
+	gulp.watch('public/controllers/*', ['scripts']); 
 });

@@ -1,0 +1,35 @@
+.navbar-nav.navbar-right:last-child {
+    margin: 0;
+}
+
+.navbar-collapse.collapse {
+    display: block!important;
+}
+
+.navbar-nav>li,
+.navbar-nav {
+    float: left !important;
+}
+
+.navbar-right {
+    float: right!important;
+    margin-right: 0;
+}
+.navigation{
+    background-color: #3f51b5;
+    height: 50px;
+    border-radius: 0;
+    opacity: 0.9;
+}
+.navigation .btn{
+    color: #3f51b5;
+    background-color: #ffffff;
+    padding: 5px 5px;
+    margin: 7.5px;
+}
+.navbar-nav.navbar-right:last-child {
+    margin: 0;
+} 
+.navbar-nav>li, .navbar-nav {
+  float: left !important;
+}

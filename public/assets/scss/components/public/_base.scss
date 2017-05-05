@@ -1,0 +1,116 @@
+html {
+    height:100%;
+    font-family:$primary-regular;
+//  background:$secondary-colour-light;
+}
+
+body {
+	padding-top:0;
+}
+
+main { 
+
+}
+
+a {
+    text-decoration:none;
+    color:$primary-colour-dark;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+em {
+    font-family:$primary-italic;
+}
+.fa-lg {
+    line-height: 1.75em;
+}
+.restrict-width {
+    max-width:$gridLock;
+    margin:0 auto;
+}
+
+.right-float {
+    float:right;
+}
+
+.left-float {
+    float:left;
+}
+
+.overlay {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    &.xhr {
+        position:fixed;
+        z-index:9999;
+    }
+    & .container {
+        position:absolute;
+        top:50%;
+        left:50%;
+        @include translate3D(-50%, -50%, 0);
+        width:56.25%;
+        &.video {
+            & .fa {
+                position:absolute;
+                top:50%;
+                left:50%;
+                @include translateRotateScale3D(-50%, -50%, 0, 0, 0, 0, 0, 1.2, 1.2, 1.2);
+                color:$white;
+                font-size: $emphasis;
+                @include transition(all, .25s, linear, 0s);
+                &.hidden {
+                    @include translateRotateScale3D(-50%, -50%, 0, 0, 0, 0, 0, 1, 1, 1);
+                    opacity:0;
+                    @include transition(all, .25s, linear, 0s);
+                }
+            }
+        }
+    }
+    & img {
+        width:100%;
+    }
+    & video {
+        width:100%;
+    }
+    & .filter-bg {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        @include backgroundOpacity($black, 0.9);
+    }
+    & .fa-times {
+        content:attr(data-content) "\f00d";
+        font-family:$primary-icons;
+        color:$white;
+        position:absolute;
+        top:3%;
+        right:3%;
+        font-size:$sub-heading;
+    }
+    &.light-dark {
+        @include backgroundOpacity($third-colour-light, 0.8);
+    }
+    &.dark {
+        @include backgroundOpacity($black, 0.7);
+    }
+    @include max-breakpoint($phablet) {
+        & .container {
+            width:100%;
+        }
+    }
+}
+
+
+
+.content {
+    position:relative;
+}

@@ -1,0 +1,43 @@
+//.btn {
+//    font-family:$primary-light;
+//    display:inline-block;
+//    text-align:center;
+//    &.round {
+//        @include borderRadius(10% 10% 10% 10% / 35% 35%);
+//    }
+//    &.rounded-edges {
+//        @include borderRadius(5% 5% 5% 5% / 30% 30%)
+//    }
+//    &.white {
+//        border:1px solid $white;
+//        color:$white;
+//    }
+//    &.green {
+//        border:1px solid $fourth-colour-light;
+//        color:$fourth-colour-light;
+//    }
+//    &.dark-green {
+//        border:1px solid $fourth-colour-dark;
+//        color:$fourth-colour-dark;
+//    }
+//    &.small {
+//        padding:5px 7%;
+//        font-size:$detail/1.2;
+//    }
+//    &.large {
+//        padding:10px 20px;
+//    }
+//    &.down {
+//        &:after {
+//            content:"\f107";
+//            font-family:$primary-icons;
+//            font-size:$emphasis*1.2;
+//            display: inline-block;
+//            vertical-align:middle;
+//            margin-left:20px;
+//        }
+//    }
+//    &.bold {
+//        font-family:$primary-bold;
+//    }
+//}

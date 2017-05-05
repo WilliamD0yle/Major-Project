@@ -1,0 +1,25 @@
+//Blue Colour
+$primary-colour-dark: #0A81D1;
+$primary-colour-light: lighten($primary-colour-dark, 5%);
+$primary-colour-alt-light: lighten(#ff0000, 2%);
+
+//Dark Grey Colour
+$secondary-colour-light:#282828;
+$secondary-colour-dark: darken($secondary-colour-light, 5%);
+
+//Describe Colour
+$third-colour-light:#282828;
+$third-colour-dark: darken($third-colour-light, 5%);
+
+//Describe Colour
+$fourth-colour-light:#FF6666;
+$fourth-colour-dark:darken($fourth-colour-light, 5%);
+
+$positive: #34b25b;
+$negative: #ee9137;
+// $pending:
+
+$white:#fff;
+$black:#000;
+
+//

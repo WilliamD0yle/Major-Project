@@ -1,0 +1,362 @@
+//FLEXBOX//
+// Flex box is still in development at the time that these SASS mixins were written.
+// The mixins in this section may eventually find their own use outside of an element
+// that has display:flex applied. Use caution
+@mixin flexBox
+    {
+    display:-webkit-flex;
+    display:-moz-flex;
+    display:-ms-flex;
+    display:flex;
+    }
+
+@mixin flexDirection($direction)
+    {
+    -webkit-flex-direction:$direction;
+    -moz-flex-direction:$direction;
+    -ms-flex-direction:$direction;
+    flex-direction:$direction;
+    }
+
+@mixin justify($position)
+    {
+    -webkit-justify-content:$position;
+    -moz-justify-content:$position;
+    -ms-justify-content:$position;
+    justify-content:$position;
+    }
+
+@mixin alignItems($alignment)
+    {
+    -webkit-align-items:$alignment;
+    -moz-align-items:$alignment;
+    -ms-align-items:$alignment;
+    align-items:$alignment;
+    }
+
+@mixin flexWrap($wrap)
+    {
+    -webkit-flex-wrap:$wrap;
+    -moz-flex-wrap:$wrap;
+    -ms-flex-wrap:$wrap;
+    flex-wrap:$wrap;
+    }
+
+@mixin alignLines($lines)
+    {
+    -webkit-align-content:$lines;
+    -moz-align-content:$lines;
+    -ms-align-content:$lines;
+    align-content:$lines;
+    }
+
+@mixin flexOrder($order)
+    {
+    -webkit-order: $order;
+    -moz-order: $order;
+    -ms-order: $order;
+    order: $order;
+    }
+
+@mixin alignSelf($order)
+    {
+    -webkit-align-self:$order;
+    -moz-align-self:$order;
+    -ms-align-self:$order;
+    align-self:$order;
+    }
+
+@mixin flexLength($length)
+    {
+    -webkit-flex:$length;
+    -moz-flex:$length;
+    -ms-flex:$length;
+    flex:$length;
+    }
+
+@mixin flexGrow($value)
+    {
+    -webkit-flex-grow:$value;
+    -moz-flex-grow:$value;
+    -ms-flex-grow:$value;
+    flex-grow:$value;
+    }
+
+@mixin flexShrink($value)
+    {
+    -webkit-flex-shrink:$value;
+    -moz-flex-shrink:$value;
+    -ms-flex-shrink:$value;
+    flex-shrink:$value;
+    }
+//END FLEXBOX//
+
+@mixin translate3D($x, $y, $z) {
+    -webkit-transform:translate3d($x, $y, $z);
+    -moz-transform:translate3d($x, $y, $z);
+    -o-transform:translate3d($x, $y, $z);
+    -ms-transform:translate3d($x, $y, $z);
+    -webkit-transform:translate3d($x, $y, $z);
+}
+
+@mixin scale3D($x, $y, $z) {
+    -webkit-transform:scale3D($x, $y, $z);
+    -moz-transform:scale3D($x, $y, $z);
+    -o-transform:scale3D($x, $y, $z);
+    -ms-transform:scale3D($x, $y, $z);
+    transform:scale3D($x, $y, $z);
+}
+
+@mixin scale2D($x, $y) {
+    -webkit-transform:scale($x, $y);
+    -moz-transform:scale($x, $y);
+    -o-transform:scale($x, $y);
+    -ms-transform:scale($x, $y);
+    transform:scale($x, $y);
+}
+
+@mixin disableTransforms($value) {
+    -webkit-transform:$value;
+    -moz-transform:$value;
+    -o-transform:$value;
+    -ms-transform:$value;
+    transform:$value;
+}
+
+@mixin borderRadius($value)
+    {
+    -webkit-border-radius:$value;
+    -moz-border-radius:$value;
+    border-radius:$value;
+    }
+
+@mixin backgroundOpacity($color, $opacity)
+    {
+    background:$color;
+    background:rgba($color, $opacity);
+    }
+
+@mixin boxShadow($top, $left, $blur, $color, $inset:"")
+    {
+    -webkit-box-shadow:$top $left $blur $color #{$inset};
+    -moz-box-shadow:$top $left $blur $color #{$inset};
+    box-shadow:$top $left $blur $color #{$inset};
+    }
+
+@mixin backgroundSize($size)
+    {
+    -webkit-background-size:$size;
+    -moz-background-size:$size;
+    -o-background-size:$size;
+    background-size:$size;
+    }
+
+@mixin transition($property, $duration, $timing, $delay)
+    {
+    -webkit-transition: $property $duration $timing $delay;
+    -moz-transition: $property $duration $timing $delay;
+    -ms-transition: $property $duration $timing $delay;
+    transition: $property $duration $timing $delay;
+    }
+
+@mixin backgroundOpacity($color, $opacity)
+    {
+    background:$color;
+    background:rgba($color, $opacity);
+    }
+
+@mixin textShadow($hShadow, $vShadow, $blurRadius, $color)
+    {
+    -webkit-text-shadow:$hShadow, $vShadow, $blurRadius, $color;
+    -moz-text-shadow:$hShadow, $vShadow, $blurRadius, $color;
+    -o-text-shadow:$hShadow, $vShadow, $blurRadius, $color;
+    -ms-text-shadow:$hShadow, $vShadow, $blurRadius, $color;
+    text-shadow:$hShadow, $vShadow, $blurRadius, $color;
+    }
+
+@mixin bg2Gradient($angle, $color1, $color2)
+    {
+    background: -webkit-linear-gradient($angle, $color1, $color2);
+    background: -o-linear-gradient($angle, $color1, $color2);
+    background: -ms-linear-gradient($angle, $color1, $color2);
+    background: linear-gradient($angle, $color1, $color2);
+    }
+
+@mixin filter($blurValue, $grayValue, $opacityValue, $hueValue)
+    {
+    -webkit-filter: blur($blurValue) grayscale($grayValue) opacity($opacityValue) hue-rotate($hueValue);
+    -moz-filter: blur($blurValue) grayscale($grayValue) opacity($opacityValue) hue-rotate($hueValue);
+    -o-filter: blur($blurValue) grayscale($grayValue) opacity($opacityValue) hue-rotate($hueValue);
+    -ms-filter: blur($blurValue) grayscale($grayValue) opacity($opacityValue) hue-rotate($hueValue);
+    filter: blur($blurValue) grayscale($grayValue) opacity($opacityValue) hue-rotate($hueValue);
+    }
+
+@mixin perspective($distance)
+    {
+    -webkit-perspective:$distance;
+    -moz-perspective:$distance;
+    -o-perspective:$distance;
+    -ms-perspective:$distance;
+    perspective:$distance;
+    }
+
+@mixin perspectiveOrigin($xOrigin, $yOrigin)
+    {
+    -webkit-perspective-origin:$xOrigin, $yOrigin;
+    -moz-perspective-origin:$xOrigin, $yOrigin;
+    -o-perspective-origin:$xOrigin, $yOrigin;
+    -ms-perspective-origin:$xOrigin, $yOrigin;
+    perspective-origin:$xOrigin, $yOrigin;
+    }
+
+@mixin translateRotate2D($x, $y, $deg)
+    {
+    transform:translate($x, $y) rotate($deg);
+    -webkit-transform:translate($x, $y) rotate($deg);
+    -moz-transform:translate($x, $y) rotate($deg);
+    -ms-transform:translate($x, $y) rotate($deg);
+    }
+
+@mixin translate2D($x, $y)
+    {
+    -webkit-transform:translate($x, $y);
+    -moz-transform:translate($x, $y);
+    -ms-transform:translate($x, $y);
+    transform:translate($x, $y);
+    }
+
+@mixin translateScale2D($x, $y, $r1, $r2)
+    {
+    -webkit-transform:translate($x, $y) scale($r1, $r2);
+    -moz-transform:translate($x, $y) scale($r1, $r2);
+    -ms-transform:translate($x, $y) scale($r1, $r2);
+    transform:translate($x, $y) scale($r1, $r2);
+    }
+
+@mixin translateRotateScale2D($x, $y, $deg, $r1, $r2)
+    {
+    -webkit-transform:translate($x, $y) rotate($deg) scale($r1, $r2);
+    -moz-transform:translate($x, $y) rotate($deg) scale($r1, $r2);
+    -ms-transform:translate($x, $y) rotate($deg) scale($r1, $r2);
+    transform:translate($x, $y) rotate($deg) scale($r1, $r2);
+    }
+
+@mixin translateRotateScale3D($x, $y, $z, $degX, $degY, $degZ, $degNum, $r1, $r2, $r3)
+    {
+    -webkit-transform:translate3d($x, $y, $z) rotate3d($degX, $degY, $degZ, $degNum) scale3d($r1, $r2, $r3);
+    -webkit-transform:translate3d($x, $y, $z) rotate3d($degX, $degY, $degZ, $degNum) scale3d($r1, $r2, $r3);
+    -moz-transform:translate3d($x, $y, $z) rotate3d($degX, $degY, $degZ, $degNum) scale3d($r1, $r2, $r3);
+    -ms-transform:translate3d($x, $y, $z) rotate3d($degX, $degY, $degZ, $degNum) scale3d($r1, $r2, $r3);
+    transform:translate3d($x, $y, $z) rotate3d($degX, $degY, $degZ, $degNum) scale3d($r1, $r2, $r3);
+    }
+
+@mixin rotate($rotateValue)
+    {
+    -webkit-transform: rotate($rotateValue);
+    -moz-transform: rotate($rotateValue);
+    -ms-transform: rotate($rotateValue);
+    transform: rotate($rotateValue);
+    }
+
+@mixin rotateX($rotateValue)
+    {
+    -webkit-transform: rotateX($rotateValue);
+    -moz-transform: rotateX($rotateValue);
+    -ms-transform: rotateX($rotateValue);
+    transform: rotateX($rotateValue);
+    }
+
+@mixin rotateY($rotateValue)
+    {
+    -webkit-transform: rotateY($rotateValue);
+    -moz-transform: rotateY($rotateValue);
+    -ms-transform: rotateY($rotateValue);
+    transform: rotateY($rotateValue);
+    }
+
+@mixin rotateZ($rotateValue)
+    {
+    -webkit-transform: rotateZ($rotateValue);
+    -moz-transform: rotateZ($rotateValue);
+    -ms-transform: rotateZ($rotateValue);
+    transform: rotateZ($rotateValue);
+    }
+
+@mixin transformOrigin($horizontal, $vertical)
+    {
+    -webkit-transform-origin:$horizontal, $vertical;
+    -moz-transform-origin:$horizontal, $vertical;
+    -ms-transform-origin:$horizontal, $vertical;
+    transform-origin:$horizontal, $vertical;
+    }
+
+@mixin threeDTransformOrigin($horizontal, $vertical, $zAxis)
+    {
+    -webkit-transform-origin:$horizontal, $vertical, $zAxis;
+    -moz-transform-origin:$horizontal, $vertical, $zAxis;
+    -ms-transform-origin:$horizontal, $vertical, $zAxis;
+    transform-origin:$horizontal, $vertical, $zAxis;
+    }
+
+@mixin animate($animateName, $animationDuration, $animationDelay, $animationCount, $animationTiming, $animationFillMode)
+    {
+    -webkit-animation:$animateName;
+    -webkit-animation-duration:$animationDuration;
+    -webkit-animation-delay:$animationDelay;
+    -webkit-animation-iteration-count:$animationCount;
+    -webkit-animation-timing-function:$animationTiming;
+    -webkit-animation-fill-mode:$animationFillMode;
+    -moz-animation:$animateName;
+    -moz-animation-duration:$animationDuration;
+    -moz-animation-delay:$animationDelay;
+    -moz-animation-iteration-count:$animationCount;
+    -moz-animation-timing-function:$animationTiming;
+    -moz-animation-fill-mode:$animationFillMode;
+    animation:$animateName;
+    animation-duration:$animationDuration;
+    animation-delay:$animationDelay;
+    animation-iteration-count:$animationCount;
+    animation-timing-function:$animationTiming;
+    animation-fill-mode:$animationFillMode;
+    }
+
+// keyframes mixin
+@mixin keyframes($animationName)
+    {
+    @-webkit-keyframes #{$animationName}
+        {
+        @content;
+        }
+    @-moz-keyframes #{$animationName}
+        {
+        @content;
+        }
+    @keyframes #{$animationName}
+        {
+        @content;
+        }
+    }
+
+@mixin animationOptimisationTranslateZ($translateZOptimisation)
+    {
+    -webkit-transform:$translateZOptimisation;
+    -moz-transform:$translateZOptimisation;
+    -ms-transform:$translateZOptimisation;
+    transform:$translateZOptimisation;
+    }
+
+@mixin fontSmoothing($fontSmoothing)
+    {
+    -webkit-font-smoothing:$fontSmoothing;
+    -moz-font-smoothing:$fontSmoothing;
+    -ms-font-smoothing:$fontSmoothing;
+    font-smoothing:$fontSmoothing;
+    }
+
+@mixin backfaceV($backface)
+    {
+    -webkit-backface-visibility:$backface;
+    -moz-backface-visibility:$backface;
+    -ms-backface-visibility:$backface;
+    backface-visibility:$backface;
+    }

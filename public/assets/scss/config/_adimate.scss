@@ -1,0 +1,68 @@
+@include keyframes(fade-out)
+    {
+    0%
+        {
+        opacity:1;
+        }
+    100%
+        {
+        opacity:0;
+        }
+    }
+
+@include keyframes(fade-in)
+    {
+    0%
+        {
+        opacity:0;
+        }
+    100%
+        {
+        opacity:1;
+        }
+    }
+
+@include keyframes(slide-in-left)
+    {
+    0%
+        {
+        left:-100%;
+        }
+    100%
+        {
+        left:10%;
+        }
+    }
+
+@include keyframes(slide-in-left-fade)
+    {
+    0%
+        {
+        opacity:1;
+        left:-100%;
+        }
+    15%
+        {
+        opacity:1;
+        left:10%;
+        }
+    90%
+        {
+        opacity:1;
+        left:10%;
+        }
+    100%
+        {
+        opacity:0;
+        left:10%;
+        }
+    }
+
+@include keyframes(tighten-text) {
+	0% {
+		letter-spacing:10px;
+	}
+	100% {
+		letter-spacing:-2px;
+	}
+}

@@ -71,7 +71,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
             locate: true
         }
     };
-
+    //start the camera
     App.init();
 	// Create the QuaggaJS config object for the live stream
     var liveStreamConfig = {
@@ -93,7 +93,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
 			},
 			locate: true,
 		};
-    
+    //config settings
 	var fileConfig = $.extend({}, liveStreamConfig,{inputStream: {size: 800}});
 	
 	// Once a barcode had been read successfully, stop quagga
@@ -134,7 +134,7 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
             });
         } 
     };
-    
+    //calls the modal to add the food to the database
     $scope.foodInformation = function (food) {
         ModalService.showModal({
             templateUrl: './views/addfood.html',
