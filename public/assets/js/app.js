@@ -244,6 +244,7 @@ app.controller('AddFoodController', function ($scope, $http, $route, $location, 
 });
 //Search controller
 app.controller('SearchController', function ($scope, $location, $http, $route, Meal, ModalService) {
+    //get the chosen meal name
     var selectedMeal = {meal: Meal.Meal};
     $scope.meal = selectedMeal.meal;
     //redirect if the user isnt logged in
@@ -356,21 +357,27 @@ app.controller('SearchController', function ($scope, $location, $http, $route, M
 	});
     //when as user scans a barcode it calls the search for the product using the barcode
     $scope.barcodeSearch = function (barcode) {
+        //stop the camera 
         Quagga.stop();	
         var search = true;
         var searchURL = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
         $scope.loading = true;
+        //if search is true
         if(search){
+            //make a request with method of get
             $http({
             method: 'GET',
             url: searchURL,
             }).success(function (response) {
+                //stop the loading animation
                 $scope.loading = false;
                 search = false;
+                //if the product is not found
                 if(response.product.complete == 0){
                     alert("Product not found!");  
                     $location.path('/account/diary');
                    }else{
+                       //show the information to the user in the modal to add to the diary and database
                     $scope.foodInformation(response.product);  
                    }
             }).error(function(response) {
@@ -591,6 +598,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
                 }
             }  
         } 
+        //work out the remaining calories
         $scope.remaining = response.calories - $scope.total;        
     };
     //set the meal type for the factory
@@ -606,6 +614,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
             url: '/account/food/info',
             data: meal
         }).success(function (response) {
+            //when successful call the modal
             ModalService.showModal({
                 templateUrl: './views/foodcontent.html',
                 controller: "FoodContentController",
@@ -636,7 +645,7 @@ app.controller('DiaryController', function ($scope, $location, $http, $route, Me
     };
 });
 app.controller('FoodContentController', function ($scope, $http, $route, chosenMeal, food) {
-    
+    //collect the details from the food item
     $scope.chosenMeal = chosenMeal;
     $scope.id = food[chosenMeal][0].id;
     $scope.item = food[chosenMeal][0].name;
@@ -649,27 +658,27 @@ app.controller('FoodContentController', function ($scope, $http, $route, chosenM
     $scope.lowestcarbs = $scope.carbs / $scope.serving;
     $scope.lowestfats = $scope.fats / $scope.serving;
     $scope.lowestprotein = $scope.protein / $scope.serving;
-
+    //work out the total cals
     $scope.totalCals = function () {
         return Math.ceil($scope.lowestcal * $scope.serving);
     };
-
+    //work out the total carbs
     $scope.totalCarbs = function () {
         return Math.ceil($scope.lowestcarbs * $scope.serving);
     };
-
+    //work out the total fats
     $scope.totalFats = function () {
         return Math.ceil($scope.lowestfats * $scope.serving);
 
     };
-
+    //work out the total protein
     $scope.totalProtein = function () {
         return Math.ceil($scope.lowestprotein * $scope.serving);
     };
     
     //update the item  and send the details to the server
     $scope.updateFood = function (item, serving, totalCals, carbs, fats, protein) {
-        
+        //format the object to add the database
         var meal = {meal: $scope.chosenMeal, food: item,id: $scope.id, serving: serving, totalCals: totalCals(), protein: protein, carbs: carbs, fats: fats};
         console.log(meal);
         $http({
