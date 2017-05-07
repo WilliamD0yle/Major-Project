@@ -184,7 +184,6 @@ module.exports = function (app) {
     app.get('/account/diary', function (req, res) {
         //todays date simplified
         var today = parseInt(JSON.stringify(new DateOnly));
-        console.log(today);
         //check if the user is logged in
         if (!req.session.user) {
             res.status(401).send("Please log in.");
@@ -220,7 +219,6 @@ module.exports = function (app) {
                 });
             }
             else{
-                console.log(diary);
                 return res.status(200).send(diary); 
             }
         });
