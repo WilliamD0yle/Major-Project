@@ -180,9 +180,10 @@ module.exports = function (app) {
     User Diary Page
     ********************************/
     
-var today = parseInt(JSON.stringify(new DateOnly));
     
     app.get('/account/diary', function (req, res) {
+        //todays date simplified
+        var today = parseInt(JSON.stringify(new DateOnly));
 
         //check if the user is logged in
         if (!req.session.user) {
@@ -263,6 +264,8 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     //add single food item
     app.post('/account/diary', function (req, res) {
+        //todays date simplified
+        var today = parseInt(JSON.stringify(new DateOnly));
         
         // getting the meal name so that i can use it to post the food data to the collect object array
         var meal = Object.keys(req.body).shift();
@@ -285,6 +288,8 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     //get single food item
     app.post('/account/food/info', function (req, res) {
+        //todays date simplified
+        var today = parseInt(JSON.stringify(new DateOnly));
         
         var meal = req.body.meal + '.name';
         var mealLimit = req.body.meal + '.$';
@@ -304,6 +309,8 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     //update single food item
     app.post('/account/food/update', function (req, res) {
+        //todays date simplified
+        var today = parseInt(JSON.stringify(new DateOnly));
         
         var meal = req.body.meal;
         var food = req.body.food;
@@ -372,6 +379,8 @@ var today = parseInt(JSON.stringify(new DateOnly));
     
     //delete single food item
     app.post('/account/food/delete', function (req, res) {
+        //todays date simplified
+        var today = parseInt(JSON.stringify(new DateOnly));
         //get the meal to be deleted
         var meal = req.body.meal;
         //get the food that needs to be deleted by its unique id
