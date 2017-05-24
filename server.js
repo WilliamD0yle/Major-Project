@@ -1,6 +1,6 @@
 'use strict';
 /********************************
- Dependencies 
+ Dependencies
  ********************************/
 var express = require('express');
 var mongoose = require('mongoose');
@@ -9,21 +9,16 @@ var expressValidator = require('express-validator');
 var morgan = require('morgan');
 var session = require('express-session');
 var favicon = require('serve-favicon');
-
-//var https = require('https');
-//var fs = require('fs');
-//var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-//var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 // Configs
 var db = require('./config/db');
 
 
 mongoose.Promise = global.Promise;
 // Connect to the DB
-mongoose.connect(db.url); 
+mongoose.connect(db.url);
 
 // Initialize the Express App
-var app = express(); 
+var app = express();
 
 // Configure session
 app.use(session({
@@ -50,6 +45,6 @@ app.use(bodyParser.urlencoded({
 require('./routes/routes')(app);
 
 // Start the app with listen and a port number
-app.listen(80, '0.0.0.0', function() { 
+app.listen(80, '0.0.0.0', function() {
     console.log('Listening to port:  ' + 80)
 });
