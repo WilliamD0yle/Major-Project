@@ -1,6 +1,6 @@
 //Account controller
 app.controller('AccountController', function ($scope, $location, $http, Meal) {
-    
+
     // get user details
     $http({
         method: 'GET',
@@ -8,7 +8,7 @@ app.controller('AccountController', function ($scope, $location, $http, Meal) {
     }).
     success(function (response) {
         if(!response){
-           $location.path('/account/login'); 
+           $location.path('/account/login');
         }
         $scope.user = response;
         $scope.user.calories = response.calories;
@@ -18,14 +18,14 @@ app.controller('AccountController', function ($scope, $location, $http, Meal) {
         else{
             $scope.female = true;
         }
-        
+
     }).
     error(function (response) {
         console.log(response);
         $location.path('/account/login');
     });
-    
-    // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html 
+
+    // used the calculation from - http://www.superskinnyme.com/calculate-tdee.html
     // gives the new user the suggested amount for their daily calorie consumption
     $scope.calculateCalories = function () {
 
@@ -37,7 +37,7 @@ app.controller('AccountController', function ($scope, $location, $http, Meal) {
             $scope.user.calories = Math.ceil(66 + (13.7 * $scope.user.weight) + (5 * $scope.user.height) - (6.8 * $scope.user.age));
         }
     };
-    
+
     //when the form is submitted the function is called
     $scope.submitForm = function(){
         //if the user selected male assign the value male
